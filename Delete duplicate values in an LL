@@ -1,0 +1,44 @@
+/*
+Node is defined as 
+  class Node {
+     int data;
+     Node next;
+  }
+*/
+public Node getNext()
+    {
+    return this.next;
+}
+public int getData()
+    {
+    return this.data;
+}
+public void setNext(Node node)
+    {
+    this.next = node;
+}
+Node RemoveDuplicates(Node head) {
+  // This is a "method-only" submission. 
+  // You only need to complete this method. 
+    if(head == null)
+        return null;
+    Node current = head;
+    while( current.getNext() != null )
+    {
+        if( current.getData() == current.getNext().getData() )
+        {
+            Node temp = current.getNext();
+            current.setNext(temp.getNext());
+            temp = null;
+        }
+        else
+            current = current.getNext();
+    }
+    return head;
+}
+
+
+// 1111111111 did not work for this input 
+//but all are duplicates of the first node 
+//so shud we not delete them all - yes n u dint
+// o/p 1111 exp o/p 1

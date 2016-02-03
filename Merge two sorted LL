@@ -1,0 +1,85 @@
+/*
+  Merge two linked lists 
+  head pointer input could be NULL as well for empty list
+  Node is defined as 
+  class Node {
+     int data;
+     Node next;
+  }
+*/
+public int getData()
+    {
+    return this.data;
+}
+
+public Node getNext()
+    {
+    return this.next;
+}
+
+public void setNext(Node nextNode)
+    {
+    this.next = nextNode;
+}
+
+Node MergeLists(Node headA, Node headB) {
+     // This is a "method-only" submission. 
+     // You only need to complete this method 
+    if(headA == null && headB == null)
+        return null;
+    if(headA == null)
+        return headB;
+    if(headB == null)
+        return headA;
+   Node current = null ;
+   Node tempHead = null;
+
+    if( headA.getData() <= headB.getData())
+        {
+           current = headA;
+           tempHead = headB;
+           headB = null;
+    }
+    else 
+        {
+            current = headB; 
+            tempHead = headA;
+            headA = null;
+    }
+    while ( tempHead != null )
+        {
+        Node prev = null;
+        Node tempNode = tempHead;
+        if(current.getData() > tempNode.getData())
+            {
+            prev.setNext(tempNode);
+            tempHead = tempNode.getNext();
+            tempNode.setNext(current);
+        }
+        else if(current.getData() <= tempNode.getData() )
+            {
+                     prev = current;
+                     current = current.getNext();
+        }
+    }
+  /*  if ( headA != null )
+        {
+        Node current = headA;
+        while(current!= null)
+            {
+             System.out.println(current.getData());
+            current = current.getNext();
+        }
+        else
+         {
+             Node current = headB;
+             while(current!= null)
+             {
+             System.out.println(current.getData());
+            current = current.getNext();
+        }
+     }*/
+    if(headA == null)
+        return headA;
+    else return headB;
+}

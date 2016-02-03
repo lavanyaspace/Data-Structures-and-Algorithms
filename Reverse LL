@@ -40,6 +40,7 @@ void ReversePrint(Node head) {
       current.setNext(changed);
     while (current != null )
         {
+        //System.out.println() prints in seperate lines already dont try to go to new line while using it !!!!! 
         System.out.println(current.getData());
         current = current.getNext();
     }    

@@ -46,40 +46,30 @@ Node MergeLists(Node headA, Node headB) {
             tempHead = headA;
             headA = null;
     }
-    while ( tempHead != null )
+    Node prev = null;
+    Node tempNode = tempHead;
+    while ( tempHead != null && current!= null )
         {
-        Node prev = null;
-        Node tempNode = tempHead;
         if(current.getData() > tempNode.getData())
             {
             prev.setNext(tempNode);
             tempHead = tempNode.getNext();
             tempNode.setNext(current);
+            tempNode = tempHead;
         }
         else if(current.getData() <= tempNode.getData() )
             {
                      prev = current;
                      current = current.getNext();
+            
+                     if(current == null)
+                         {
+                         prev.setNext(tempNode);
+                     }
         }
     }
-  /*  if ( headA != null )
-        {
-        Node current = headA;
-        while(current!= null)
-            {
-             System.out.println(current.getData());
-            current = current.getNext();
-        }
-        else
-         {
-             Node current = headB;
-             while(current!= null)
-             {
-             System.out.println(current.getData());
-            current = current.getNext();
-        }
-     }*/
+    
     if(headA == null)
-        return headA;
-    else return headB;
+        return headB;
+    else return headA;
 }

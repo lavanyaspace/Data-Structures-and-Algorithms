@@ -27,7 +27,7 @@ int CompareLists(Node headA, Node headB) {
     Node currentA = headA;
     Node currentB = headB;
     
-    while ( currentA != null || currentB != null )
+    while ( currentA != null && currentB != null )
         {
         if(currentA.getData() == currentB.getData())
             {

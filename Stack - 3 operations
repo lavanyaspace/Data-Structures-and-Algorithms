@@ -1,0 +1,84 @@
+
+
+
+
+
+/*
+You have an empty sequence, and you will be given NN queries. Each query is one of these three types:
+
+1 x  -Push the element x into the stack.
+2    -Delete the element present at the top of the stack.
+3    -Print the maximum element in the stack.
+Input Format
+
+The first line of input contains an integer, NN. The next NN lines each contain an above mentioned query. (It is guaranteed that each query is valid.)
+
+Constraints 
+1≤N≤1051≤N≤105 
+1≤x≤1091≤x≤109 
+1≤type≤31≤type≤3
+Output Format
+
+For each type 33 query, print the maximum element in the stack on a new line
+
+*/
+
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution{ 
+
+    public static void main(String[] args) throws IOException {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        
+        int[] stackArray;
+        int top = -1;
+        int i,j;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int no_operations = Integer.parseInt(br.readLine());
+       // if(!(no_operation <= 1000000 && no_operation >= 1)
+         //  System.exit(0);
+        stackArray = new int[no_operations];
+       // System.out.println(no_operations);
+        for(i=0;i<no_operations;i++){
+            String operation_choice = br.readLine();
+            int value = 0;
+            if(operation_choice.startsWith("1"))
+                {
+                  String[] items = operation_choice.split("\\s+");
+                  operation_choice = items[0];
+                   //System.out.println(items[0]);
+                //  if(operation_choice ! = "1" && operation_choice ! = "2" && operation_choice ! = "3")
+                  //      System.exit(0);
+                      
+                  value  = Integer.parseInt(items[1]);
+                //if((!value <= 10000000000 && value >= 1))
+                  //  System.exit(0);
+                }
+          //System.out.println(operation_choice);
+            switch(operation_choice)
+                {
+                case "1":
+                     top = top+1;
+                     stackArray[top] = value;
+                     //System.out.println(stackArray[top]);
+                     break;
+                case "2":
+                     stackArray[top--] = Integer.MIN_VALUE;
+                     break;
+                case "3":
+                     int max = stackArray[0];
+                     for(j=0;j<(top+1);j++)
+                         {
+                         if(stackArray[j]>max)
+                             max = stackArray[j];
+                     }
+                     System.out.println(max);
+                     break;
+            }
+        }
+    }
+}

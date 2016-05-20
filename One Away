@@ -1,0 +1,85 @@
+/* package whatever; // don't place package name! */
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+/* Name of the class has to be "Main" only if the class is public. */
+class Ideone
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		// your code goes here
+		String s1 = "lavanya";
+		String s2 = "lavtnyl";
+		boolean result = oneAway(s1,s2);
+		System.out.println(result);
+	}
+	public static boolean oneAway(String s1, String s2)
+	{
+		if(s1.length() == s2.length())
+		{
+			if(s1.equals(s2))
+				return true;
+			else
+			{
+				boolean res = checkEdits(s1,s2,false);
+				return res;
+			}
+		}
+		else if(s1.length() == s2.length()-1)
+		{
+			boolean res = checkEdits(s1,s2,false);
+			return res;
+		}
+		else if( s1.length() == s2.length()+1 )
+		{
+			boolean res = checkEdits(s1,s2,true);
+			return res;
+		}
+		else
+		{
+			return false;
+		}
+		
+	}
+	
+	public static boolean checkEdits(String s1, String s2, boolean f)
+	{
+		boolean flag = false;
+		int[] check = new int[128];
+		for(int l =0; l<128; l++)
+		{
+			check[l] = 0;
+		}
+		for(int i = 0; i < s1.length(); i++)
+		{
+			int pos = s1.charAt(i);
+			check[pos]++;
+		}
+		for(int j = 0; j < s2.length(); j++)
+		{
+			int p = s2.charAt(j);
+			if( check[p] == 0 )
+			{
+				if( f == true )
+					return false; 
+				else 
+				{
+					if(flag == false)
+					{
+						flag = true;
+						check[p]--;
+					}
+					else
+						return false;
+				}
+			}
+			else
+			{
+				check[p]--;
+			}
+		}
+	return true;
+	}
+}

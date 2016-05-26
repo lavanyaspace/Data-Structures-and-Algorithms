@@ -1,0 +1,72 @@
+//*******************************************************************
+// Java compiler created in PHP to quickly and safely test code.
+// NOTE: please read the 'More Info' tab to the right for shortcuts.
+//*******************************************************************
+
+import java.lang.Math; // header stuff MUST go above the first class
+
+// our main class becomes a file but the main method is still found
+public class HelloWorld
+{
+  public static void main(String[] args)
+  {
+   	boolean result = rkStringMatch("teetatetee","tet");
+	System.out.println(result);
+  }
+  
+  	public static boolean rkStringMatch(String text, String pat)
+	{
+		int m = pat.length();
+		int n = text.length();
+		
+		StringBuilder mtext = new StringBuilder();
+		mtext.append(text.substring(0,m));
+		
+		int prime = 31;
+		//Calculating hash of pattern
+		int hashpat = hashCalc(pat,m,prime);
+		//Calculating hash of text
+		int hashtext = hashCalc(text,m,prime);
+		
+		if( hashpat == hashtext )
+
+			if((new String(mtext)).equals(pat))
+				return true;
+			
+		for(int i=0; i < n-m; i++)
+		{
+			mtext = mtext.deleteCharAt(0);
+			mtext.append(text.charAt(i+m));
+            //System.out.println(new String(mtext));
+            int v1 = text.charAt(i);
+			int v = text.charAt(i+m);
+			hashtext = hashPrev(hashtext,m,v,v1,prime);
+            //System.out.println(hashtext);
+			if( hashpat == hashtext )
+				if((new String(mtext)).equals(pat))
+					return true;
+		}
+	   	return false;
+	}
+	
+	public static int hashCalc(String s, int m, int prime )
+	{
+		StringBuilder rep = new StringBuilder();
+		for(int j=0; j<m; j++)
+		{
+			int val = s.charAt(j);
+			rep.append(val);
+		}
+		int intrep = Integer.parseInt(new String(rep));
+		int hash = intrep % prime;
+		return hash;
+	}
+	public static int hashPrev(int hash, int m, int v, int v1, int prime)
+	{
+        int mod = (256*(hash-(v1*(int)Math.pow(256,m-1)))+v) % prime;
+     	if(mod<0)
+          mod = mod + prime;
+      	System.out.println(mod);
+		return mod;
+	}
+}

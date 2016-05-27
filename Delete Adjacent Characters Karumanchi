@@ -1,0 +1,35 @@
+//*******************************************************************
+// Java compiler created in PHP to quickly and safely test code.
+// NOTE: please read the 'More Info' tab to the right for shortcuts.
+//*******************************************************************
+
+import java.lang.Math; // header stuff MUST go above the first class
+
+// our main class becomes a file but the main method is still found
+public class HelloWorld
+{
+  public static void main(String[] args)
+  {
+    String s = "ABCCBCBA";
+    char[] schar = s.toCharArray();
+    int length = schar.length;
+    RemoveAdjacentPairs(schar, length);
+  }
+  
+  public static void RemoveAdjacentPairs(char[] str, int len)
+  {
+    int j = 0;
+    for(int i=1; i < len; i++)
+    {
+      while((str[i]==str[j])&&(j>=0))
+      {
+        i++;
+        j--;
+      }
+      
+      str[++j] = str[i];
+    }
+    System.out.println(str);
+    return;
+  }
+}

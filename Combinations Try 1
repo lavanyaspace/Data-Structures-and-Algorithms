@@ -1,0 +1,47 @@
+//*******************************************************************
+// Java compiler created in PHP to quickly and safely test code.
+// NOTE: please read the 'More Info' tab to the right for shortcuts.
+//*******************************************************************
+
+import java.lang.Math; // header stuff MUST go above the first class
+import java.util.*;
+
+// our main class becomes a file but the main method is still found
+public class HelloWorld
+{
+  public static void main(String[] args)
+  {
+    String s = "abcd";
+    ArrayList<String> res = genCombinations(s);
+    System.out.println(res);
+  }
+  
+  public static ArrayList<String> genCombinations(String s)
+  {
+    ArrayList<String> combos = new ArrayList<String>();
+    int length=1;
+    for(int i = 0; i< s.length();i++)
+    {
+      combos.add(s.substring(i,i+1));
+      while(length  < s.length())
+      {
+      for(int j = i+1; j < s.length(); j++)
+      {
+            if( !(j+length > s.length()) )	
+            {
+              //combos.add(s.substring(i,i+length)+s.substring(j,j+length));
+              //System.out.println(s.substring(i,i+length)+s.substring(j,j+1));
+              
+              combos.add(combos.get(i)+s.substring(j,j+length));
+              
+              
+              
+            }}
+      length = length + 1;
+   }
+   
+      length = 1;
+  }
+    return combos;
+}
+}

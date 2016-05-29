@@ -1,0 +1,32 @@
+//*******************************************************************
+// Java compiler created in PHP to quickly and safely test code.
+// NOTE: please read the 'More Info' tab to the right for shortcuts.
+//*******************************************************************
+
+import java.lang.Math; // header stuff MUST go above the first class
+
+// our main class becomes a file but the main method is still found
+public class HelloWorld
+{
+ 
+  static int top = -1 ;
+  
+  static int[] m = new int[100];
+  public static void main(String[] args)
+  {
+    m[++top] = 10;
+    m[++top] = 11;
+    m[++top] = 1;
+    System.out.println(checktop());
+    System.out.println(checktop());
+    System.out.println(checktop());
+  }
+  
+  public static int checktop()
+  {
+    
+    int[] big = new int[1000];
+    m = big;
+    return m[top --];
+  }
+}

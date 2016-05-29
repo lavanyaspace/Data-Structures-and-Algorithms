@@ -1,0 +1,70 @@
+//*******************************************************************
+// Java compiler created in PHP to quickly and safely test code.
+// NOTE: please read the 'More Info' tab to the right for shortcuts.
+//*******************************************************************
+
+import java.lang.Math; // header stuff MUST go above the first class
+import java.util.*;
+// our main class becomes a file but the main method is still found
+public class HelloWorld
+{
+  public static void main(String[] args)
+  {
+    String infix = "A+B*(C+(D/E))+F";
+    System.out.println(InfixtoPostfix(infix));
+  }
+  
+  public static String InfixtoPostfix(String infix)
+  {
+    if( infix.isEmpty() || infix.length() == 0  ) return null;
+    
+    Stack<Character> s = new Stack<Character>();
+    StringBuilder postfix = new StringBuilder();
+    
+    for( int i = 0; i < infix.length(); i++ )
+    {
+      char c = infix.charAt(i);
+      if( c == '(' )
+      {
+        int count = 1;
+        i = i+1;
+        s.push('(');
+        while(infix.charAt(i) != ')')
+        {
+          if( infix.charAt(i) == '+' || infix.charAt(i) == '-' || infix.charAt(i) == '*' || infix.charAt(i) == '/' )
+          	s.push(infix.charAt(i));
+          else if ( infix.charAt(i) == '(' )
+          {
+            count = count + 1;
+            s.push('(');
+          }
+          else postfix.append(infix.charAt(i));
+          i = i + 1;
+        }
+       for(int j = 0 ; j < count ; j++ )
+        {
+        	while(s.peek() != '(')
+        	{
+          		postfix.append(s.pop());
+        	}
+        	s.pop();
+        }
+      }
+       else if( c == '+' || c == '-' || c == '*' || c == '/' )
+       {
+         while(!(s.isEmpty()))
+         {
+           postfix.append(s.pop());
+         }
+         s.push(c);
+       }
+        else if(c != ')')
+          postfix.append(c);
+    }
+      while(!s.isEmpty())
+      {
+        postfix.append(s.pop());
+      }
+      return new String(postfix);
+  }  
+}

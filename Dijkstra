@@ -1,0 +1,90 @@
+import java.lang.Math; 
+import java.util.*;
+
+public class HelloWorld
+{
+  public static void main(String[] args)
+  {
+    int[][] adj = {{0,4,1,0,0},{0,0,0,0,4},{0,2,0,4,0},{0,0,0,0,4},{0,0,0,0,0}};
+    int source = 0;
+    WeightedGraphNode[] nodes = dijkstra(adj, 0);
+    System.out.println("Distance Table");
+    for(int i = 0 ; i < nodes.length; i++)
+    {
+          System.out.println(nodes[i].vertex+"  "+nodes[i].weight+"  "+nodes[i].path);
+    }
+  }
+  
+  public static WeightedGraphNode[] dijkstra(int[][] adj, int s)
+  {
+     PriorityQueue<WeightedGraphNode> PQ = new PriorityQueue<WeightedGraphNode>(10, new Comparator<WeightedGraphNode>() {
+        public int compare( WeightedGraphNode node1, WeightedGraphNode node2) {
+            return (node1.weight == node2.weight) ? 0 : (node1.weight > node2.weight? 1 : -1);
+               }
+    });
+             
+     WeightedGraphNode[] nodes = new WeightedGraphNode[adj.length];
+     for(int i = 0 ; i < adj.length; i++)
+     {
+       nodes[i] = new WeightedGraphNode(i,-1,Integer.MAX_VALUE);
+     }
+    
+     nodes[s].weight = 0;
+     nodes[s].path = 0;
+    
+     PQ.add(nodes[s]);
+     
+     while (! PQ.isEmpty())
+     {
+       WeightedGraphNode w = PQ.poll();
+       int n = -1 ;
+       
+       while((n = getAdj(adj,w.vertex,n+1)) != -1)
+       {
+         int new_dist = w.weight + adj[w.vertex][n];
+         if(nodes[n].weight == -1)
+         {
+           nodes[n].weight = new_dist;
+           nodes[n].path = w.vertex;
+           PQ.offer(nodes[n]);
+         }
+         else if( nodes[n].weight > new_dist )
+         {
+           nodes[n].weight = new_dist;
+           nodes[n].path = w.vertex;
+           PQ.remove(nodes[n]);
+           PQ.add(nodes[n]);
+         }
+       }
+     }
+      return nodes; 
+    
+  }
+  
+  public static int getAdj(int[][] adj, int node, int start)
+  {
+    for(int i = start ; i < adj.length; i++)
+    {
+      if( adj[node][i] > 0 )
+        return i;}
+    return -1;
+  }
+  
+}
+
+
+
+
+public class WeightedGraphNode
+{
+  int vertex;
+  int weight;            //priority
+  int path;
+  
+  public WeightedGraphNode(int vertex, int weight, int path)
+  {
+    this.vertex = vertex;
+    this.weight = weight;
+    this.path = path;
+  }
+}

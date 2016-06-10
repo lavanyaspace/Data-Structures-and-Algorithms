@@ -1,0 +1,90 @@
+//LCA in DAG
+import java.io.*;
+import java.util.*;
+import java.util.LinkedList;
+
+// This class represents a directed graph using adjacency list
+// representation
+class Graph
+{
+	private int V; // No. of vertices
+	private LinkedList<Integer> adj[]; //Adjacency List
+
+	//Constructor
+	Graph(int v)
+	{
+		V = v;
+		adj = new LinkedList[v];
+		for (int i=0; i<v; ++i)
+			adj[i] = new LinkedList();
+	}
+
+	//Function to add an edge into the graph
+	void addEdge(int v, int w) { adj[v].add(w); }
+
+	// A recursive function to print DFS starting from v
+	void DFSUtil(int v, boolean visited[], int[] path, int count, int n1, int n2,int lca)
+	{
+		// Mark the current node as visited and print it
+		visited[v] = true;
+		int n;
+        path[count++] = v;
+        //System.out.println(v);
+        if( v == n1 || v == n2 )
+        {
+            for( int j = 0; j< count; j++)
+		        System.out.println(path[j]);
+        }
+        System.out.println("here");
+		// Recur for all the vertices adjacent to this vertex
+		Iterator<Integer> i =adj[v].iterator();
+		while (i.hasNext())
+		{
+			n = i.next();
+			if (!visited[n])
+				DFSUtil(n,visited,path,count,n1,n2,lca);
+		}
+		count--;
+		
+		lca = path[count];
+	}
+
+	// The main function 
+	void findLCA(int u, int v)
+	{
+	    int count = 0;
+	    
+	    //path of nodes
+	    int[] path = new int[V];
+        
+        //visited array
+        boolean[] visited = new boolean[V];
+        int lca = Integer.MIN_VALUE;;
+        for(int i =0; i < V; i++)
+        {
+			if (visited[i] == false)
+			{
+			   //System.out.println(i);
+			   DFSUtil(i,visited,path,count,u,v,lca);
+			}
+        }
+      
+	}
+
+	// Driver method
+	public static void main(String args[])
+	{
+		// Create a graph given in the above diagram
+		Graph g = new Graph(8);
+		g.addEdge(0, 3);
+		g.addEdge(0, 4);
+		g.addEdge(1, 3);
+		g.addEdge(2, 4);
+		g.addEdge(2, 7);
+		g.addEdge(3, 5);
+		g.addEdge(3, 6);
+		g.addEdge(3, 7);
+		g.addEdge(4, 6);
+		g.findLCA(2,4);
+	}
+}

@@ -1,0 +1,93 @@
+// Binary Tree Node
+
+class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+//difference between covered and uncovered nodes
+//find uncovered sum and subtract from entire tree sum to get covered sum
+
+public class DifferenceCoveredUncovered
+{
+    static int uncoveredSum;
+    static int coveredSum;
+    
+    public static void main( String[] args )
+    {
+        BTN root = new BTN(8);
+        root.setLeft(new BTN(3));
+        root.getLeft().setLeft( new BTN(1));
+        root.getLeft().setRight( new BTN(6));
+        root.getLeft().getRight().setLeft( new BTN(4));
+        root.getLeft().getRight().setRight( new BTN(7));
+        root.setRight(new BTN(10));
+        root.getRight().setRight( new BTN(14));
+        root.getRight().getRight().setLeft(new BTN(13));
+        
+        uncoveredSum = root.getData() + leftBoundarySum(root.getLeft()) + rightBoundarySum(root.getRight());    
+        coveredSum = BTSum(root) - uncoveredSum ;
+        if(uncoveredSum - coveredSum != 0)
+            System.out.println("Not Equal");
+        else
+            System.out.println("Equal");
+    }
+    
+    public static int leftBoundarySum( BTN root ){
+        int sum = root.getData();
+        if( root.getLeft() != null )
+            sum  = sum + leftBoundarySum(root.getLeft());
+        else if( root.getRight() != null )
+            sum = sum + leftBoundarySum(root.getRight());
+        return sum;
+    }
+    
+    public static int rightBoundarySum( BTN root ){
+        int sum = root.getData();
+        if( root.getRight() != null )
+            sum  = sum + rightBoundarySum(root.getRight());
+        else if( root.getLeft() != null )
+            sum = sum + rightBoundarySum(root.getLeft());
+        return sum;
+    }
+    
+    public static int BTSum( BTN root )
+    {
+        if( root == null ) return 0;
+        return root.getData() + BTSum(root.getLeft()) + BTSum(root.getRight());
+    }
+    
+    
+}
+

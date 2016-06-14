@@ -1,0 +1,96 @@
+ // Binary Tree Node
+import java.util.*;
+class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+//postorder from inorder and preorder traversals
+public class FormPostOrder
+{ 
+  static int ind;
+  public static void main( String[] args )
+  {  
+    int[] in = new int[]{3,1,6,4,0,2,7,5};
+    int[] pre = new int[]{0,1,3,4,6,2,5,7};
+    int length = in.length;
+    int[] post = new int[length];
+    
+    if( in.length != 0 && in.length == pre.length  )
+    {
+      	post[length-1] = pre[0];
+    	constructPost(in,0,in.length-1,pre,post);
+      
+    }
+  }
+  
+  public static int[] constructPost(int[] in,int iStart,int iEnd,int[] pre,int[] post)
+  {
+    if( iStart > iEnd ) return post;
+    
+    int root = -1;  
+    boolean done = false;
+    int index = 0;
+    
+    for( int i = 0; i < pre.length; i++)
+    {
+      int data = pre[i];
+      for(int j = iStart; j <= iEnd ; j++)
+      {
+        if(data == in[j])
+        {
+          done = true;
+          root = data;
+          index = j;
+          break;
+        }
+      }
+      
+      if(done == true)
+        break;
+    } 
+    
+    constructPost(in,iStart,index-1,pre,post);
+    constructPost(in,index+1,iEnd,pre,post);
+    post[ind] = root;
+    ind++;
+    
+    for(int i = 0 ; i < post.length; i++)
+    System.out.print(post[i]+"   ");
+    
+    return post;
+  }    
+    
+}
+  

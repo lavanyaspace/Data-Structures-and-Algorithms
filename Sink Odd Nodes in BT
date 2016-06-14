@@ -1,0 +1,100 @@
+// Binary Tree Node
+import java.util.*;
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+//Sink Odd Nodes
+public class SInkOdd
+{ 
+  public static void main( String[] args )
+  {  
+      BTN root = new BTN(0);
+      root.setLeft(new BTN(1));
+      root.getLeft().setLeft( new BTN(2));
+      root.getLeft().setRight( new BTN(3));
+      root.getLeft().getRight().setLeft( new BTN(4));
+      //root.getLeft().getRight().getLeft().setRight( new BTN(9));
+      //root.getLeft().getRight().getLeft().getRight().setLeft( new BTN(10));
+      //root.getLeft().getRight().getLeft().getRight().getLeft().setRight( new BTN(11));
+      root.getLeft().getRight().setRight( new BTN(5));
+      root.setRight(new BTN(6));
+      root.getRight().setRight( new BTN(7));
+      root.getRight().getRight().setLeft(new BTN(8));
+      BTN start = sinkOddNodes(root);
+      inorder(start);
+  }
+  
+  public static BTN sinkOddNodes( BTN root )
+  {
+    if( root == null ) return null;
+    if( root.getData() % 2 != 0 )
+    {
+       BTN left = findEven(root.getLeft());
+       if( left != null ) swap(root,left);
+       else
+       {
+         BTN right = findEven(root.getRight());
+       	 if( right != null ) swap(root,right);
+       }
+    }
+    sinkOddNodes(root.getLeft());
+    sinkOddNodes(root.getRight());
+    return root;
+  }
+  public static BTN findEven( BTN root )
+  {
+    if(root == null) return root;
+    BTN left = findEven(root.getLeft());
+    if( left != null ) return left;
+    if( root.getData()%2 == 0 )
+      return root;
+    return findEven(root.getRight());
+  }
+  public static void swap(BTN node1, BTN node2)
+  {
+    int temp = node1.getData();
+    node1.setData(node2.getData());
+    node2.setData(temp);
+  }
+  public static void inorder(BTN root)
+  {
+    if(root == null)return;
+    inorder(root.getLeft());
+    System.out.print(root.getData()+" ");
+    inorder(root.getRight());   
+  }
+  
+}

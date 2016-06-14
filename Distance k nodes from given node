@@ -1,0 +1,120 @@
+// Binary Tree Node
+import java.util.*;
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+//print nodes at distance k from given node
+public class DistanceKNodes
+{ 
+  static ArrayList<BTN> a = new ArrayList<BTN>();
+  public static void main( String[] args )
+  {  
+      BTN root = new BTN(0);
+      root.setLeft(new BTN(1));
+      root.getLeft().setLeft( new BTN(2));
+      root.getLeft().setRight( new BTN(3));
+      root.getLeft().getRight().setLeft( new BTN(4));
+      root.getLeft().getRight().setRight( new BTN(5));
+      root.setRight(new BTN(6));
+      root.getRight().setRight( new BTN(7));
+      root.getRight().getRight().setLeft(new BTN(8));
+      //BTN node = root.getRight().getRight().getLeft();
+      //BTN node = root.getLeft().getLeft();
+      BTN node = root.getRight();
+      distanceKNodes(root,node,3);
+  }
+  
+  public static void distanceKNodes( BTN root, BTN node, int distance)
+  {
+    ArrayList<BTN> ans = getAncestors(root, node);
+    ArrayList<BTN> knodes = new ArrayList<BTN>();
+    ArrayList<BTN> distk = new ArrayList<BTN>();
+    knodes = getKNodes(node, distance+1, knodes, null);
+    for(int i = 0; i < knodes.size(); i++ )
+        distk.add(knodes.get(i));
+    int distcopy = distance;
+    for(int i = ans.size()-2; i >=0 ; i-- )
+    {
+      if(distcopy == 0) 
+      	knodes.add(ans.get(i));
+      else 
+      {
+        knodes = getKNodes(ans.get(i), distcopy, knodes,ans.get(i+1));
+        for(int j = 0; j < knodes.size(); j++ )
+        	distk.add(knodes.get(j));
+      }
+      distcopy = distcopy - 1;
+    }
+    System.out.println("Distance k nodes:");
+    for(int i = 0; i < distk.size(); i++ )
+      System.out.println(distk.get(i).getData());
+  }
+  
+  public static ArrayList<BTN> getAncestors(BTN root, BTN node)
+  {
+    if( root == null) return a; 
+    if( root.getData() == node.getData() )
+    {
+      a.add(root);
+      return a;
+    }
+    a.add(root);
+    getAncestors( root.getLeft(), node);
+    getAncestors( root.getRight(), node);
+    if( a.size() > 0 && a.get(a.size()-1) != node )
+    	a.remove(a.size()-1);
+    return a;
+  }
+  
+  public static ArrayList<BTN> getKNodes(BTN node, int distance, ArrayList<BTN> knodes,BTN pathNode)
+  {
+    if(node == null) return knodes;
+    distance = distance - 1;
+    if(distance >= 0)
+    {
+    	if( distance == 0  )
+        {
+    	  knodes.add(node);
+        }
+    	if( node.getLeft() != null && node.getLeft() != pathNode)
+    	  getKNodes( node.getLeft(), distance, knodes, pathNode );
+    	if( node.getRight() != null && node.getRight() != pathNode )
+    	  getKNodes( node.getRight(), distance, knodes, pathNode );
+     }
+    	return knodes;      
+  }
+}
+  

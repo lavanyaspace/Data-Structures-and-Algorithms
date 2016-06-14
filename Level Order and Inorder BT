@@ -1,0 +1,90 @@
+// Binary Tree Node
+import java.util.*;
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+//BT from inorder and level order
+public class ConstructBT
+{ 
+  public static void main( String[] args )
+  {     
+    int[] in = new int[]{0,4,2,3,1,5,6,7,8};
+    int[] level = new int[]{5,3,6,4,1,8,0,2,7};
+    BTN root = null;
+     //System.out.println(in[0]);
+    BTN start = constructBT(root,level,in,0,in.length-1);
+    inorder(start);
+  }
+   
+  public static BTN constructBT(BTN root,int[] level,int[] in,int iStart,int iEnd )
+  {
+    if(iStart>iEnd) return null;
+    if( iStart == iEnd ) return new BTN(in[iStart]);
+    boolean flag = false;
+    int index = 0;
+    
+    for( int i = 0; i< level.length; i++ ){
+    int data = level[i];
+      for( int j = iStart; j < iEnd; j++ )
+      {
+        if( data == in[j])
+        {
+          root = new BTN(data);
+          index = j;
+          flag = true;
+          break;
+        }
+      }
+      
+      if(flag == true)
+        break;
+    }
+    
+    root.setLeft(constructBT(root,level,in,iStart,index-1));
+    root.setRight(constructBT(root,level,in,index+1,iEnd));
+    
+    return root;
+  }
+  public static void inorder(BTN root)
+  {
+    if(root == null)return;
+    inorder(root.getLeft());
+    System.out.println(root.getData());
+    inorder(root.getRight());
+    
+  }
+  
+}

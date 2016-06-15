@@ -1,0 +1,58 @@
+//Linked List Node
+class ListNode
+{
+  int data;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+// Binary linked list to decimal number
+public class BinaryLinkedList
+{
+  public static void main(String[] args)
+  {
+    ListNode head = new ListNode(1);
+    head.setNext(new ListNode(1));
+    head.getNext().setNext(new ListNode(0));
+    head.getNext().getNext().setNext(new ListNode(1));
+    head.getNext().getNext().getNext().setNext(new ListNode(0));
+    head.getNext().getNext().getNext().getNext().setNext(new ListNode(1));
+    head.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(1));
+    head.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(0));
+    System.out.println(binaryToDecimal(head,0));
+   }
+  
+  public static int binaryToDecimal( ListNode head, int res)
+  {
+    if( head == null ) return res;
+    res = (res<<1) + head.getData();
+    res = binaryToDecimal(head.getNext(),res);
+    return res;
+  }
+}

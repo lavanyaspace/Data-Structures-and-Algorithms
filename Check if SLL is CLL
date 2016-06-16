@@ -1,0 +1,77 @@
+//Linked List Node
+class ListNode
+{
+  int data;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+//Check if LL is CLL 
+public class CheckLLIsCLL
+{
+  public static void main(String[] args)
+  {
+    //LL
+    ListNode head1 = new ListNode(1);
+    head1.setNext(new ListNode(2));
+    head1.getNext().setNext(new ListNode(7));
+    head1.getNext().getNext().setNext(new ListNode(9));
+    head1.getNext().getNext().getNext().setNext(new ListNode(11));
+    head1.getNext().getNext().getNext().getNext().setNext(new ListNode(13));
+    head1.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(45));
+    head1.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(78));
+    //CLL
+    ListNode head2 = new ListNode(4);
+    head2.setNext(new ListNode(8));
+    head2.getNext().setNext(new ListNode(12));
+    head2.getNext().getNext().setNext(new ListNode(14));
+    head2.getNext().getNext().getNext().setNext(new ListNode(16));
+    head2.getNext().getNext().getNext().getNext().setNext(new ListNode(20));
+    head2.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(21));
+    head2.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(78));
+    head2.getNext().getNext().getNext().getNext().getNext().getNext().getNext().setNext(head2);
+    checkLL(head2);
+   }
+    
+   public static void checkLL(ListNode head)
+   {
+     //System.out.println("here");
+     ListNode cur = head.getNext();
+     while(cur != null && cur != head)
+     {
+       System.out.println(cur.getData());
+       cur = cur.getNext();
+     }
+     if(cur == null)
+       System.out.println("SLL");
+     else
+       System.out.println("CLL");
+     
+   }
+}

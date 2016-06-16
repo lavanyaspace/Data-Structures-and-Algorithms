@@ -62,17 +62,17 @@ public class BinaryLinkedList
     head3.getNext().getNext().getNext().getNext().setNext(new ListNode(28));
     head3.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(29));
     head3.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(75));
-    ListNode head4 = new ListNode(6);
+    /*ListNode head4 = new ListNode(6);
     head4.setNext(new ListNode(15));
     head4.getNext().setNext(new ListNode(18));
     head4.getNext().getNext().setNext(new ListNode(19));
     head4.getNext().getNext().getNext().setNext(new ListNode(25));
     head4.getNext().getNext().getNext().getNext().setNext(new ListNode(27));
     head4.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(36));
-    head4.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(68));
+    head4.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(68));*/
     //four LLs are present
-    ListNode[] head = new ListNode[]{head1,head2,head3,head4};
-    pairLLs(head,4);
+    ListNode[] head = new ListNode[]{head1,head2,head3};
+    pairLLs(head,3);
    }
     
     public static void pairLLs( ListNode[] head, int k)
@@ -84,6 +84,7 @@ public class BinaryLinkedList
     {
     	for( int i = 0 ; i < end && i+1 < end; i += 2 )
     	{
+          System.out.println("here");
     	  head[j] = mergeTwoLL(head[i], head[i+1]);
           j = j+1;
     	}
@@ -92,7 +93,8 @@ public class BinaryLinkedList
           head[j] = head[end-1];
           end = end/2+1;
         }
-        end = end/2;
+        else
+        	end = end/2;
         j = 0;
      }
       ListNode cur = head[0];

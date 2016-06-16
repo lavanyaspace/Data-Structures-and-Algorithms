@@ -1,0 +1,82 @@
+//Linked List Node
+class ListNode
+{
+  int data;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+//Rearrange LL Even before Odd
+public class EvenOddLL
+{
+  public static void main( String[] args )
+  {
+    ListNode head = new ListNode(17);
+    head.setNext(new ListNode(8));
+    head.getNext().setNext(new ListNode(13));
+    head.getNext().getNext().setNext(new ListNode(7));
+    head.getNext().getNext().getNext().setNext(new ListNode(5));
+    head.getNext().getNext().getNext().getNext().setNext(new ListNode(4));
+    head.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(45));
+    head.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(78));
+    head.getNext().getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(89));
+    ListNode r = evenoddLL(head);
+    while( r != null )
+    {
+      System.out.print(r.getData()+" ");
+      r = r.getNext();
+    }
+    
+  }
+  
+  public static ListNode evenoddLL( ListNode head )
+  {
+    if( head == null || head.getNext() == null )
+      return head;
+    
+    int nodeCount = -1;
+    ListNode cur = head;
+    ListNode lastEven = head;
+    ListNode firstOdd = head.getNext();
+    while( cur != null && cur.getNext() != null )
+    {
+      nodeCount++;
+      if( nodeCount % 2 != 0)
+      {
+        lastEven.setNext(cur.getNext());
+        lastEven = lastEven.getNext();
+        cur.setNext(lastEven.getNext());
+        lastEven.setNext(firstOdd);
+        nodeCount++;
+      }
+      cur = cur.getNext();
+    }
+    return head;
+  }
+}

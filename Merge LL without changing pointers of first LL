@@ -1,1 +1,114 @@
 
+//Linked List Node
+class ListNode
+{
+  int data;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+//Merge two LL without changing the pointers of the first LL
+public class MergeTwoLL
+{
+  public static void main(String[] args)
+  {
+    //LL
+    ListNode head1 = new ListNode(1);
+    head1.setNext(new ListNode(2));
+    head1.getNext().setNext(new ListNode(7));
+    head1.getNext().getNext().setNext(new ListNode(9));
+    head1.getNext().getNext().getNext().setNext(new ListNode(11));
+    head1.getNext().getNext().getNext().getNext().setNext(new ListNode(13));
+    head1.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(45));
+    //head1.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(78));
+    //LL
+    ListNode head2 = new ListNode(4);
+    head2.setNext(new ListNode(8));
+    head2.getNext().setNext(new ListNode(12));
+    head2.getNext().getNext().setNext(new ListNode(14));
+    head2.getNext().getNext().getNext().setNext(new ListNode(16));
+    head2.getNext().getNext().getNext().getNext().setNext(new ListNode(20));
+    head2.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(21));
+    head2.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(78));
+    mergeLL(head1,head2);
+   }
+    
+   public static ListNode mergeLL( ListNode head1, ListNode head2 )
+   {
+     if( head1 == null ) return head2;
+     else if( head2 == null) return head1;
+       
+     ListNode cur1 = head1, cur2 = head2;
+     
+     while( cur1 != null )
+     {
+       if( cur1.getData() > cur2.getData() )
+       {
+         int temp = cur1.getData();
+         cur1.setData(cur2.getData());
+         cur2.setData(temp);
+         head2 = sortLL2(head2);
+         cur2 = head2;
+       }
+         cur1 = cur1.getNext();
+     }
+     cur1 = head1;
+     cur2 = head2;
+     while( cur1 !=null )
+     {
+       System.out.print(cur1.getData()+"  ");
+       cur1 = cur1.getNext();
+     }
+     System.out.println();
+     while( cur2 !=null )
+     {
+       System.out.print(cur2.getData()+" ");
+       cur2 = cur2.getNext();
+     }
+    return head1;
+   }
+  
+  public static ListNode sortLL2( ListNode head )
+  {
+    ListNode cur = head; 
+    while( cur != null && cur.getNext() != null && cur.getData() > cur.getNext().getData()  )
+    {
+        int temp = cur.getData();
+        cur.setData(cur.getNext().getData());
+        cur.getNext().setData(temp);
+        cur = cur.getNext();
+     }
+    return head;
+   }
+}
+
+
+
+
+

@@ -1,0 +1,90 @@
+//Linked List Node
+class ListNode
+{
+  int data;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+//Sort LLs that have been sorted on absolute value
+public class SortAbsSortedLL
+{
+  public static void main( String[] args )
+  {
+    ListNode head = new ListNode(1);
+    head.setNext(new ListNode(2));
+    head.getNext().setNext(new ListNode(-7));
+    head.getNext().getNext().setNext(new ListNode(9));
+    head.getNext().getNext().getNext().setNext(new ListNode(-11));
+    head.getNext().getNext().getNext().getNext().setNext(new ListNode(-13));
+    head.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(45));
+    head.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(-78));
+    ListNode r = sortAbsLL(head);
+    while( r != null )
+    {
+      System.out.print(r.getData()+" ");
+      r = r.getNext();
+    }
+    
+  }
+  
+  public static ListNode sortAbsLL( ListNode head )
+  {
+    if( head == null )
+      return head;
+    ListNode cur = head;
+    while( cur.getNext() != null )
+    {
+      if( cur.getNext().getData() < 0 )
+      {
+        System.out.println(cur.getData());
+        ListNode del = deleteNode(cur);
+        head = insertAtBegin(head, del.getData());
+      }
+      else
+       cur = cur.getNext();
+    }
+    return head;
+  }
+  
+  public static ListNode insertAtBegin( ListNode head, int data )
+  {
+    ListNode newNode = new ListNode( data );
+    newNode.setNext(head);
+    head = newNode;
+    return head;
+  }
+  public static ListNode deleteNode( ListNode prev )
+  {
+    ListNode del = prev.getNext();
+    prev.setNext(del.getNext());
+    del.setNext(null);
+    return del;
+  }
+}

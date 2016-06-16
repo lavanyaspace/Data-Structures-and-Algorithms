@@ -1,0 +1,137 @@
+//Linked List Node
+class ListNode
+{
+  int data;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+// Merge k sorted lists.
+public class BinaryLinkedList
+{
+  public static void main(String[] args)
+  {
+    //four sorted lists with  8 elements each. k = 4 N = 8.
+    ListNode head1 = new ListNode(1);
+    head1.setNext(new ListNode(2));
+    head1.getNext().setNext(new ListNode(7));
+    head1.getNext().getNext().setNext(new ListNode(9));
+    head1.getNext().getNext().getNext().setNext(new ListNode(11));
+    head1.getNext().getNext().getNext().getNext().setNext(new ListNode(13));
+    head1.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(45));
+    head1.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(78));
+    ListNode head2 = new ListNode(4);
+    head2.setNext(new ListNode(8));
+    head2.getNext().setNext(new ListNode(12));
+    head2.getNext().getNext().setNext(new ListNode(14));
+    head2.getNext().getNext().getNext().setNext(new ListNode(16));
+    head2.getNext().getNext().getNext().getNext().setNext(new ListNode(20));
+    head2.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(21));
+    head2.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(78));
+    ListNode head3 = new ListNode(5);
+    head3.setNext(new ListNode(10));
+    head3.getNext().setNext(new ListNode(17));
+    head3.getNext().getNext().setNext(new ListNode(21));
+    head3.getNext().getNext().getNext().setNext(new ListNode(23));
+    head3.getNext().getNext().getNext().getNext().setNext(new ListNode(28));
+    head3.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(29));
+    head3.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(75));
+    ListNode head4 = new ListNode(6);
+    head4.setNext(new ListNode(15));
+    head4.getNext().setNext(new ListNode(18));
+    head4.getNext().getNext().setNext(new ListNode(19));
+    head4.getNext().getNext().getNext().setNext(new ListNode(25));
+    head4.getNext().getNext().getNext().getNext().setNext(new ListNode(27));
+    head4.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(36));
+    head4.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(68));
+    //four LLs are present
+    ListNode[] head = new ListNode[]{head1,head2,head3,head4};
+    pairLLs(head,4);
+   }
+    
+    public static void pairLLs( ListNode[] head, int k)
+    {
+    if(head.length == 0) return;
+    int j = 0;
+    int end = head.length;
+    while( end > 1 )
+    {
+    	for( int i = 0 ; i < end && i+1 < end; i += 2 )
+    	{
+    	  head[j] = mergeTwoLL(head[i], head[i+1]);
+          j = j+1;
+    	}
+        if( end % 2 != 0 )
+        {
+          head[j] = head[end-1];
+          end = end/2+1;
+        }
+        end = end/2;
+        j = 0;
+     }
+      ListNode cur = head[0];
+      while( cur != null)
+      {
+      	System.out.print(cur.getData()+" ");
+      	cur = cur.getNext();
+       }
+    }
+  public static ListNode mergeTwoLL(ListNode head1, ListNode head2)
+  {
+    if(head1 == null)
+      return head2;
+    else if(head2 == null) return head1;
+    ListNode prev = null;
+    ListNode head = ( head1.getData() >= head2.getData())? head2 : head1;
+    while( head1 != null && head2 !=null )
+    {
+      if(head1.getData() <= head2.getData())
+      {
+        if( prev != null )
+          prev.setNext(head1);
+        prev = head1;
+        head1 = head1.getNext();
+        
+      }
+      else
+      {
+        if( prev != null )
+          prev.setNext(head2);
+        prev = head2;
+        head2 = head2.getNext();
+      }
+    }
+    if( head1 == null )
+      prev.setNext(head2);
+    else
+      prev.setNext(head1);
+    
+    return head;
+  }
+}

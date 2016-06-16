@@ -1,0 +1,77 @@
+//Linked List Node
+class ListNode
+{
+  int data;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+//Rearrange LL in Zig Zag fashion
+public class ZigZagLL
+{
+  public static void main( String[] args )
+  {
+    ListNode head = new ListNode(17);
+    head.setNext(new ListNode(8));
+    head.getNext().setNext(new ListNode(13));
+    head.getNext().getNext().setNext(new ListNode(7));
+    head.getNext().getNext().getNext().setNext(new ListNode(5));
+    head.getNext().getNext().getNext().getNext().setNext(new ListNode(4));
+    head.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(45));
+    head.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(78));
+    ListNode r = zigzagLL(head);
+    while( r != null )
+    {
+      System.out.print(r.getData()+" ");
+      r = r.getNext();
+    }
+    
+  }
+  
+  public static ListNode zigzagLL( ListNode head )
+  {
+    if( head == null || head.getNext() == null )
+      return head;
+    
+    boolean bool = (head.getData() > head.getNext().getData())? false : true ;
+    ListNode cur = head.getNext();
+    while( cur.getNext() != null )
+    {
+      if( (cur.getData() > cur.getNext().getData() && bool == false) || (cur.getData() < cur.getNext().getData() && bool == true )  )
+      {
+        int temp = cur.getData();
+        cur.setData(cur.getNext().getData());
+        cur.getNext().setData(temp);
+      }
+      bool = !bool;
+      cur = cur.getNext();
+    }
+    return head;
+  }
+}

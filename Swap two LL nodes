@@ -1,0 +1,122 @@
+//Linked List Node
+class ListNode
+{
+  int data;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+//Swap two LL nodes
+public class SwapLLNodes
+{
+  public static void main( String[] args )
+  {
+    //LL1
+    ListNode head = new ListNode(5);
+    head.setNext(new ListNode(10));
+    head.getNext().setNext(new ListNode(17));
+    head.getNext().getNext().setNext(new ListNode(21));
+    head.getNext().getNext().getNext().setNext(new ListNode(23));
+    head.getNext().getNext().getNext().getNext().setNext(new ListNode(28));
+    head.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(29));
+    head.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(75));
+    
+    ListNode r = swapLLNodes(head, 28,75);
+    while( r != null )
+    {
+      System.out.print(r.getData()+" ");
+      r = r.getNext();
+    }
+    
+  }
+  
+  public static ListNode swapLLNodes( ListNode head, int k1, int k2 )
+  {
+    if( head == null )
+      return head;
+    
+    ListNode cur1 = null;
+    ListNode cur2 = head;
+    
+    if( head.getData() == k1 || head.getData() == k2 )
+    {
+      cur1 = head;
+      cur2 = cur2.getNext();
+    }
+    if( cur2 != null && cur2.getData() != k1 && cur2.getData() != k2 )
+    {
+    	while( cur2 != null && cur2.getNext() != null )
+    	{
+      		if( cur2.getNext().getData() == k1 || cur2.getNext().getData() == k2 )
+      		{
+          		if( cur1 == null )
+          			cur1 = cur2;
+          		else
+            		break;
+      		}
+          cur2 = cur2.getNext();
+    	}
+    }
+    
+    //if( cur2.getData() != k1 && cur2.getData() != k2 )
+      //cur2 = null;
+    
+    if(cur1 != null && cur2 != null && cur2.getNext() != null ) 
+    {
+        if( cur1 == head )
+        {
+          head = cur2.getNext();
+          ListNode temp = cur1.getNext();
+          cur1.setNext(cur2.getNext().getNext());
+          cur2.getNext().setNext(temp);
+          cur2.setNext(cur1);
+           
+        }
+        else
+        {
+          ListNode temp = cur1.getNext();
+          cur1.setNext(cur2.getNext());
+          cur2.setNext(temp);
+          cur2 = temp.getNext();
+          temp.setNext(cur1.getNext().getNext());
+          cur1.getNext().setNext(cur2);
+        }
+    }
+    return head;
+  }
+
+ }
+  
+  
+  
+  
+  
+  
+  
+  

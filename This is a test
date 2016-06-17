@@ -1,0 +1,76 @@
+//Linked List Node
+class ListNode
+{
+  int data;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+//Merge LLs at alternate positions
+public class MergeLLAlternate
+{
+  public static void main( String[] args )
+  {
+    //LL1
+    ListNode head1 = new ListNode(5);
+    head1.setNext(new ListNode(10));
+    head1.getNext().setNext(new ListNode(17));
+    head1.getNext().getNext().setNext(new ListNode(21));
+    head1.getNext().getNext().getNext().setNext(new ListNode(23));
+    head1.getNext().getNext().getNext().getNext().setNext(new ListNode(28));
+    //head1.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(29));
+    //head1.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(75));
+    
+    ListNode r = head1;
+    while( r != null )
+    {
+      //System.out.print(r.getData()+" ");
+      r = r.getNext();
+    }
+    
+    r = new ListNode(100);
+    r = head1;
+    while( r != null )
+    {
+      System.out.print(r.getData()+" ");
+      r = r.getNext();
+    }
+    
+  }
+  
+ 
+ }
+  
+  
+  
+  
+  
+  
+  
+  

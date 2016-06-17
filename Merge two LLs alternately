@@ -1,0 +1,134 @@
+//Linked List Node
+class ListNode
+{
+  int data;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+//Merge LLs at alternate positions
+public class MergeLLAlternate
+{
+  public static void main( String[] args )
+  {
+    //LL1
+    ListNode head1 = new ListNode(5);
+    head1.setNext(new ListNode(10));
+    head1.getNext().setNext(new ListNode(17));
+    head1.getNext().getNext().setNext(new ListNode(21));
+    head1.getNext().getNext().getNext().setNext(new ListNode(23));
+    head1.getNext().getNext().getNext().getNext().setNext(new ListNode(28));
+    //head1.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(29));
+    //head1.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(75));
+    
+    //LL2
+    ListNode head2 = new ListNode(4);
+    head2.setNext(new ListNode(8));
+    head2.getNext().setNext(new ListNode(12));
+    head2.getNext().getNext().setNext(new ListNode(14));
+    head2.getNext().getNext().getNext().setNext(new ListNode(16));
+    head2.getNext().getNext().getNext().getNext().setNext(new ListNode(20));
+    head2.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(21));
+    head2.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(78));
+    
+    ListNode r = mergeLLAlternate( head1, head2);
+    while( r != null )
+    {
+      System.out.print(r.getData()+" ");
+      r = r.getNext();
+    }
+    
+  }
+  
+  public static ListNode mergeLLAlternate( ListNode head1, ListNode head2 )
+  {
+    if( head1 == null )
+      return head2;
+    if( head2 == null )
+       return head1;
+    
+    ListNode cur = head1;
+    ListNode next = head2;
+    ListNode head = head1;
+    head1 = head1.getNext();
+    
+    while( head1 != null && head2 != null )
+    {
+      cur.setNext(next);
+    	if( next == head2 )
+      	{
+          head2 = head2.getNext();
+          next = head1;
+        }
+        else if( next == head1 )
+        {
+			head1 = head1.getNext();
+            next = head2;
+        }
+        cur = cur.getNext();
+    }
+    
+    
+    if( head1 != null ) 
+    {
+      cur.setNext(head1);
+      //cur = cur.getNext();
+      //head1 = head1.getNext();
+      //cur.setNext(null);
+      //while( head1 != null )
+      //{
+      //	System.out.print(head1.getData()+" ");
+      //	head1 = head1.getNext();
+      //}
+    }
+  	else if( head2 != null ) 
+    {
+      cur.setNext(head2);
+      cur = cur.getNext();
+      head2 = head2.getNext();
+      cur.setNext(null);
+      while( head2 != null )
+      {
+      	System.out.print(head2.getData()+" ");
+      	head2 = head2.getNext();
+      }
+    }
+    
+    System.out.println();
+    return head;
+  }
+ }
+  
+  
+  
+  
+  
+  
+  
+  

@@ -1,0 +1,130 @@
+//DLL node
+class DLLNode
+{
+  int data;
+  ListNode prev;
+  ListNode next;
+   
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    prev = null;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setPrev( ListNode prev )
+  {
+    this.prev = prev;
+  }
+  
+  public ListNode getPrev()
+  {
+    return prev;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+//Ternary Tree Node
+class TTN
+{
+  int data;
+  TTN left;
+  TTN middle;
+  TTN right;
+   
+  //constructor
+  public TTN( int data )
+  {
+    this.data = data;
+    left = null;
+    middle = null;
+    right = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setLeft( TTN left )
+  {
+    this.left = left;
+  }
+  
+  public TTN getLeft()
+  {
+    return left;
+  }
+  
+  public void setMiddle( TTN middle )
+  {
+    this.middle = middle;
+  }
+  
+  public TTN getMiddle()
+  {
+    return middle;
+  }
+  
+  public void setRight( TTN right )
+  {
+    this.right = right;
+  }
+  
+  public TTN getRight()
+  {
+    return right;
+  }
+}
+
+//Create DLL from a Ternary tree
+public class TernaryTreeDLL
+{
+  public static void main( String[] args )
+  {
+    TTN root = new TTN(30);
+    root.setLeft(5);
+    root.setMiddle(11);
+    root.setRight(63);
+    root.getLeft().setLeft(1);
+    root.getLeft().setMiddle(4);
+    root.getLeft().setRight(8);
+    root.getMiddle().setLeft(6);
+    root.getMiddle().setMiddle(7);
+    root.getMiddle().setRight(15);
+    root.getRight().setLeft(31);
+    root.getRight().setMiddle(55);
+    root.getRight().setRight(65);
+    covertTTtoDLL(root);
+  }
+  
+  public static TTN TTtoDLL( TTN root )
+  {
+    if( root == null ) return root;
+  }
+}

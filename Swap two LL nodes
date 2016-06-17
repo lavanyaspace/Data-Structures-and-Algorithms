@@ -84,9 +84,6 @@ public class SwapLLNodes
     	}
     }
     
-    //if( cur2.getData() != k1 && cur2.getData() != k2 )
-      //cur2 = null;
-    
     if(cur1 != null && cur2 != null && cur2.getNext() != null ) 
     {
         if( cur1 == head )
@@ -112,11 +109,4 @@ public class SwapLLNodes
   }
 
  }
-  
-  
-  
-  
-  
-  
-  
   

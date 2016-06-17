@@ -1,0 +1,81 @@
+//MultiLevel LL node
+class MLLNode
+{
+  int data;
+  ListNode next;
+  ListNode child;
+   
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+    child = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+  public void setChild( ListNode child )
+  {
+    this.child = child;
+  }
+  
+  public ListNode getChild()
+  {
+    return child;
+  } 
+}
+
+//Flatten the sorted multilevel linked list in sorted order
+public class FlattenLL
+{
+  public static void main( String[] args )
+  {
+    //MLL
+    ListNode head = new ListNode(5);
+    head.setNext(new ListNode(10));
+    head.getNext().setNext(new ListNode(19));
+    head.getNext().getNext().setNext(new ListNode(28));
+    
+    head.setChild(new ListNode(7));
+    head.getChild().setChild(new ListNode(8));
+    head.getChild().getChild().setChild(new ListNode(30));
+    head.getNext().setChild(new ListNode(20));
+    head.getNext().getNext().setChild(new ListNode(22));
+    head.getNext().getNext().getChild().setChild(new ListNode(50));
+    head.getNext().getNext().getNext().setChild(new ListNode(35));
+    head.getNext().getNext().getNext().getChild().setChild(new ListNode(40));
+    head.getNext().getNext().getNext().getChild().getChild().setChild(new ListNode(45));
+    flattenMLL( head );
+  }
+  
+  public static ListNode flattenMLL( ListNode head )
+  {
+    
+  }
+}
+
+
+
+
+
+
+
+
+

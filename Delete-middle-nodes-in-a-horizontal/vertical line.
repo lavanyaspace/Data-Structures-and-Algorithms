@@ -1,0 +1,117 @@
+//Linked List Node
+class ListNode
+{
+  int X,Y;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int X, int Y )
+  {
+    this.X = X;
+    this.Y = Y;
+    next = null;
+  }
+  
+  public void setX( int X )
+  {
+    this.X = X;
+  }
+  
+  public int getX()
+  {
+    return X;
+  }
+  public void setY( int Y )
+  {
+    this.Y = Y;
+  }
+  
+  public int getY()
+  {
+    return Y;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+//Delete middle nodes in a horizontal/vertical line.
+public class DeleteMiddle
+{
+  public static void main( String[] args )
+  {
+    //LL1
+    ListNode head = new ListNode(0,10);
+    head.setNext(new ListNode(1,10));
+    head.getNext().setNext(new ListNode(5,10));
+    head.getNext().getNext().setNext(new ListNode(7,10));
+    head.getNext().getNext().getNext().setNext(new ListNode(7,5));
+    head.getNext().getNext().getNext().getNext().setNext(new ListNode(20,5));
+    head.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(40,5));
+    //head.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(75));
+    
+    //LL2
+    ListNode head1 = new ListNode(2,3);
+    head1.setNext(new ListNode(4,3));
+    head1.getNext().setNext(new ListNode(6,3));
+    head1.getNext().getNext().setNext(new ListNode(10,3));
+    head1.getNext().getNext().getNext().setNext(new ListNode(12,3));
+    
+    ListNode r = deleteMiddle(head1);
+    while( r != null )
+    {
+      System.out.print("("+r.getX()+","+r.getY()+")");
+      r = r.getNext();
+    }
+    
+  }
+  
+  public static ListNode deleteMiddle( ListNode head )
+  {
+    if( head == null || head.getNext()== null )
+      return head;
+    
+    ListNode prev = head;
+    ListNode cur = head.getNext();
+    boolean bool = false;
+    
+    
+    if( prev.getX() == cur.getX() )
+      bool = true;
+  
+    cur = cur.getNext();
+    
+    while( cur != null )
+    {
+      	if( bool == true && prev.getX() == cur.getX() || bool == false && prev.getY() == cur.getY())
+      	{
+            ListNode temp = prev.getNext();
+        	prev.setNext(temp.getNext());
+            temp = null;
+            cur = cur.getNext();
+        }
+        else
+        {
+          bool = !bool;
+          prev = prev.getNext();
+          cur = cur.getNext();
+        }
+    }
+    return head;
+  }
+ }
+  
+  
+  
+  
+  
+  
+  
+  

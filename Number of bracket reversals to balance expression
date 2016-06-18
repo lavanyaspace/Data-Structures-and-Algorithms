@@ -1,0 +1,39 @@
+//number of bracket reversals
+import java.util.Stack;
+public class BracketReversal
+{
+  public static void main( String[] args )
+  {
+    String s = "{{{{}}";
+    checkBracketReverse(s);
+  }
+  
+  public static void  checkBracketReverse( String s )
+  {
+    if( s.length() % 2 != 0) {System.out.println("The expression cannot be balanced");return;}
+    Stack<Character> stack = new Stack<Character>();
+    int change = 0;
+    int countStack = 0;
+    for( int i = 0; i < s.length(); i++ )
+    {
+      if( s.charAt(i) == '}' && stack.isEmpty())
+      {
+        change++;
+        stack.push('{');
+        countStack++;
+      }
+      else if( s.charAt(i) == '}' && !stack.isEmpty() )
+      {
+        stack.pop();
+        countStack--;
+      }
+      else
+      {
+        stack.push(s.charAt(i));
+        countStack++;
+      }
+      //System.out.println(s.charAt(i)+"  "+change+" "+countStack);
+    }
+    System.out.println( change + countStack/2 ); 
+  }
+}

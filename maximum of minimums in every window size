@@ -1,0 +1,28 @@
+//maximum of minimums in every window size
+public class MaximumOfMinimum
+{
+  public static void main( String[] args )
+  {
+    int[] a = {10, 20, 30, 50, 10, 70, 30};
+    findMaxOfMin( a );
+  }
+  
+  public static void findMaxOfMin( int[] a )
+  {
+    if( a.length == 0) return;
+    for( int w = 0; w < a.length; w++ )
+    {
+      int max = Integer.MIN_VALUE;
+      for( int i = 0; i < a.length - w; i++ )
+      { 
+        int min = Integer.MAX_VALUE;
+        for( int j = i; j <= i+w && j < a.length && i <= a.length - w  ; j++ )
+         	if( a[j] < min )
+          		min = a[j];
+        if( min > max )
+          max = min;
+      }
+      System.out.print(max+"  ");
+    }
+  }
+}

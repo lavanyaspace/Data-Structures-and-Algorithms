@@ -19,6 +19,7 @@ public class SortStack
   public static Stack<Integer> sortStack( Stack<Integer> s )
   {
     Stack<Integer> sortedStack = new Stack<Integer>();
+    if( s.isEmpty()) return sortedStack;
     sortedStack.push(s.pop());
     int popped = s.pop();
     while( true )

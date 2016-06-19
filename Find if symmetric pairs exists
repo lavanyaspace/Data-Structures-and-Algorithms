@@ -1,0 +1,23 @@
+//Find if symmetric pairs exist
+//first elements of pair is unique 
+//so can be used as key
+import java.util.HashMap;
+public class SymmetricPair
+{
+  public static void main( String[] args )
+  {
+    int[][] pair = {{11, 20}, {30, 40}, {5, 10}, {40, 30}, {10, 5}};
+    findSymmetricPairs(pair);
+  }
+  
+   public static void findSymmetricPairs( int[][] pair )
+   {
+     HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
+     for( int i = 0; i<pair.length; i++ )
+     {
+       if( map.get(pair[i][1]) != null && map.get(pair[i][1]) == pair[i][0] )
+         System.out.println("("+pair[i][0]+","+pair[i][1]+")");
+       else map.put(pair[i][0],pair[i][1]);
+     }
+   }
+}

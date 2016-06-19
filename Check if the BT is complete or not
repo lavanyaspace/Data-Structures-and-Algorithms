@@ -1,0 +1,85 @@
+// Binary Tree Node
+import java.util.*;
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+//check if the BT is complete or not
+public class BTisComplete
+{
+  public static void main( String[] arags )
+  {
+    BTN root = new BTN(0);
+    root.setLeft(new BTN(1));
+    root.getLeft().setLeft( new BTN(2));
+    root.getLeft().setRight( new BTN(3));
+    //root.getLeft().getRight().setLeft( new BTN(4));
+    //root.getLeft().getRight().getLeft().setRight( new BTN(9));
+    //root.getLeft().getRight().getLeft().getRight().setLeft( new BTN(10));
+    //root.getLeft().getRight().getLeft().getRight().getLeft().setRight( new BTN(11));
+    //root.getLeft().getRight().setRight( new BTN(5));
+    root.setRight(new BTN(6));
+    root.getRight().setRight( new BTN(7));
+    //root.getRight().getRight().setLeft(new BTN(8));
+    System.out.println(checkIfComplete( root ));
+    
+  }
+  
+  public static boolean checkIfComplete( BTN root )
+  {
+    Queue<BTN> q = new LinkedList<BTN>();
+    q.offer(root);
+    while( !q.isEmpty())
+    {
+      BTN temp = q.poll();
+      if( temp != null )
+      {
+        q.offer(temp.getLeft());
+        q.offer(temp.getRight());
+      }
+      else
+      {
+        while(!q.isEmpty())
+        {
+           if( q.peek() == null)
+              q.poll();
+           else
+              return false;
+         }
+       }
+     }
+     return true;
+   }
+ }

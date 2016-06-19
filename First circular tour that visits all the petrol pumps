@@ -1,0 +1,46 @@
+//first circular tour that visits all the petrol pumps
+class PetrolPump
+{
+  int petrol;
+  int distance;
+  public PetrolPump( int pet, int dist )
+  {
+    petrol = pet;
+    distance = dist;
+  }
+}
+
+
+public class CircularTour
+{
+  public static void main( String[] args )
+  {
+    PetrolPump p1 = new PetrolPump(6,4);
+    PetrolPump p2 = new PetrolPump(3,6);
+    PetrolPump p3 = new PetrolPump(7,3);
+    PetrolPump[] p = {p1,p2,p3};
+    System.out.println(findTourStart(p));
+  }
+  
+  public static int findTourStart( PetrolPump[] p )
+  {
+    int rear = 1;
+    int front = 0;
+    int n = p.length;
+    int count = p[front].petrol - p[front].distance;
+    while( count < 0 || rear != front )
+    {
+      while( count < 0 && rear != front)
+      {
+        count = count - (p[front].petrol - p[front].distance);
+        front = (front + 1) % n;
+        if( front == 0 )
+          return -1;
+      }
+      count = count + p[rear].petrol - p[rear].distance;
+      rear = (rear + 1) % n; 
+    }
+    
+    return front;
+  }
+}

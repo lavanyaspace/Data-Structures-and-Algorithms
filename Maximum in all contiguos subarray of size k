@@ -1,0 +1,36 @@
+//Maximum in all contiguos subarray of size k
+//Use dequeue or deck
+import java.util.*;
+public class MaximumInK
+{
+  public static void main( String[] args )
+  {
+    int[] elements = {12, 1, 78, 90, 57, 89, 56};
+    findMax( elements, 3 );
+  }
+  
+  public static void findMax( int[] elements, int ws )
+  {
+    Deque<Integer> deck = new LinkedList<Integer>();
+    int i = 0;
+   	for (i = 0; i < ws; i++ )
+   	{
+       while ( (!deck.isEmpty()) && elements[i] >= elements[deck.peekLast()])
+      	deck.pollLast();
+       deck.offerLast(i);
+    }
+    for ( ; i < elements.length; i++ )
+    {
+        System.out.println(elements[deck.peekFirst()]+" ");
+ 
+        while( (!deck.isEmpty()) && deck.peekFirst() <= i - ws)
+            deck.pollFirst(); 
+ 
+        while ( (!deck.isEmpty()) && elements[i] >= elements[deck.peekLast()])
+            deck.pollLast();
+      
+        deck.offerLast(i);
+    }
+    System.out.println(elements[deck.peekFirst()]);
+  }
+}

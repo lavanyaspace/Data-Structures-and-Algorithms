@@ -1,0 +1,61 @@
+//Time required to rot all all the oranges
+//from rotten oranges adjacents will rot - concept sounds
+//similar to graphs, traversal, level order, queue
+import java.util.Queue;
+import java.util.LinkedList;
+public class TimeToRot
+{
+  public static void main( String[] args )
+  {
+    int[][] matrix = { {2, 1, 0, 2, 1},
+                     {0, 0, 1, 2, 1},
+                     {1, 0, 0, 2, 1}};
+    System.out.println(findTime(matrix));
+  }
+  public static int findTime( int[][] matrix )
+  {
+    Queue<Integer> q = new LinkedList<Integer>();
+    int time = 0;
+    for( int i = 0; i < matrix.length; i++ )
+      for( int j = 0 ; j < matrix[0].length; j++ )
+      	if( matrix[i][j] == 2 )
+    	{
+			q.offer(i);
+      		q.offer(j);
+    	}
+    q.offer(Integer.MIN_VALUE);
+    q.offer(Integer.MIN_VALUE);
+    while( !q.isEmpty() )
+    {
+      int i = q.poll();
+      int j = q.poll();
+      if( i != Integer.MIN_VALUE && j != Integer.MIN_VALUE)
+      {
+      	if( j-1 >= 0 && matrix[i][j-1] == 1  ){ matrix[i][j-1] = 2; q.offer(i);q.offer(j-1);}
+      	if( j+1<matrix[0].length && matrix[i][j+1] == 1  ){ matrix[i][j+1] = 2; q.offer(i);q.offer(j+1);}
+      	if( i-1 >= 0 && matrix[i-1][j] == 1 ){ matrix[i-1][j] = 2; q.offer(i-1);q.offer(j);}
+      	if( i+1 < matrix.length && matrix[i+1][j] == 1  ){ matrix[i+1][j] = 2; q.offer(i+1);q.offer(j);}
+      }
+      else
+      {
+        if(!q.isEmpty())
+        {
+          q.offer(Integer.MIN_VALUE);
+    	  q.offer(Integer.MIN_VALUE);
+          time++;
+        }
+        
+      }
+    }
+    
+    for( int i = 0; i < matrix.length; i++ )
+     for( int j = 0 ; j < matrix[0].length; j++ )
+       if( matrix[i][j] == 1 )
+    	{ 
+     		System.out.println("All Oranges cannot be rotten"); 
+     		return Integer.MIN_VALUE;
+    	}
+    
+    return time;
+  }
+}

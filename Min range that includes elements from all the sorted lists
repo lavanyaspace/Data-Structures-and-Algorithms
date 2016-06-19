@@ -1,0 +1,42 @@
+//Min range that includes elements from all the sorted lists
+//similar to merge k sorted lists
+
+import java.util.PriorityQueue;
+public class MinInterval
+{
+  public static void main( String[] args )
+  {
+    //three sorted lists
+    int[] a1 = {4, 7, 9, 12, 15};
+    int[] a2 = {0, 8, 10, 14, 20};
+    int[] a3 = {6, 12, 16, 30, 50};
+    int[] a = findMinInterval( a1, a2, a3 );
+    System.out.println("("+a[0]+","+a[1]+")");
+  }
+  
+  public static int[] findMinInterval( int[] a, int[] b, int[] c )
+  {
+    int[] interval = {Integer.MIN_VALUE, Integer.MIN_VALUE};
+    if( a.length == 0 || b.length == 0 || c.length == 0 ) return interval;
+    
+    PriorityQueue<Integer> PQ = new PriorityQueue<Integer>();
+    int k1 = 0,  k2 = 0, k3 = 0;
+    int min = 0;
+    int max = (a[k1] > b[k2]) ? ( a[k1] > c[k3] )? a[k1] :c[k3] : ( b[k2] > c[k3] )? b[k2] :c[k3];
+    interval[1] = max;
+    interval[0] = min;
+    PQ.offer(a[k1]);
+    PQ.offer(b[k2]);
+    PQ.offer(c[k3]);
+    while( k1+1 != a.length && k2+1 != b.length && k3+1 != c.length )
+    {
+      min = PQ.poll();
+      if( max - min + 1 < interval[1] - interval[0] + 1 ) { interval[0] = min; interval[1] = max;}
+      if( min == a[k1]) { PQ.offer(a[ k1+1 ]); if( a[k1+1] > max ) max = a[k1+1] ; k1++;}
+      if( min == b[k2]) { PQ.offer(b[ k2+1 ]); if( b[k2+1] > max ) max = b[k2+1] ;  k2++;}
+      if( min == c[k3]) { PQ.offer(c[ k3+1 ]); if( c[k3+1] > max ) max = c[k3+1] ; k3++;}
+    }
+    
+    return interval;
+  }
+}

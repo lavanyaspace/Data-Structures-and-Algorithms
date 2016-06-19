@@ -1,0 +1,126 @@
+//Construction of complete BT from Singly Linked List Representation
+//Cannot be done inplace
+//Linked List Node
+import java.util.Queue;
+import java.util.LinkedList;
+
+class ListNode
+{
+  int data;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+//BTN
+class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+public class LLToBT
+{
+  public static void main( String[] args )
+  {
+    //LL1
+    ListNode head = new ListNode(5);
+    head.setNext(new ListNode(10));
+    head.getNext().setNext(new ListNode(17));
+    head.getNext().getNext().setNext(new ListNode(21));
+    head.getNext().getNext().getNext().setNext(new ListNode(23));
+    head.getNext().getNext().getNext().getNext().setNext(new ListNode(28));
+    head.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(29));
+    head.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(75));
+    BTN root = convertToBT(head);
+    inorder(root);
+  }
+  
+  public static BTN convertToBT( ListNode head )
+  {
+    if( head == null ) return null;
+    Queue<BTN> q = new LinkedList<BTN>();
+    BTN root = new BTN(head.getData());
+    q.offer(root);
+    while( !q.isEmpty() )
+    {
+      BTN temp = q.poll();
+      if( head.getNext() != null)
+      {
+      	temp.setLeft(new BTN(head.getNext().getData()));
+        q.offer(temp.getLeft());
+        head = head.getNext();
+      }
+      if( head.getNext()!= null  )
+      {
+        temp.setRight(new BTN(head.getNext().getData()));
+        q.offer(temp.getRight());
+        head = head.getNext();
+      }    
+    }
+    return root;
+  }
+  
+  public static void inorder(BTN root)
+  {
+    if(root == null)return;
+    inorder(root.getLeft());
+    System.out.print(root.getData()+" ");
+    inorder(root.getRight());   
+  }
+}

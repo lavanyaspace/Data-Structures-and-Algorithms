@@ -1,0 +1,80 @@
+//DAG
+//Only for acyclic graphs topological ordering exists
+//Cannot detect cycles
+import java.util.LinkedList;
+import java.util.Queue;
+class Graph
+{
+  int vertexCount;
+  LinkedList<Integer>[] adjL ;
+  
+  public Graph( int vertexCount )
+  {
+    this.vertexCount = vertexCount;
+    adjL = new LinkedList[vertexCount];
+    for( int i = 0; i<vertexCount; i++)
+        adjL[i] = new LinkedList();
+  }
+  
+  public void addEdge( int u, int v)
+  {
+    adjL[u].add(v);
+  }
+}
+
+public class TopologicalOrdering
+{
+  public static void main( String[] args )
+    {
+      Graph g = new Graph(5);
+      g.addEdge(0,3);
+      g.addEdge(3,4);
+      g.addEdge(2,1);
+      g.addEdge(1,0);
+      g.addEdge(4,0);
+      topologicalSort(g);
+  }
+  
+  public static void topologicalSort( Graph g)
+  {
+    int[] indegree = findIndegree(g);
+    Queue<Integer> q = new LinkedList<Integer>();
+    int cycle = 0;
+    for( int i = 0; i < indegree.length; i++ )
+      if( indegree[i] == 0)
+        q.offer(i);
+    while( !q.isEmpty() )
+    {
+       int count = 0;
+       int u = q.poll();
+       System.out.print(u+" ");
+       int v = getAdj(u,g,count);
+       while( v != -1 )
+       {
+        if( --indegree[v] == 0)
+            q.offer(v);
+        v = getAdj(u,g,count++);
+       }
+    }
+  }
+  
+  public static int[] findIndegree( Graph g )
+  {
+    int[] indegree = new int[g.vertexCount];
+    for( int i = 0; i < g.vertexCount; i++ )
+    {
+      for( int j = 0; j <  g.adjL[i].size(); j++ )
+      {
+        indegree[g.adjL[i].get(j)]++;
+      }
+    }
+    return indegree; 
+  }
+  
+  public static int getAdj( int u, Graph g, int count )
+  {
+    if( count < g.adjL[u].size()  )
+     return g.adjL[u].get(count); 
+    return -1;
+  }      
+}

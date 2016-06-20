@@ -1,0 +1,70 @@
+//Iterative BFS
+//While traversing a graph a visited array is very important as it prevents us from 
+//visiting nodes that have already been visited because a graph might contain cycles whereas a tree cannot
+import java.util.LinkedList;
+import java.util.Queue;
+class Graph
+{
+  int vertexCount;
+  LinkedList<Integer>[] adjL ;
+  
+  public Graph( int vertexCount )
+  {
+    this.vertexCount = vertexCount;
+    adjL = new LinkedList[vertexCount];
+    for( int i = 0; i<vertexCount; i++)
+        adjL[i] = new LinkedList();
+  }
+  
+  public void addEdge( int u, int v)
+  {
+    adjL[u].add(v);
+  }
+}
+public class IterativeBFS
+{
+  public static void main( String[] args )
+  {
+    Graph g = new Graph(5);
+    g.addEdge(0,3);
+    g.addEdge(3,4);
+    g.addEdge(0,2);
+    g.addEdge(2,1);
+    g.addEdge(1,0);
+    g.addEdge(4,0);
+    iterativeBFS(g);
+  }
+  
+  public static void iterativeBFS( Graph g )
+  {
+    Queue<Integer> q = new LinkedList<Integer>();
+    boolean[] visited = new boolean[g.vertexCount];
+    visited[0]= true;
+    q.offer(0);
+    System.out.print(0+" ");
+    while( !q.isEmpty() )
+    {
+       int v = getAdj(q.peek(),g,visited);
+      while( v != - 1 )
+      {
+        q.offer(v);
+        visited[v] = true;
+        System.out.print(v+" ");
+        v = getAdj(q.peek(),g,visited);
+      }
+      q.poll();
+    }
+  }
+  
+  public static int getAdj( int u, Graph g, boolean[] visited )
+  {
+    for( int i = 0; i<g.adjL[u].size() ; i++)
+    {
+      if( visited[g.adjL[u].get(i)] != true ) 
+      {
+        return g.adjL[u].get(i);
+      }
+    }
+    return -1;
+  }
+}

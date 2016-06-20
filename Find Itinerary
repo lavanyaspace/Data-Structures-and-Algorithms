@@ -1,0 +1,33 @@
+//Find Itinerary
+
+import java.util.HashMap;
+public class Itinerary
+{
+  public static void main( String[] args )
+  {
+    String[][] route = {{"Goa","Chennai"},{"Delhi","Goa"},{"Bombay","Delhi"},{"Chennai","Banglore"}};
+    findItinerary(route);
+  }
+  
+  public static void findItinerary(String[][] route)
+  {
+    HashMap<String,String> map = new HashMap<String,String>();
+    for( int i = 0; i<route.length; i++ )
+    {
+      map.put(route[i][0],route[i][1]);
+    }
+    for( int i = 0; i<route.length; i++ )
+    {
+      if( map.containsValue(route[i][0]) == false )
+      {
+        System.out.println("("+route[i][0]+","+map.get(route[i][0])+")"+" ");
+        String r = route[i][0];
+        while( map.get(map.get(r)) != null )
+        {
+          System.out.println("("+map.get(r)+","+map.get(map.get(r))+")"+" ");
+          r= map.get(r);
+        }
+      }
+    }
+  }
+}

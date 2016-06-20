@@ -1,0 +1,87 @@
+//Print Binary Tree in Vertical Order
+//Nodes with different Horizontal Distance will be on a different line
+//HD of root is 0 LS is -1 and RS is 1
+// Binary Tree Node
+import java.util.*;
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+public class VerticalOrderBT
+{
+  public static void main( String[] args )
+  {
+     BTN root = new BTN(0);
+     root.setLeft(new BTN(1));
+     root.getLeft().setLeft( new BTN(2));
+     root.getLeft().setRight( new BTN(3));
+     root.getLeft().getRight().setLeft( new BTN(4));
+     //root.getLeft().getRight().getLeft().setRight( new BTN(9));
+     //root.getLeft().getRight().getLeft().getRight().setLeft( new BTN(10));
+     //root.getLeft().getRight().getLeft().getRight().getLeft().setRight( new BTN(11));
+     root.getLeft().getRight().setRight( new BTN(5));
+     root.setRight(new BTN(6));
+     root.getRight().setRight( new BTN(7));
+     root.getRight().getRight().setLeft(new BTN(8));
+    
+     HashMap<Integer,List<Integer>> map = new HashMap<Integer,List<Integer>>();
+     map = printVerticalOrder(root,0,map);
+     Iterator entry = map.entrySet().iterator();
+     while(entry.hasNext())
+     {
+       HashMap.Entry e = (HashMap.Entry) entry.next();
+       Object key = e.getKey();
+       System.out.println(e.getValue());
+     }
+  }
+  
+  public static HashMap<Integer,List<Integer>> printVerticalOrder( BTN root, int hd, HashMap<Integer,List<Integer>> map )
+  {
+    if( root == null ) return map;
+    
+    printVerticalOrder( root.getLeft(), hd-1, map);
+    
+    List<Integer> list = map.get(hd);
+    if( list == null )
+      list = new ArrayList<Integer>();
+    list.add(root.getData());
+    map.put( hd, list );
+   
+    printVerticalOrder( root.getRight(), hd+1, map);
+    return map;
+    
+    
+  }
+}

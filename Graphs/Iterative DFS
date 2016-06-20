@@ -1,0 +1,71 @@
+//Iterative DFS
+import java.util.LinkedList;
+import java.util.Stack;
+class Graph
+{
+  int vertexCount;
+  LinkedList<Integer>[] adjL ;
+  
+  public Graph( int vertexCount )
+  {
+    this.vertexCount = vertexCount;
+    adjL = new LinkedList[vertexCount];
+    for( int i = 0; i<vertexCount; i++)
+        adjL[i] = new LinkedList();
+  }
+  
+  public void addEdge( int u, int v)
+  {
+    adjL[u].add(v);
+  }
+}
+
+
+public class IterativeDFS
+{
+  public static void main( String[] args )
+  {
+    Graph g = new Graph(5);
+    g.addEdge(0,3);
+    g.addEdge(3,4);
+    g.addEdge(0,2);
+    g.addEdge(2,1);
+    g.addEdge(1,0);
+    g.addEdge(4,0);
+    iterativeDFS(g);
+  }
+  
+  public static void  iterativeDFS( Graph g )
+  {
+    Stack<Integer> s = new Stack<Integer>();
+    boolean[] visited = new boolean[g.vertexCount];
+    
+    visited[0] = true;
+    s.push(0);
+    System.out.print("0 ");
+    while( !s.isEmpty() )
+    {
+      int v = getAdj(s.peek(),visited,g);
+      if( v == -1 )
+        s.pop();
+      else
+      {
+        visited[v] = true;
+        s.push(v);
+        System.out.print(v+" ");
+      }
+    } 
+  }
+  
+  public static int getAdj( int v, boolean[] visited, Graph g )
+  {
+    for( int i = 0; i< g.vertexCount; i++ )
+    {
+    	if( g.adjL[v].contains(i) && !visited[i])
+          return i;
+    }
+    return -1;
+  }
+  
+  
+}

@@ -1,0 +1,47 @@
+//Length of the longest subarray with equal number of 0's and 1's.
+import java.util.*;
+public class EqualOnesZerosSubarray
+{
+  public static void main( String[] args )
+  {
+    int[] a = {1, 0, 1, 1, 1, 0, 0};
+    getSub(a);
+  }
+  
+  public static void getSub( int[] a )
+  {
+    int[] sum = new int[a.length];
+    sum[0] = ( a[0] == 1 ) ? 1 : -1;
+    int min = sum[0], max = sum[0];
+    int max_len = 0;
+    for( int i = 1; i< a.length; i++ )
+    {
+      if( a[i] == 0)
+        sum[i] = sum[i-1] - 1;
+      else
+      	sum[i] = sum[i-1] + 1;
+      if( sum[i] < min ) min = sum[i];
+      if( sum[i] > max ) max = sum[i];
+    }
+    
+    HashMap<Integer, Integer> map = new HashMap<Integer,Integer>( max-min+1 );
+    
+    for( int i = 0; i< sum.length; i++ )
+    {
+      if( sum[i] == 0 )
+        if( max_len < i+1) max_len = i+1 ;
+    }
+    
+     for( int i = 0; i< sum.length; i++ )
+    {
+      if( map.get(sum[i]) != null )
+      {
+      	if( max_len < i - map.get(sum[i])) 
+          max_len = i - map.get(sum[i]);
+      }
+      else
+        map.put(sum[i],i);
+    }
+    System.out.println(max_len);
+  }
+}

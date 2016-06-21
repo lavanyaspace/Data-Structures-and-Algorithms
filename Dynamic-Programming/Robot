@@ -1,0 +1,21 @@
+import java.util.*;
+public class RobotGrid
+{
+  public static void main( String[] args )
+  {
+    HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
+    findingPath(0,0,3,3,map);
+  }
+  
+  public static void findingPath( int si, int sj, int ei, int ej, HashMap<Integer,Integer> map )
+  {
+    if( si> ei || sj> ej) return 0;
+    if( si == ei && sj == ej+1 || si+1 == ei && sj == ej )
+      return 1;
+    if( map.get(ei) != null && map.get(ei) == map.get(ej-1) ||  map.get(ei-1) != null && map.get(ei) == map.get(ej-1) )
+      return 1;
+    int a = findingPath( si, sj, ei, ej-1, map ); 
+    int b = findingPath( si, sj, ei-1, ej, map );
+    return 
+  }
+}

@@ -1,0 +1,116 @@
+//Largest subtree having idetical left and right subtrees
+// Binary Tree Node
+import java.util.*;
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+  
+  public class LargestIdeticalSubtree
+  {
+    
+    static HashMap<BTN,Integer> map = new HashMap<BTN,Integer>();
+    static BTN node;
+    static int max_size = 1;
+    
+    public static void main( String[] args )
+    {
+      BTN root = new BTN(0);
+      root.setLeft(new BTN(1));
+      root.getLeft().setLeft( new BTN(3));
+      root.getLeft().setRight( new BTN(3));
+      root.getLeft().getRight().setLeft( new BTN(4));
+     // root.getLeft().getLeft().setLeft( new BTN(4));
+      root.getLeft().getLeft().setRight( new BTN(5));
+      root.getLeft().getRight().setRight( new BTN(5));
+      root.setRight(new BTN(1));
+      root.getRight().setLeft(new BTN(3));
+      root.getRight().setRight( new BTN(3));
+      root.getRight().getLeft().setLeft( new BTN(4));
+      root.getRight().getLeft().setRight( new BTN(5));
+      root.getRight().getRight().setRight( new BTN(5));
+      root.getRight().getRight().setLeft(new BTN(4));
+      findBTSize(root);
+      /*Iterator i = map.entrySet().iterator();
+      while( i.hasNext() )
+      {
+        HashMap.Entry e = (HashMap.Entry) i.next();
+        System.out.println(e.getValue());
+      }*/
+      identicalSubtree( root);
+      if( node != null )
+      	System.out.println(node.getData());
+      else 
+        System.out.println(" No such subtree exists ");
+    }
+   
+    public static int findBTSize( BTN root )
+    {
+      if ( root == null ) return 0;
+  	  int size = findBTSize(root.getLeft()) + findBTSize(root.getRight()) + 1 ;
+      map.put(root,size);
+      return size;
+    }
+    
+    public static void identicalSubtree( BTN root )
+    {
+      if( root == null ) return;
+      boolean r = findSubtree( root.getLeft(),root.getRight());
+      if ( r == true &&  max_size < map.get(root) ) 
+      {
+         max_size = map.get(root) ;
+         node = root;
+      }
+      else
+      {
+        identicalSubtree( root.getLeft());
+        identicalSubtree( root.getRight());
+      }
+    }
+    
+    public static boolean findSubtree( BTN left, BTN right)
+    {
+      if( left == null && right == null )
+        return true;
+      
+      if( left == null || right == null )
+        return false;
+      
+      if( left.getData() != right.getData() )
+        return false;
+      
+      return (findSubtree(left.getLeft(),right.getLeft()) && findSubtree(left.getRight(), right.getRight()));
+      
+    }
+}

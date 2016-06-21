@@ -1,0 +1,26 @@
+//Triple Step
+// A staircase can be climbed 1 step, 2 step, or 3 step at a time.
+//What is the number of different ways in which a staircase of n steps can be climbed
+//think of number of ways for climbing one stair, two stair..... subproblems.
+import java.util.HashMap;
+public class StaircaseDP
+{
+  public static void main( String[] args )
+  {
+    int n = 5;
+    // memoization
+    HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
+    System.out.println(tripleStep(n,map));
+  }
+  
+  public static int tripleStep( int n , HashMap<Integer,Integer> map )
+  {
+    if( n < 0 ) return 0;
+    if( n == 0 ) return 1;
+    if( map.get(n) != null )
+      return map.get(n);
+    int p = tripleStep(n-1,map) + tripleStep(n-2,map) + tripleStep(n-3,map);
+    map.put(n,p);
+    return p;
+  }
+}

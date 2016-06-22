@@ -1,0 +1,75 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) throws IOException {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        char[] stackArray;
+        int top;
+        int i,j,k;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine());
+          loop:
+        for( i=0 ; i<T ; i++ )
+            {
+            top = -1;
+            String input = br.readLine();
+            stackArray = new char[input.length()];
+           
+            for(j=0; input.charAt(j) != ')'&& input.charAt(j) != '}' && input.charAt(j) != ']' ; j++)
+                {
+                //System.out.println(j);
+                top++;
+                stackArray[top] = input.charAt(j);  
+            }
+           
+            for(k=j; k<input.length(); k++)
+                {
+                if(top == -1)
+                {
+                    System.out.println("NO");
+                    continue;
+                }
+                 
+                switch(input.charAt(k))
+                    {
+                    case ')':
+                        if(!((stackArray[top] == '(')))
+                        {
+                            System.out.println("NO");
+                            continue loop;
+                        }
+                    top = top -1;
+                    break;
+                    case ']':
+                        if(!((stackArray[top]) == '['))
+                        {
+                            System.out.println("NO");
+                            continue loop;
+                        }
+                    top = top -1;
+                    break;
+                    case '}':
+                    if(!((stackArray[top]) == '{'))
+                        {
+                            System.out.println("NO");
+                            continue loop;
+                        }
+                    top = top -1;
+                    break;
+                } 
+            }
+            if(k == input.length() && top == -1)
+                System.out.println("YES");
+            else
+                {
+                System.out.println("NO");
+            }
+                
+    }
+  }
+}

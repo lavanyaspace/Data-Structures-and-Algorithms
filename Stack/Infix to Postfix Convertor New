@@ -1,0 +1,71 @@
+import java.util.Stack;
+// Infix to Postfix - pgm doesnt know precedence !!!!
+public class InfixPostfix
+{
+  public static void main(String[] args)
+  {
+    String infix = "A+B*(C+(D/E)+F)+G";
+    //String infix = "A+B*C/D-E";
+    System.out.println(InfixtoPostfix(infix));
+  }
+  
+  public static String InfixtoPostfix(String infix)
+  {
+    if( infix.isEmpty() || infix.length() == 0  ) return null;
+    
+    Stack<Character> s = new Stack<Character>();
+    StringBuilder postfix = new StringBuilder();
+    
+    for( int i = 0; i < infix.length(); i++ )
+    {
+      char c = infix.charAt(i);
+      if( c == '(' )
+      {
+        int count = 1;
+        i = i+1;
+        s.push('(');
+        for(int j = 0 ; j < count ; j++ )
+        {
+          
+            i = i+1;
+          System.out.println(j+"  "+s.peek()+" "+infix.charAt(i));
+        	while(infix.charAt(i) != ')')
+        	{
+              System.out.println("here");
+          		if( infix.charAt(i) == '+' || infix.charAt(i) == '-' || infix.charAt(i) == '*' || infix.charAt(i) == '/' )
+          			s.push(infix.charAt(i));
+          		else if ( infix.charAt(i) == '(' )
+          		{
+            		count = count + 1;
+            		s.push('(');
+          		}
+          		else postfix.append(infix.charAt(i));
+          		i = i + 1;
+       		}
+         //System.out.println(new String(postfix));
+      
+        
+        	while(s.peek() != '(')
+          		postfix.append(s.pop());
+        	s.pop();
+          System.out.println(new String(postfix)+"  "+s.peek()+" "+infix.charAt(i));
+         
+       }
+      }
+       else if( c == '+' || c == '-' || c == '*' || c == '/' )
+       {
+        
+         while( !s.isEmpty() && (s.peek() == '*' || s.peek() == '/' || s.peek() == '+' && c == '+' || s.peek() == '+' && c == '-' || s.peek() == '-' && c == '+'||s.peek() == '-' && c == '-'))
+           postfix.append(s.pop());
+        
+         s.push(c);
+       }
+        else if(c != ')')
+          postfix.append(c);
+    }
+      while(!s.isEmpty())
+     	postfix.append(s.pop());
+      
+    return new String(postfix);
+  }  
+}

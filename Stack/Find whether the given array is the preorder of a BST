@@ -1,0 +1,30 @@
+//Find whether the given array is the preorder of a BST
+import java.util.*;
+public class PreOrderBST
+{
+  public static void main ( String[] args )
+  {
+    int[] a = {2, 4, 3};
+    System.out.println(checkPreorder(a));
+  }
+  
+  public static boolean checkPreorder( int[] a)
+  {
+    if( a == null || a.length == 0 ) return false;
+    Stack<Integer> s = new Stack<Integer>();
+    int root = Integer.MIN_VALUE;
+    
+    for( int i = 0; i<a.length; i++ )
+    {
+      if( a[i] > root )
+      {
+        while( !s.isEmpty() && s.peek() < a[i] )
+          root = s.pop();
+        s.push(a[i]);
+      }
+      else{ return false;};
+    }
+    
+    return true;
+  }
+}

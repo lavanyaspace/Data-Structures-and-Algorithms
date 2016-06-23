@@ -1,0 +1,35 @@
+//Bit Manipulation
+//Converting a real number between 0 to 1 to binary
+public class RealToBinary
+{
+  public static void main( String[]  args )
+  {
+    System.out.println(toBinary(.34));
+  }
+  
+  public static String toBinary(double n)
+  {
+    if( n >= 1 || n <=0 )
+      return "ERROR";
+    StringBuilder binary = new StringBuilder();
+    binary.append(".");
+    double r = n;
+    while( r > 0 )
+    {
+      
+      if( binary.length() >= 32 )
+       return "ERROR";
+      r =  r * 2;
+      if( r >= 1)
+      {
+        binary.append("1");
+        r = r - 1;
+      }
+      else
+        binary.append("0");
+      System.out.println(binary.length());
+      
+    }
+    return binary.toString();
+  }
+}

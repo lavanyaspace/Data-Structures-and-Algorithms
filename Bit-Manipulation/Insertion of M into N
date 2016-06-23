@@ -1,0 +1,19 @@
+//Bit Manipulation
+//Insertion of M into N
+public class BinaryInsert
+{
+  public static void main( String[]  args )
+  {
+    System.out.println(insert(90,23,7,11));
+  }
+  
+  public static int insert(int N, int M, int i, int j)
+  {
+    int mask,mask1,mask2;
+    mask1 = ( 1 << i ) - 1;
+    mask2 = ( 1 << j+1) -1;
+    mask2 = ~mask2;
+    mask = mask1 | mask2;
+    return N & mask | M << i;
+  }
+}

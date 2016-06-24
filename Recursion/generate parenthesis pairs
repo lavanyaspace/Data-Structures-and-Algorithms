@@ -1,0 +1,41 @@
+//n parenthesis pairs all valid combinations without duplicates
+import java.util.*;
+public class ParenthesisCombinations
+{
+  public static void main( String[] args )
+  {
+    generateCombos(10);
+  }
+  
+  public static void generateCombos( int count )
+  {
+    char[] str = new char[count*2];
+    ArrayList<String> list = new ArrayList<String>();
+    generatePare(list,count,count,str,0);
+    for( int i = 0; i < list.size(); i++ )
+      System.out.println(list.get(i));
+  }
+  
+  public static void generatePare( ArrayList<String> list, int leftRem, int rightRem, char[] str, int count )
+  {
+    if( leftRem < 0 || rightRem < leftRem ) return;
+    if( leftRem == 0 && rightRem == 0)
+    {
+      String s = String.copyValueOf(str);
+      list.add(s);
+    }
+    else
+    {
+      if( leftRem > 0 )
+      {
+        str[count] = '(';
+        generatePare(list,leftRem-1,rightRem,str,count+1);
+      }
+      if( rightRem > leftRem)
+      {
+        str[count] = ')';
+        generatePare(list,leftRem,rightRem-1,str,count+1);
+      } 
+    }
+  }
+}

@@ -1,0 +1,58 @@
+//generate all subsets of a set
+//recursive approach - base case and build approach
+import java.util.*;
+public class Subsets
+{
+  public static void main( String[] args )
+  {
+    ArrayList<Integer> set = new ArrayList<Integer>();
+    set.add(5);
+    set.add(3);
+    set.add(1);
+    set.add(8);
+    set.add(10);
+    set.add(11);
+    set.add(56);
+    set.add(12);
+    set.add(0);
+    set.add(9);
+    int count = 0;
+    ArrayList<ArrayList<Integer>> ans = genSubsets(set,0);
+    for( ArrayList<Integer> subset : ans )
+    {
+      for( int i = 0; i< subset.size(); i++ )
+      {
+        System.out.print(subset.get(i)+" ");
+     
+      }
+      count++;
+      System.out.println();
+    }
+    System.out.println(count);
+  }
+  public static ArrayList<ArrayList<Integer>> genSubsets( ArrayList<Integer>set, int index )
+  {
+   	ArrayList<ArrayList<Integer>> allSubsets = new ArrayList<ArrayList<Integer>>();
+    if( index == set.size() )
+    {
+      allSubsets.add(new ArrayList<Integer>());
+    }
+    else
+    {
+      ArrayList<ArrayList<Integer>> moreSubsets = new ArrayList<ArrayList<Integer>>();
+      allSubsets = genSubsets( set, index +1 );
+      int item = set.get(index);
+      for( ArrayList<Integer> subset : allSubsets )
+      {
+        ArrayList<Integer> newSubset = new ArrayList<Integer>();
+        newSubset.addAll(subset);
+        newSubset.add(item);
+        moreSubsets.add(newSubset);
+        
+      }
+      allSubsets.addAll(moreSubsets);
+    }
+    return allSubsets;
+  }
+  
+}

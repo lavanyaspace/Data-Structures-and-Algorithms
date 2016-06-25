@@ -1,0 +1,67 @@
+//Largest Multiple of 3
+import java.util.*;
+public class LargestMultiple
+{
+  public static void main( String[] args )
+  {
+    int[] digit = {8,3,4,5,2,7};
+    findMultiple(digit);
+  }
+  
+   public static void findMultiple( int[] digit )
+   {
+     Queue<Integer> q0 = new LinkedList<Integer>();
+     Queue<Integer> q1 = new LinkedList<Integer>();
+     Queue<Integer> q2 = new LinkedList<Integer>();
+     Arrays.sort(digit);
+     int digit_sum = 0;
+     for( int i = 0; i<digit.length; i++ )
+     {
+       digit_sum += digit[i];
+       int rem = digit[i] % 3; 
+       switch( rem )
+       {
+         case 0: q0.offer(digit[i]);
+         break;
+         case 1: q1.offer(digit[i]);
+         break;
+         case 2: q2.offer(digit[i]);
+         break;
+       }
+     }
+     
+     int rem = digit_sum % 3;
+     boolean flag = false;
+     switch( rem )
+     {
+       case 1: if( !q1.isEmpty() ) q1.poll();
+       		   else if( q2.size() >= 2 ){q2.poll(); q2.poll();}
+               else {System.out.println("Number not possible"); flag = true;}
+               break;
+       case 2: if( !q2.isEmpty() ) q2.poll();
+       		   else if( q1.size() >= 2 ){q1.poll(); q1.poll();}
+               else {System.out.println("Number not possible"); flag = true;}
+               break;
+     }
+     
+     ArrayList<Integer> ans = new  ArrayList<Integer>();
+     if( !flag )
+     {
+       while( !q0.isEmpty() ) ans.add( q0.poll());
+       while( !q1.isEmpty() ) ans.add( q1.poll());
+       while( !q2.isEmpty() ) ans.add( q2.poll());
+     }
+     //sorts the collection in ascending order
+     //Collections.sort(ans);
+     //for descending use Comparator
+     
+     Collections.sort( ans, new Comparator<Integer>(){
+       public int compare( Integer num1, Integer num2){ 
+         return ( num1.intValue() == num2.intValue())? 0 : ( num1.intValue() < num2.intValue())? 1 : -1;
+       }});
+     
+    
+     
+     System.out.println(ans.toString());
+   }
+}

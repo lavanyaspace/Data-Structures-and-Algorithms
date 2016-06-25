@@ -1,0 +1,46 @@
+//8 Queens problem
+import java.util.*;
+public class EightQueen
+{
+  static int GRID_SIZE = 8;
+  public static void main( String[] args )
+  {
+    Integer[] columns = new Integer[8];
+    ArrayList<Integer[]> r = new ArrayList<Integer[]>();
+    placeQueens(columns,0,r);
+    for( int c = 0; c < GRID_SIZE; c++ )
+      System.out.println(columns[c]);
+  }
+  
+  public static void placeQueens( Integer[] columns, int row, ArrayList<Integer[]> r)
+  {
+    if( row == GRID_SIZE )
+      r.add(columns.clone());
+    else
+    {
+      for( int column = 0; column < GRID_SIZE; column++ )
+      {
+        if(validLoc(row,column,columns))
+        {
+          columns[row] = column;
+          placeQueens(columns,row+1,r);
+        }
+      }
+    }
+  }
+  
+  public static boolean validLoc(int row1, int column1, Integer[] columns)
+  {
+    for( int row2 = 0; row2 < row1; row2++ )
+    {
+      int column2 = columns[row2];
+      if( column2 == column1 )
+        return false;
+      int columnDiff = Math.abs( column1 -column2 );
+      int rowDiff = row1 - row2;
+      if( columnDiff == rowDiff )
+        return false;
+    }
+    return true;
+  }
+}

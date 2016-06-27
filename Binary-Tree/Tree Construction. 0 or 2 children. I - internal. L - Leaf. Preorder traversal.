@@ -1,0 +1,72 @@
+// Binary Tree Node
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+//Tree Construction. 0 or 2 children. I - internal. L - Leaf. Preorder traversal.
+public class BTConstruction
+{
+  public static void main( String[] args )
+  {
+    String preOrder = "ILILL";
+    constructBT(preOrder);
+  }
+  
+  public static void constructBT( String preOrder )
+  {
+    BTN root = construct(preOrder,0);
+    preOrder(root);
+  }
+  
+  public static BTN construct( String preOrder, int start )
+  {
+    if( start >= preOrder.length() ) return null;
+    BTN root = new BTN( preOrder.charAt(start));
+    if( preOrder.charAt(start) == 'I' )
+    {
+      root.setLeft(construct( preOrder, ++start ));
+      root.setRight(construct( preOrder, ++start ));
+    }
+    return root;
+  }
+  public static void preOrder( BTN root )
+  {
+    if( root != null)
+    {
+    	System.out.print(root.getData()+" ");
+    	preOrder( root.getLeft() );
+    	preOrder( root.getRight() );
+    }
+  }
+}

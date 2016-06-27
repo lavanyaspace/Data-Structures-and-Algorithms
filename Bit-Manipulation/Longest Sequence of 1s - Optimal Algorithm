@@ -1,0 +1,35 @@
+//Bit Manipulation.
+//Longest sequence of 1s when one bit(0) can be flipped.
+//Optimal Approach O(1) space  O(b) time.
+
+public class LongestSequence
+{
+  public static void main( String[] args )
+  {
+    int n = 10;
+    System.out.println(getLongestSequence(n));
+  }
+  
+  public static int getLongestSequence( int n )
+  {
+    if( ~0 == n ) return Integer.BYTES * 8; 
+    
+    int prevLen = 0;
+    int curLen = 0;
+    int maxLen = 1;
+    while( n != 0 )
+    {
+      if( (n&1) == 1 )
+        curLen++;
+      else if((n&1) == 0 )
+      {
+        prevLen = ( (n & 2)  == 0 )?0:curLen;
+        curLen = 0;
+      }
+      
+      maxLen = Math.max( maxLen, prevLen + curLen + 1 );
+      n >>>= 1;
+    }
+    return maxLen;
+  }
+}

@@ -1,0 +1,65 @@
+//Bit Manipulation.
+//Longest sequence of 1s when one bit(0) can be flipped.
+//Brute Force Method O(b) space  O(b) time.
+import java.util.*;
+
+public class LongestSequence
+{
+  public static void main( String[] args )
+  {
+    int n = 10;
+    Integer num = n;
+    System.out.println(Integer.toBinaryString(num));
+    System.out.println(findSequence(n));
+  }
+  public static int findSequence( int n )
+  {
+    if( n == -1) return Integer.BYTES * 8;
+    ArrayList<Integer> seq = getCountArray(n);
+    return getSeqLength(seq);
+  }
+  
+  public static ArrayList<Integer> getCountArray( int n )
+  {
+    ArrayList<Integer> seq = new ArrayList<Integer>();
+   	int counter = 0;
+    int searchingFor = 0;
+    
+    for( int i = 0; i< Integer.BYTES * 8; i++ )
+    {
+      if( (n & 1) != searchingFor )
+      {
+        seq.add(counter);
+        counter = 0;
+        searchingFor = n & 1; 
+      }
+      counter++;
+      n >>>= 1;  
+    }
+    
+    seq.add(counter);
+    return seq;
+  }
+  
+  public static int getSeqLength( ArrayList<Integer> seq )
+  {
+    int maxLen = 1;
+    for( int i = 0; i< seq.size(); i+= 2 )
+    {
+      int zeroLen = seq.get(i);
+      int rightOneLen = ( i-1 >= 0 )? seq.get(i-1):0;
+      int leftOneLen = ( i+1 < seq.size() )? seq.get(i+1):0;
+      int curLen = 0;
+      if( zeroLen == 1 )
+        curLen = rightOneLen + leftOneLen + 1;
+      else if( zeroLen > 1 )
+        curLen = Math.max( rightOneLen, leftOneLen ) + 1;
+      else if( zeroLen == 0 )
+        curLen = Math.max( rightOneLen, leftOneLen );
+        
+      maxLen = Math.max( curLen, maxLen );
+    }
+    return maxLen;
+  }
+  
+} 

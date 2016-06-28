@@ -1,0 +1,15 @@
+//Pairwise swap of the binary numbers
+public class BinarySwap
+{
+  public static void main( String[] args )
+  {
+    int n = 70;
+    swapPair(n);
+  }
+   
+  public static void swapPair( int n )
+  {
+    n = ((n & 0xaaaaaaaa) >>> 1) | (( n & 0x55555555 ) << 1);
+    System.out.println(n);
+  }
+}

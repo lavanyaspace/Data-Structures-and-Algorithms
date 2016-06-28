@@ -1,0 +1,41 @@
+//Draw a line
+public class Line
+{
+  public static void main( String[]  args )
+  {
+    byte[] screen = new byte[104];
+    int width = 8;
+    int x1 = 25;
+    int x2 = 62;
+    int y = 10;
+    drawLine(screen,width,x1,x2,y);
+    //System.out.println(screen);
+  }
+  
+  public static void drawLine( byte[] screen, int width, int x1, int x2, int y )
+  {
+    int height = screen.length / width;
+    //check if co-ordinates are valid
+    if( x1 > x2 || x1 < 0 || x2 >= width * 8 || y < 0 || y >= height || width > screen.length || screen.length % width != 0 )
+      return;
+    int startByte = x1/8;
+    int endByte = x2/8;
+    //System.out.println(endByte);
+    //setting all full bytes
+    for( int i = startByte + 1; i < endByte; i++ )
+    {
+      screen[i] = (byte) (screen[i] | (byte)(~0));
+      //System.out.println(screen[i]);
+    }
+    
+    int startOneCount = 8 - (x1 - (startByte * 8 ));
+    int endOneCount = x2 - (endByte * 8 - 1);
+    byte startMask = (byte)((1 << startOneCount) - 1) ;
+    byte endMask = (byte)((( 1 << endOneCount ) - 1) << ( 8 - endOneCount )) ;
+    screen[startByte] |= startMask;
+    screen[endByte] |= endMask;
+    
+    for( int i = 0; i < screen.length; i++ )
+      System.out.println(screen[i]);
+  }
+}

@@ -1,0 +1,174 @@
+//Heap Data Structure - Min heap
+//toString() worked only when I made it public
+//always check border cases and validity conditions
+public class Heap
+{
+  int[] heap;
+  int capacity;
+  int size;
+  //constructor
+  public Heap( int capacity )
+  {
+    this.capacity = capacity;
+    heap = new int[capacity];
+    size = 0;
+  }
+  
+  //parent
+  int getParent( int i )
+  {
+    if( i < 0 || i >= size )
+      return - 1;
+    return (i - 1) / 2;
+  }
+  //left child
+  int leftChild( int i )
+  {
+    if( i < 0 || i >= size )
+      return - 1;
+    int lChild = 2 * i + 1;
+    if( lChild >= size) return -1;
+    return lChild;
+  }
+  //right child
+  int rightChild( int i )
+  {
+    if( i < 0 || i >= size )
+      return -1;
+    int rChild = 2 * i + 2;
+    if( rChild >= size ) return -1;
+    return rChild;
+  }
+  //get min
+  int getMin()
+  {
+    if( size == 0 )
+      return Integer.MIN_VALUE;
+    return heap[0];
+  }
+  //Percolate Down
+  void percolateDown( int i )
+  {
+    int min,temp;
+    int l = leftChild(i);
+    int r = rightChild(i);
+    if( l != -1 && heap[l] < heap[i] )
+      min = l;
+    else 
+      min = i;
+    if( r != -1 && heap[r] < heap[min] )
+      min = r;
+    if( min != i )
+    {
+      temp = heap[i];
+	  heap[i] = heap[min];
+      heap[min] = temp;
+      percolateDown(min);
+    }
+  }
+  //delete minimum
+  int delete()
+  {
+    if( size == 0 ) return Integer.MIN_VALUE;
+    int d = heap[0];
+    heap[0] = heap[size-1];
+    size--;
+    percolateDown(0);
+    return d;
+  }
+  //Percolate Up
+  void percolateUp( int i )
+  {
+    int p = getParent(i);
+    int temp;
+    if( i != -1 &&  heap[i] < heap[p] )
+    {
+      temp = heap[p];
+      heap[p] = heap[i];
+      heap[i] = temp;
+      percolateUp(p); 
+    } 
+  }
+  //insert
+  void insert( int e )
+  {
+    if( size == capacity )
+      resize();
+    heap[size] = e;
+    size++;
+    percolateUp(size - 1);
+  }
+  int getElement( int i )
+  {
+    if( i < 0 || i >= size ) return Integer.MIN_VALUE;
+    return heap[i];
+  }
+  //resize
+  void resize()
+  {
+    capacity <<= 1;
+    int[] newArray = new int[capacity];
+    System.arraycopy(heap,0,newArray,0,size);
+    heap = newArray;
+  }
+  //O(n)
+  void buildHeap( int[] a )
+  {
+    if( a.length > capacity )
+      resize();
+    for( int i = 0; i< a.length; i++ )
+    	heap[i] = a[i];
+    size = a.length;
+    for( int i = (a.length - 2)/2; i>=0; i-- )
+    	percolateDown(i);
+  }
+  public boolean isEmpty()
+  {
+    return (size==0); 
+  }
+  public String toString()
+  {
+    StringBuilder build = new StringBuilder();
+    build.append("[");
+    for( int i = 0; i < size - 1; i++ )
+    	build.append(heap[i]+",");
+    build.append(heap[size-1]+"]");
+    return new String(build);
+  }
+}
+
+public class KthMin
+{
+  public static void main( String[] args )
+  {
+    Heap h = new Heap(5);
+    int[] a = { 1,9,0,3,4,7,8 };
+    h.buildHeap(a);
+    System.out.println(h.toString());
+    int min = h.getMin();
+    System.out.println(min);
+    System.out.println(h.toString());
+    Heap hAux = new Heap(5);
+    hAux.insert(min);
+    System.out.println(findKthMin(4,h,hAux));
+  }
+  
+  public static int findKthMin( int k, Heap h, Heap hAux )
+  {
+    int count = 1;
+    while( !hAux.isEmpty() )
+    {
+      if(count == k)
+       	return hAux.getMin();
+      else
+      {
+        int e = hAux.delete();
+        System.out.println(e);
+        hAux.insert(h.getElement(h.leftChild(count-1)));
+        hAux.insert(h.getElement(h.rightChild(count-1)));
+        count++;
+      }
+    }
+    return Integer.MIN_VALUE;
+  }
+}

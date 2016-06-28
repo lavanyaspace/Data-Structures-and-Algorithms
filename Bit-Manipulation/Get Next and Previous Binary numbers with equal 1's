@@ -1,0 +1,79 @@
+//Get the next binary number with equal number of 1's
+//The first non-trailing zero is flipped to 1.
+//clear all bits after this 1.
+//count the number of 1's after this zero and set number of 1's - 1 1s at the rightend 
+
+public class BinaryNumber
+{
+  public static void main( String[] args )
+  {
+    int n = 10;
+    System.out.println(getNext(n));
+    System.out.println(getPrev(n));
+  }
+  
+  public static int getNext( int n )
+  {
+    int oneCount = 0;
+    int zeroCount = 0;
+    int c = n;
+    
+    while( (c&1) == 0 && c != 0)
+    {
+      zeroCount++;
+      c >>= 1;
+    }
+    
+    while( (c&1) == 1 )
+    {
+      oneCount++;
+      c >>= 1;
+    }
+    
+    if( oneCount + zeroCount == 31 || oneCount == 0 )
+      return -1;
+    
+    int p = oneCount + zeroCount;
+    
+    int mask = ( 1 << p );
+    n = n | mask; // set bit p
+    mask = ~(mask - 1) ;
+    n = n & mask; // clear bits after p
+    mask = 1;
+    mask = mask << (oneCount - 1);
+    mask = mask - 1;  // setting (oneCount - 1) 1's in the end
+    n = n | mask;
+    
+    return n;
+  }
+  
+  public static int getPrev( int n )
+  {
+    int c = n;
+    int oneCount = 0;
+    int zeroCount = 0;
+    
+    while( (c & 1) == 1 )
+    {
+      oneCount++;
+      c >>= 1;
+    }
+    
+    if( c == 0 ) return -1;
+    
+    while((c & 1) == 0 && c != 0 )
+    {
+      zeroCount++;
+      c >>= 1;
+    }
+    
+    int p = zeroCount + oneCount;
+    
+    //clear all bits from p.
+    n = n & ((~0) << ( p+1 ));
+    int mask = (1 << (oneCount+1)) - 1; //setting (oneCount+1) number of bits.
+    mask = mask << (zeroCount - 1);
+    n = n | mask;
+    return n; 
+  }
+}

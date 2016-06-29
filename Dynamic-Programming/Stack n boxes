@@ -1,0 +1,85 @@
+//Use arrayList only when its requirement is justified o.w use arrays
+//Stack n boxes
+import java.util.*;
+class Box
+{
+  int height;
+  int width;
+  int depth;
+  
+  public Box( int height, int weight, int depth )
+  {
+    this.height = height;
+    this.width = width;
+    this.depth = depth;
+  }
+}
+
+class BoxStack
+{
+  public static void main( String[] args )
+  {
+    Box b1 = new Box(1,2,3);
+    Box b2 = new Box(3,4,5);
+    Box b3 = new Box(6,7,8);
+    Box b4 = new Box(9,10,11);
+    Box b5 = new Box(5,6,7);
+    Box b6 = new Box(12,13,14);
+    Box b7 = new Box(10,11,12);
+    Box b8 = new Box(14,15,16);
+    Box b9 = new Box(13,14,15);
+    Box b10 = new Box(20,21,23);
+    
+    //Box array
+    Box[] box = { b1,b2,b3,b4,b5,b6,b7,b8,b9,b10 };
+    HashMap<Box,ArrayList<Box>> map = new HashMap<Box,ArrayList<Box>>();
+    ArrayList<Box> b = stackBox(box,null,map);
+    for( int i = 0; i<b.size(); i++ )
+        System.out.println(b.get(i).height);
+  }
+  
+  public static ArrayList<Box> stackBox( Box[] box, Box bottom, HashMap<Box,ArrayList<Box>> map )
+  {
+    if( bottom != null && map.containsKey(bottom))
+      return map.get(bottom); 
+    
+    ArrayList<Box> max_stack = null;
+    int max_height = 0;
+    for( int i =0; i<box.length; i++ )
+    {
+      if(canBeAbove(box[i],bottom))
+      {
+        ArrayList<Box> new_stack = stackBox(box,box[i],map);
+        int height = getHeight(new_stack);
+        if( height > max_height )
+        {
+          max_height = height;
+          max_stack = new_stack;
+        }
+      }
+    }
+    if( max_stack == null )
+      max_stack = new ArrayList<Box>();
+    if( bottom != null )
+      max_stack.add(0,bottom);
+    map.put(bottom,max_stack);
+    return (ArrayList<Box>)max_stack.clone();
+  }
+  public static boolean canBeAbove( Box box, Box bottom )
+  {
+    if( bottom == null ) return true;
+    if( bottom.height > box.height && bottom.width > box.width && bottom.depth > box.depth )
+      return true;
+    return false;
+  }
+  public static int getHeight( ArrayList<Box> new_stack )
+  {
+    int height = 0;
+    if( new_stack != null )
+    {
+    	for( Box b : new_stack )
+            height += b.height;
+    }
+    return height;
+  }
+}

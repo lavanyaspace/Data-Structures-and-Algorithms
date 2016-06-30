@@ -1,0 +1,86 @@
+//Print all possible topological sorts
+import java.util.*;
+class Graph
+{
+  int vertexCount;
+  LinkedList<Integer>[] adjL ;
+  @SuppressWarnings("unchecked")
+  public Graph( int vertexCount )
+  {
+    this.vertexCount = vertexCount;
+    adjL = new LinkedList[vertexCount];
+    for( int i = 0; i<vertexCount; i++)
+        adjL[i] = new LinkedList();
+  }
+  
+  public void addEdge( int u, int v)
+  {
+    adjL[u].add(v);
+  }
+}
+
+public class TopologicalSorts
+{
+  public static void main( String[] args )
+  {
+    Graph g = new Graph(6);
+    g.addEdge(5, 2);
+ 	g.addEdge(5, 0);
+ 	g.addEdge(4, 0);
+ 	g.addEdge(4, 1);
+ 	g.addEdge(2, 3);
+ 	g.addEdge(3, 1);
+ 	 
+    getOrderings(g);
+  }
+  
+  
+  public static void getOrderings( Graph g )
+  {
+    boolean[] visited = new boolean[g.vertexCount];
+    ArrayList<Integer> sort = new ArrayList<Integer>();
+    int[] indegree = findIndegree(g);
+    topologicalOrderings(g,visited,sort,indegree);
+  }
+
+  public static void topologicalOrderings( Graph g, boolean[] visited, ArrayList<Integer> sort, int[] indegree )
+  {
+    boolean flag = false;
+    for( int i = 0; i<g.vertexCount; i++ )
+    {
+      if( indegree[i]==0 && !visited[i])
+      {
+        //System.out.println(i);
+        visited[i] = true;
+        Iterator<Integer> j = g.adjL[i].iterator();
+      		while(j.hasNext())
+              indegree[j.next()]--;
+        sort.add(i);
+        topologicalOrderings( g, visited, sort, indegree );
+        sort.remove(sort.size()-1);
+        visited[i] = false;
+        j = g.adjL[i].iterator();
+        while(j.hasNext())
+        	indegree[j.next()]++;
+        flag = true;
+      }
+    }
+    if(!flag)
+      System.out.println(sort.toString());
+    
+  }
+  
+  public static int[] findIndegree( Graph g )
+  {
+    int[] indegree = new int[g.vertexCount];
+    for( int i = 0; i<g.vertexCount; i++ )
+    {
+      Iterator<Integer> j = g.adjL[i].iterator();
+      while(j.hasNext())
+        indegree[j.next()]++;
+    }
+    /*for( int i = 0; i<g.vertexCount; i++ )
+      System.out.println(indegree[i]);*/
+    return indegree;
+  }
+}

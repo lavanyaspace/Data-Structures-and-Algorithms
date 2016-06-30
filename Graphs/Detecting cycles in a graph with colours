@@ -19,7 +19,7 @@ class Graph
   }
 }
 
-public class IterativeBFS
+public class CycleDetection
 {
   public static void main( String[] args )
   {

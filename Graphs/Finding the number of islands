@@ -1,0 +1,73 @@
+//Finding the number of islands
+import java.util.*;
+class Graph
+{
+  int vertexCount;
+  LinkedList<Integer>[] adjL ;
+  @SuppressWarnings("unchecked")
+  public Graph( int vertexCount )
+  {
+    this.vertexCount = vertexCount;
+    adjL = new LinkedList[vertexCount];
+    for( int i = 0; i<vertexCount; i++)
+        adjL[i] = new LinkedList();
+  }
+  
+  public void addEdge( int u, int v)
+  {
+    adjL[u].add(v);
+  }
+}
+
+public class IslandsCount
+{
+  public static void main( String[] args )
+  {
+    int[][] adjMatrix = {{1, 1, 0, 0, 0}, {0, 1, 0, 0, 1}, {1, 0, 0, 1, 1}, {0, 0, 0, 0, 0}, {1, 0, 1, 0, 1}};
+    boolean[][] visited = new boolean[adjMatrix.length][adjMatrix[0].length];
+    System.out.println(findNumberOfIslands(adjMatrix,visited));
+  }
+  
+  public static int findNumberOfIslands( int[][] adjMatrix, boolean[][] visited )
+  {
+    int count = 0;
+    for( int i = 0; i < adjMatrix.length; i++ )
+    {
+      for( int j = 0; j < adjMatrix.length; j++ )
+      {
+        if( !visited[i][j] && adjMatrix[i][j] == 1 )
+        {
+          count++;
+          DFS( adjMatrix,visited,i,j);
+        }
+      }
+    }
+    return count;
+  }
+   public static void DFS(int[][] adjMatrix, boolean[][] visited, int i, int j )
+   {
+     visited[i][j] = true;
+     
+     int w = visited.length;
+     int h = visited[0].length;
+     
+     if( i+1 < w )
+     {
+       if( !visited[i+1][j] && adjMatrix[i+1][j] == 1 ) DFS( adjMatrix, visited, i+1, j );
+       if( j+1 < h && !visited[i+1][j+1] && adjMatrix[i+1][j+1] == 1 ) DFS( adjMatrix, visited, i+1, j+1 );
+       if( j-1 >= 0 && !visited[i+1][j-1] && adjMatrix[i+1][j-1] == 1 ) DFS( adjMatrix, visited, i+1, j-1 );
+     }
+     
+     if( i-1 >= 0 )
+     {
+      if( !visited[i-1][j] && adjMatrix[i-1][j] == 1 ) DFS( adjMatrix, visited, i-1, j );
+      if( j+1 < h && !visited[i-1][j+1] && adjMatrix[i-1][j+1] == 1  ) DFS( adjMatrix, visited, i-1, j+1 );
+      if( j-1 >= 0 && !visited[i-1][j-1] && adjMatrix[i-1][j-1] == 1 ) DFS( adjMatrix, visited, i-1, j-1 );
+     }
+    
+     if( j-1 >= 0 && !visited[i][j-1] && adjMatrix[i][j-1] == 1 ) DFS( adjMatrix, visited, i, j-1 );
+     if( j+1 < h && !visited[i][j+1] && adjMatrix[i][j+1] == 1 ) DFS( adjMatrix, visited, i, j+1 );
+     
+     
+   }
+}

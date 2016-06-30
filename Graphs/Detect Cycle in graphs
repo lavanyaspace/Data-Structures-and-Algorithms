@@ -1,0 +1,68 @@
+//Detect Cycles in a Graph 
+import java.util.*;
+class Graph
+{
+  
+  int vertexCount;
+  LinkedList<Integer>[] adjL ;
+  
+  public Graph( int vertexCount )
+  {
+    this.vertexCount = vertexCount;
+    adjL = new LinkedList[vertexCount];
+    
+    for( int i = 0; i<vertexCount; i++)
+        adjL[i] = new LinkedList();
+  }
+  
+  public void addEdge( int u, int v)
+  {
+    adjL[u].add(v);
+  }
+}
+public class GraphCycle
+{
+  public static void main( String[] args )
+  {
+    
+    Graph g = new Graph(5);
+    g.addEdge(0,3);
+    g.addEdge(3,4);
+    g.addEdge(0,2);
+    g.addEdge(2,1);
+    //g.addEdge(1,0);
+    //g.addEdge(4,0);
+    System.out.println(containsCycle(g));
+  }
+  
+  public static boolean containsCycle( Graph g )
+  {
+    boolean[] visited = new boolean[g.vertexCount];
+    boolean[] recStack = new boolean[g.vertexCount];
+    
+    for( int i = 0; i<g.vertexCount; i++ )
+      if(!visited[i])
+    	if(DFS(i,visited,recStack,g))
+      		return true;
+    return false;
+    
+   }
+  
+  public static boolean  DFS( int v, boolean[] visited, boolean[] recStack, Graph g)
+  {
+    visited[v] = true;
+    recStack[v] = true;
+    
+    Iterator<Integer> i = g.adjL[v].iterator();
+    while( i.hasNext() )
+    {
+      int u = i.next();
+      if( !visited[u] && DFS(u,visited,recStack,g))
+        return true;
+      else if( recStack[u] )
+        return true;
+    }
+    recStack[v] = false;
+    return false;
+  }
+}

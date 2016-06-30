@@ -1,0 +1,68 @@
+//Quick Sort
+public class QuickSort
+{
+  public static void main( String[] args )
+  {
+    int[] a = {1,4,24,7,2,9,10,34,5};
+    quickSort(a);
+    for( int k = 0; k < a.length; k++ )
+       		System.out.print(a[k]+" ");
+  }
+  
+  public static void quickSort( int[] a )
+  {
+    qSort( a, 0, a.length-1 );
+  }
+  
+   public static void qSort( int[] a, int start, int end )
+   {
+     if( start < end )
+     {
+       int pivot = getPivot(a,start,end);
+       //System.out.println(pivot);
+       int i = start;
+       int j = end;
+       for(;;)
+       {
+         while( a[++i] < pivot ){}
+         while( a[--j] > pivot ){}
+         if( i < j )
+           swap(a,i,j);
+         else 
+           break;
+       }
+       if( !(start+1 == end))
+       swap(a,i,end);
+       qSort(a,start,i-1);
+       qSort(a,i+1,end);
+     }
+   }
+  
+   public static int getPivot( int[] a, int start, int end )
+   {
+     int center = (start + end) / 2; 
+  
+     if( a[start] > a[center] )
+       swap( a, start, center );
+
+     if( a[start] > a[end])
+       swap( a, start, end );
+     
+     if( a[center] > a[end])
+       swap( a, center, end );
+     
+     if(!(start+1 == end) )
+       swap( a, center, end);
+     
+     
+     return a[end];
+     
+   }
+  
+   public static void swap( int[] a, int left , int right )
+   {
+     int temp = a[left];
+     a[left] = a[right];
+     a[right] = temp;
+   }
+}

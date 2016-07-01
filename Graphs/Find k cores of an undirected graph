@@ -1,0 +1,111 @@
+//Find k cores of an undirected graph
+import java.util.*;
+class Graph
+{
+  int vertexCount;
+  LinkedList<Integer>[] adjL;
+  @SuppressWarnings("unchecked")
+  public Graph( int count )
+  {
+    vertexCount = count;
+    adjL = new LinkedList[vertexCount];
+    for( int i = 0; i< vertexCount; i++ )
+      adjL[i] = new LinkedList();
+  }
+  //undirected edge
+  public void addEdge( int u, int v )
+  {
+    adjL[u].add(v);
+    adjL[v].add(u);
+  }
+}
+
+public class GraphKCores
+{
+  public static void main( String[] args )
+  {
+    Graph g = new Graph(9);
+    g.addEdge(0,1);
+    g.addEdge(0,2);
+    g.addEdge(1,2);
+    g.addEdge(1,5);
+    g.addEdge(2,5);
+    g.addEdge(2,6);
+    g.addEdge(2,3);
+    g.addEdge(2,4);
+    g.addEdge(3,4);
+    g.addEdge(3,6);
+    g.addEdge(3,7);
+    g.addEdge(4,6);
+    g.addEdge(4,7);
+    g.addEdge(5,6);
+    g.addEdge(5,8);
+    g.addEdge(6,7);
+    g.addEdge(6,8);
+    removeNonCores(g,3);
+  }
+  
+  
+  public static void removeNonCores( Graph g, int k )
+  {
+    boolean[] remove = new boolean[g.vertexCount];
+    int[] degree = findDegree(g);
+    for( int i = 0; i< g.vertexCount; i++ )
+    {
+      if( degree[i] < k && !remove[i])
+        DFS(i,k,g,degree,remove);
+    }
+    for( int i = 0; i< g.vertexCount; i++ )
+    {
+      if( !remove[i] )
+      {
+        Iterator<Integer> j = g.adjL[i].iterator();
+        while( j.hasNext())
+        {
+          int v = j.next();
+          if( remove[v] )
+            j.remove();
+        }
+      }
+    }
+      
+    for( int i = 0; i < g.vertexCount; i++ )
+    {
+      if( !remove[i] )
+        System.out.println(g.adjL[i].toString());
+    }
+  }
+ 
+  public static void DFS( int u, int k, Graph g, int[]degree, boolean[] remove )
+  {
+    remove[u] = true;
+    Iterator<Integer> i = g.adjL[u].iterator();
+    while( i.hasNext() )
+    {
+      int v = i.next();
+      if( !remove[v] )
+      {
+        degree[v]--;
+        if( degree[v] < k )
+           DFS(v,k,g,degree,remove);
+      }
+    }
+  }
+  
+   
+  public static int[] findDegree( Graph g )
+  {
+    int[] degree = new int[g.vertexCount];
+    for( int i = 0; i< g.vertexCount; i++ )
+    {
+      Iterator<Integer> j = g.adjL[i].iterator();
+      while( j.hasNext() )
+      {
+        j.next();
+        degree[i]++;
+      }
+    }
+    return degree;
+  }
+  
+}

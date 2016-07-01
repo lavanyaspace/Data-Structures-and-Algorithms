@@ -1,0 +1,78 @@
+//Find same contacts in a list of contacts
+import java.util.*;
+class Graph
+{
+  int vertexCount;
+  LinkedList<Integer>[] adjL ;
+  @SuppressWarnings("unchecked")
+  public Graph( int vertexCount )
+  {
+    this.vertexCount = vertexCount;
+    adjL = new LinkedList[vertexCount];
+    for( int i = 0; i<vertexCount; i++)
+        adjL[i] = new LinkedList();
+  }
+  
+  public void addEdge( int u, int v)
+  {
+    adjL[u].add(v);
+  }
+}
+
+public class SameContacts
+{
+  public static void main( String[] args )
+  {
+    String[][] contact = {{"Gaurav", "gaurav@gmail.com", "gaurav@gfgQA.com"},
+                     {"Lucky", "lucky@gmail.com", "+1234567"},
+                     {"gaurav123", "+5412312", "gaurav123@skype.com"},
+                     {"gaurav1993", "+5412312", "gaurav@gfgQA.com"},
+                     {"raja", "+2231210", "raja@gfg.com"},
+                     {"bahubali", "+878312", "raja"}
+                    };
+    findSameContacts(contact);
+     
+  }
+  
+  public static void findSameContacts( String[][] contact )
+  {
+    ArrayList<Integer> res = new ArrayList<Integer>();
+    Graph g = new Graph(contact.length);
+    boolean[] visited = new boolean[contact.length];
+    for( int i = 0; i< contact.length; i++ ){
+      for( int j = 0; j < contact.length; j++ ){
+      	if(contact[i][0].equals(contact[j][0]) || contact[i][0].equals(contact[j][1]) || contact[i][0].equals(contact[j][2]) ||
+                           contact[i][1].equals(contact[j][0])|| contact[i][1].equals(contact[j][1]) || contact[i][1].equals(contact[j][2]) || 
+                           contact[i][2].equals(contact[j][0]) || contact[i][2].equals(contact[j][1]) || contact[i][2].equals(contact[j][2]) ) 
+               g.addEdge(i,j);}}
+    for( int i = 0; i < g.vertexCount; i++ )
+    {
+      if( !visited[i] )
+      {
+        DFS(i,res,visited,g);
+        System.out.println(res.toString());
+        res.clear();
+      }
+      
+    }
+
+  }
+  
+  public static void DFS( int u, ArrayList<Integer> res, boolean[] visited, Graph g )
+  {
+    visited[u] = true;
+    res.add(u);
+    //System.out.println(u);
+    Iterator<Integer> i = g.adjL[u].iterator();
+    while( i. hasNext() )
+    {
+      int v = i.next();
+      if(!visited[v])
+      	DFS(v,res,visited,g);
+    }
+  }
+  
+  
+  
+  
+}

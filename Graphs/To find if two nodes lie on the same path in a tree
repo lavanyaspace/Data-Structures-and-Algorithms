@@ -1,0 +1,64 @@
+//To find if two nodes lie on the same path in a tree
+import java.util.*;
+class Graph
+{
+  int vertexCount;
+  LinkedList<Integer>[] adjL ;
+  @SuppressWarnings("unchecked")
+  public Graph( int vertexCount )
+  {
+    this.vertexCount = vertexCount;
+    adjL = new LinkedList[vertexCount];
+    for( int i = 0; i<vertexCount; i++)
+        adjL[i] = new LinkedList();
+  }
+  
+  public void addEdge( int u, int v)
+  {
+    adjL[u].add(v);
+  }
+}
+
+
+public class SamePathNodes
+{
+  public static void main( String[] args )
+  {
+    Graph g = new Graph(7);
+    g.addEdge(0,1);
+    g.addEdge(0,2);
+    g.addEdge(0,3);
+    g.addEdge(1,4);
+    g.addEdge(2,5);
+    g.addEdge(3,6);
+    System.out.println(findPath(g,0,2,4));
+  }
+  
+   public static boolean findPath( Graph g, int root, int one, int two )
+   {
+     int[] intime = new int[g.vertexCount];
+     int[] outtime = new int[g.vertexCount];
+     DFS(g,root,intime,outtime,0);
+     return checkifSamePath(intime,outtime,one,two);
+   }
+  
+   public static int DFS(Graph g, int root, int[] intime, int[] outtime, int timer )
+   {
+     intime[root] = ++timer;
+     Iterator<Integer> i = g.adjL[root].iterator();
+     while( i.hasNext() )
+     {
+       int v = i.next();
+       timer = DFS( g, v, intime, outtime, timer );
+     }
+     outtime[root] = ++timer;
+     return timer;
+   }
+  
+   public static boolean checkifSamePath( int[] intime, int[] outtime, int one, int two )
+   {
+     if((intime[one] < intime[two] && outtime[one] > outtime[two]) || (intime[two] < intime[one] && outtime[two] > outtime[one]))
+       return true;
+     return false;
+   }
+}

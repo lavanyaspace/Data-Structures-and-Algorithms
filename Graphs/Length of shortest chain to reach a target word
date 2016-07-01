@@ -1,0 +1,62 @@
+//Length of shortest chain to reach a target word
+import java.util.*;
+public class ShortestChain
+{
+  public static void main( String[] args )
+  { 
+    ArrayList<String> Dict = new ArrayList<String>();
+    Dict.add("POON");
+    Dict.add("PLEE");
+    Dict.add("SAME");
+    Dict.add("POIE");
+    Dict.add("PLEA");
+    Dict.add("PLIE");
+    Dict.add("POIN");
+    String start = "TOON";
+    String end = "PLEA";
+    System.out.println(getTarget(start,end,Dict));
+  }
+ 
+  public static int getTarget( String start, String end, ArrayList<String> Dict )
+  {
+    if( Dict.size() == 0 )
+      return -1;
+    int length = 0;
+    if( start.equals(end))
+      return length;
+    
+    Queue<String> q = new LinkedList<String>();
+    q.offer(start);
+    while( !q.isEmpty())
+    {
+      String word = q.poll();
+      Iterator<String> i = Dict.iterator();
+      while( i.hasNext() )
+      {
+        String s = i.next();
+        if((!(s.equals(word))) && adj(word,s))
+        {
+          length++;
+          if( s.equals(end))
+            return length;
+          else
+          {
+          	q.add(s);
+          	i.remove();
+          }
+        }   
+      }
+    }
+    return -1;
+  }
+  
+   public static boolean adj( String word, String s )
+   {
+     int differ = 0;
+     for( int i = 0; i<word.length(); i++ )
+     	if( word.charAt(i) != s.charAt(i) && ++differ > 1 )
+       		return false;
+     return true;
+       		
+   }
+}

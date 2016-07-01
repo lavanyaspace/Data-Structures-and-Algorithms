@@ -1,0 +1,27 @@
+//Matrix probability question
+public class MatrixProbabilty
+{
+  public static void main( String[] args )
+  {
+    int r = 5;
+    int c = 4;
+    int x = 3;
+    int y = 3;
+    int N = 2;
+    System.out.println(getProbability(r,c,x,y,N));
+  }
+  
+   public static boolean getProbability( int r, int c, int x, int y, int N )
+   {
+     if( x >=0 && x < r && y >= 0 && y < c )
+     {
+       if( N == 0 )
+         return true;
+       if( getProbability(r,c,x-1,y,N-1) && getProbability(r,c,x+1,y,N-1) && getProbability(r,c,x,y-1,N-1) && getProbability(r,c,x,y+1,N-1) )
+         return true;
+       else return false;
+     }
+     else
+       return false;
+   }
+}

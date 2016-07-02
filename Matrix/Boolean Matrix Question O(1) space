@@ -1,0 +1,66 @@
+//Boolean Matrix Question
+//For every element 1 set its row and column to one
+//O(1) space
+public class BooleanMatrix
+{
+ public static void main( String[] args )
+  {
+    int[][] booleanMat = {{1,0,0,0},{1,0,1,0},{0,0,0,0},{0,1,0,0}};
+    int[][] a = setOne(booleanMat);
+    
+    for( int i = 0; i< a.length; i++ )
+    {
+      for( int j = 0; j< a[0].length; j++ )
+      	System.out.print(a[i][j]+" ");
+      System.out.println();
+    }
+
+  }
+  
+  public static int[][] setOne( int[][] booleanMat )
+   {
+     boolean rowFlag = false;
+     boolean colFlag = true;
+     
+     for( int j = 0; j< booleanMat[0].length; j++ )
+       if( booleanMat[0][j] == 1 )
+       {
+         rowFlag = true;
+         break;
+       }
+    
+     for( int i = 0; i < booleanMat.length; i++ )
+      if( booleanMat[i][0] == 1 )
+      {
+        colFlag = true;
+        break;
+      }
+    
+     for( int i = 1; i< booleanMat.length; i++ )
+       for( int j = 1; j< booleanMat[0].length; j++ )
+       	if( booleanMat[i][j] == 1 )
+        {
+          booleanMat[0][j] = 1;
+          booleanMat[i][0] = 1;
+        }
+      
+    for( int i = 1; i< booleanMat.length; i++ )
+       if( booleanMat[i][0] == 1 )
+     	 for( int j = 0; j< booleanMat[0].length; j++ )
+       		 booleanMat[i][j] = 1; 
+       
+     for( int i = 1; i< booleanMat[0].length; i++ )
+       if( booleanMat[0][i] == 1 )
+     	 for( int j = 0; j< booleanMat.length; j++ )
+       		 booleanMat[j][i] = 1; 
+     if( rowFlag )
+       for( int j = 0; j< booleanMat[0].length; j++ )
+       	booleanMat[0][j] = 1; 
+       
+     if( colFlag )
+       for( int i = 0; i < booleanMat.length; i++ )
+        booleanMat[i][0] = 1;
+      
+     return booleanMat;	
+   }
+}

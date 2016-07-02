@@ -1,0 +1,44 @@
+//Boolean Matrix Question
+//For every element 1 set its row and column to one
+//O(n) space
+public class BooleanMatrix
+{
+ public static void main( String[] args )
+  {
+    int[][] booleanMat = {{1,0,0,0},{1,0,1,0},{0,0,0,0},{0,1,0,0}};
+    int[][] a = setOne(booleanMat);
+    
+    for( int i = 0; i< a.length; i++ )
+    {
+      for( int j = 0; j< a[0].length; j++ )
+      	System.out.print(a[i][j]+" ");
+      System.out.println();
+    }
+
+  }
+  
+  public static int[][] setOne( int[][] booleanMat )
+   {
+     int[] row = new int[booleanMat.length];
+     int[] col = new int[booleanMat[0].length];
+     
+     for( int i = 0; i< booleanMat.length; i++ )
+       for( int j = 0; j< booleanMat[0].length; j++ )
+       	if( booleanMat[i][j] == 1 )
+        {
+          row[i] = 1;
+          col[j] = 1;
+        }
+      
+    for( int i = 0; i< row.length; i++ )
+       if( row[i] == 1 )
+     	 for( int j = 0; j< booleanMat[0].length; j++ )
+       		 booleanMat[i][j] = 1; 
+       
+     for( int i = 0; i< col.length; i++ )
+       if( col[i] == 1 )
+     	 for( int j = 0; j< booleanMat.length; j++ )
+       		 booleanMat[j][i] = 1; 
+     return booleanMat;	
+   }
+}

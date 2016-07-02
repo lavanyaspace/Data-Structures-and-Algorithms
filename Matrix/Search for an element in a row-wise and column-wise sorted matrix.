@@ -1,0 +1,44 @@
+//Search for an element in a row-wise and column-wise sorted matrix.
+public class MatrixSearch
+{
+  public static void main( String[] args )
+  {
+    int[][] matrix = {{1,4,5,7},{2,6,7,8},{3,7,9,10},{9,12,13,15}};
+    System.out.println(searchElement(matrix,9));
+  }
+  
+  public static boolean searchElement( int[][] matrix, int x )
+  {
+    int m = matrix.length;
+    int n = matrix[0].length;
+    
+    int top = 0;
+    int bottom = m - 1;
+    int left = 0; 
+    int right = n - 1;
+    
+    while( top < bottom && left < right )
+    {
+      int center = matrix[top][right];
+      if( center == x )
+        return true;
+      if( center < x )
+      {
+        for( int i = top; i <= bottom; i++ )
+        	if( x == matrix[i][right] )
+        		return true;
+      }
+     
+      else
+      {
+        for( int i = right; i <= left; i++ )
+        	if( x == matrix[top][i] )
+        		return true;
+      }
+      
+       ++top;
+       --right;
+    }
+    return false;
+  }
+}

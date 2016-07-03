@@ -1,0 +1,64 @@
+// Binary Tree Node
+import java.util.*;
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+public class ChildSumProperty
+{ 
+  public static void main( String[] args )
+  {  
+    BTN root = new BTN(10);
+    root.setLeft(new BTN(7));
+    root.getLeft().setLeft( new BTN(5));
+    root.getLeft().setRight( new BTN(3));
+    root.setRight(new BTN(2));
+    root.getRight().setRight( new BTN(2));
+    System.out.println(childSum(root));
+  }
+  
+  public static boolean childSum( BTN root )
+  {
+    if( root == null ) return true;
+    int left = (root.getLeft() != null)?root.getLeft().getData():0;
+    int right = (root.getRight() != null)?root.getRight().getData():0;
+    if( left == 0 && right == 0 ) return true;
+    if( root.getData() == left+right )
+    {   System.out.println(root.getData());
+    	return (childSum(root.getLeft()) && childSum(root.getRight()));
+    }
+    return false;
+  }
+}

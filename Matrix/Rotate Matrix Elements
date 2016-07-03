@@ -1,0 +1,67 @@
+//Rotate Matrix Elements
+public class RotateMatrix
+{
+  public static void main( String[] args )
+  {
+    int[][] m = {{1,2,3,4,5},{6,7,8,9,10},{11,12,13,14,15},{16,17,18,19,20}};
+    rotateMatrix(m);
+    for( int i = 0; i< m.length; i++)
+    {
+      for( int j = 0; j< m[0].length; j++)
+        System.out.print(m[i][j]+"     ");
+      System.out.println();
+    }
+  }
+  
+  public static void rotateMatrix( int[][] matrix )
+  {
+    int left = 0;
+    int right = matrix[0].length - 1;
+    int top = 0;
+    int bottom = matrix.length - 1;
+    int temp1,temp2;
+    while( left < right && top < bottom )
+    {
+      temp1 = matrix[top][left];
+      left++;
+      for( int i = left; i<=right; i++ )
+      {
+        temp2 = matrix[top][i];
+        matrix[top][i] = temp1;
+        temp1 = temp2;
+      }
+      top++;
+      
+      for( int i = top; i<= bottom; i++ )
+      {
+        temp2 = matrix[i][right];
+        matrix[i][right] = temp1;
+        temp1 = temp2;
+      }
+      
+      if( top > bottom ) break;
+      right--;
+      left--;
+      
+      for( int i = right; i>= left; i-- )
+      {
+        temp2 = matrix[bottom][i];
+        matrix[bottom][i] = temp1;
+        temp1 = temp2;
+      }
+      bottom--;
+      top--;
+      if( right < left ) break;
+      
+      for( int i = bottom; i>= top; i-- )
+      {
+        temp2 = matrix[i][left];
+        matrix[i][left] = temp1;
+        temp1 = temp2;
+      }
+      left++;
+      top++;
+    }
+  }
+}
+  

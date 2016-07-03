@@ -1,0 +1,100 @@
+//The Great Tree List Recursion Problem
+// Binary Tree Node
+import java.util.*;
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+public class BSTToCDLL
+{
+  public static void main( String[] args )
+  {
+    BTN root = new BTN(20);
+    root.setLeft(new BTN(10));
+    root.getLeft().setLeft( new BTN(5));
+    root.getLeft().setRight( new BTN(15));
+    root.getLeft().getRight().setLeft( new BTN(12));
+    root.getLeft().getRight().setRight( new BTN(18));
+    root.setRight(new BTN(30));
+    root.getRight().setRight( new BTN(40));
+    root.getRight().getRight().setLeft(new BTN(35));
+    BTN head = treeToList(root);
+    BTN temp = head;
+    while( temp.getRight() != null )
+    {
+      System.out.print(temp.getData()+" ");
+      temp = temp.getRight();
+    }
+    temp.setRight(head);
+    head.setLeft(temp);
+    temp = head;
+    System.out.println();
+    while( temp.getRight() != head )
+    {
+      System.out.print(temp.getData()+" ");
+      temp = temp.getRight();
+    }
+   System.out.print(temp.getData()+" ");
+   
+  }
+  
+  public static BTN treeToList( BTN root )
+  {
+    if( root == null ) return null;
+    
+    BTN right = treeToList(root.getRight());
+    BTN left = treeToList(root.getLeft());
+    
+    if( left == null && right == null )
+      return root;
+    if( left != null )
+    {
+      BTN cur = left;
+      while( cur.getRight() != null )
+        cur = cur.getRight();
+      cur.setRight(root);
+      root.setLeft(cur);
+    }
+    if( right != null )
+    {
+      root.setRight(right);
+      right.setLeft(root);
+    }
+    
+    if( left != null )
+      return left;
+    return root;
+  }
+  
+}

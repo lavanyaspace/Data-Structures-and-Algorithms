@@ -22,3 +22,36 @@ public class RodCut
     return maxPrize;
   }
 }
+
+
+//Cutting the rod
+//Dynamic Programming
+public class RodCut
+{
+  public static void main( String[] args )
+  {
+    int rodLen = 8;
+    int[] price = { 1, 5, 8, 9, 10, 17, 17, 20 };
+    int[] mem = new int[rodLen+1];
+    System.out.println(cutRod(rodLen,price,mem));
+    
+  }
+  
+  public static int cutRod( int rodLen, int[] price, int[] mem )
+  {
+    if( rodLen <= 0 )
+    {
+      mem[rodLen] = 0;
+      return mem[rodLen];
+    }
+    
+    int maxPrize = Integer.MIN_VALUE;
+    
+    for( int i = 0; i < rodLen; i++) 
+      maxPrize = Math.max(maxPrize,price[i]+cutRod(rodLen-i-1,price,mem)); 
+    
+    mem[rodLen] = maxPrize;
+    
+    return mem[rodLen];
+  }
+}

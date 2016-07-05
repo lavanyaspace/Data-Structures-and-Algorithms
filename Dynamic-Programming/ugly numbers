@@ -1,0 +1,94 @@
+//ugly numbers
+//greatest divisible power method (GDP)
+public class UglyNumber
+{
+  public static void main( String[] args )
+  {
+    int n = 11;
+    System.out.println(getUglyNumber(n));
+  }
+  
+  public static int getUglyNumber( int n )
+  {
+    if( n==1 ) return 1;
+    
+    int num = 2 ;
+    int count = 1;
+    
+    while(true)
+    {
+    	if( isUgly(num) )
+    	{
+      		count++;
+      		if( count == n )
+        	 return num;
+    	}
+        num++;
+    }
+  }
+  
+  public static boolean isUgly( int n )
+  {
+    n = getPower(n,2);
+    n = getPower(n,3);
+    n = getPower(n,5);
+    return ( n == 1 );
+  }
+   //get greatest power of 2,3,5 for this number
+   public static int getPower( int n, int prime )
+   {
+     int pow = prime;
+     while( n % pow == 0 )
+       pow *= prime;
+     pow = pow/prime;
+     return n/pow;
+   }
+}
+
+//Ugly Numbers
+//Dynamic Programming
+public class UglyNumber
+{
+  public static void main( String[] args )
+  {
+    System.out.println(getUglyNumber(150));
+  }
+  
+  public static int getUglyNumber( int n )
+  {
+    int[] ugly = new int[n];
+    ugly[0] = 1;
+    int i2=0, i3=0, i5=0;
+    int next_two = 2;
+    int next_three = 3;
+    int next_five = 5;
+    int count = 1;
+    int next_ugly = 1;
+    while( count < n )
+    {
+      next_ugly = Math.min(Math.min(next_two,next_three),next_five);
+      ugly[count] = next_ugly;
+      
+      if( ugly[count] == next_two )
+      {
+        i2++;
+        next_two = ugly[i2]*2;
+
+      }
+      
+      if( ugly[count] == next_three )
+      {
+        i3++;
+        next_three = ugly[i3]*3;
+      }
+      
+      if( ugly[count] == next_five )
+      {
+        i5++;
+        next_five = ugly[i5]*5;
+      }
+      count++;
+    }
+    return next_ugly;
+  }
+}

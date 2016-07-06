@@ -1,0 +1,131 @@
+//Shortest Path in a DAG
+import java.util.*;
+class WeightedGraphNode
+{
+  int v;
+  int weight;
+  public WeightedGraphNode( int v, int w )
+  {
+    this.v = v;
+    weight = w;
+  }
+}
+class Graph
+{
+  int V;
+  LinkedList<WeightedGraphNode>[] adjL;
+  @SuppressWarnings("unchecked")
+  public Graph( int v )
+  {
+    V = v;
+    adjL = new LinkedList[v];
+    for( int i = 0; i < v; i++ )
+      adjL[i] = new LinkedList();
+  }
+  
+  public void addEdge( int u, WeightedGraphNode v )
+  {
+    adjL[u].add(v);
+  }
+}
+
+public class ShortestPathDAG
+{
+  public static void main( String[] args )
+  {
+    Graph g = new Graph(6);
+    WeightedGraphNode n1 = new WeightedGraphNode(1,5);
+    g.addEdge(0,n1);
+    WeightedGraphNode n2 = new WeightedGraphNode(2,3);
+    g.addEdge(0,n2);
+    WeightedGraphNode n3 = new WeightedGraphNode(3,6);
+    g.addEdge(1,n3);
+    WeightedGraphNode n4 = new WeightedGraphNode(2,2);
+    g.addEdge(1,n4);
+    WeightedGraphNode n5 = new WeightedGraphNode(4,4);
+    g.addEdge(2,n5);
+    WeightedGraphNode n6 = new WeightedGraphNode(5,2);
+    g.addEdge(2,n6);
+    WeightedGraphNode n7 = new WeightedGraphNode(3,7);
+    g.addEdge(2,n7);
+    WeightedGraphNode n8 = new WeightedGraphNode(4,-1);
+    g.addEdge(3,n8);
+    WeightedGraphNode n9 = new WeightedGraphNode(5,-2);
+    g.addEdge(4,n9); 
+    shortestPath(g);
+  }
+  public static void shortestPath( Graph g )
+  {
+    Queue<Integer> q = new LinkedList<Integer>();
+    ArrayList<Integer> a = new ArrayList<Integer>();
+    int[] indegree = findIndegree(g); 
+    int[] dist = new int[g.V];
+    for( int i = 0; i < g.V; i++ )
+    {
+      dist[i] = Integer.MAX_VALUE;
+      if( indegree[i] == 0 )
+      {
+        q.offer(i);
+        a.add(i);
+      }
+    }
+    dist[1] = 0;
+    while( !q.isEmpty() )
+    {
+      int count = 0;
+      int u = q.poll();
+      WeightedGraphNode v = getAdj(u,g,count);
+      
+      while( v != null )
+      {
+      	if( --indegree[v.v] == 0 )
+      	{
+          a.add(v.v);
+          q.offer(v.v);
+      	}
+        v = getAdj(u,g,count++);
+      }
+   
+    }
+    for( int i = 0; i < g.V; i++ )
+    {
+      System.out.println(dist[i]+" "+a.get(i));
+    }
+    getWeights(a ,dist ,g );
+  }
+  public static  void getWeights( ArrayList<Integer> a, int[] dist, Graph g )
+  {
+    for( int i = 1; i < a.size() ; i++ )
+    {
+      int u = a.get(i);
+      int count = 0;
+      WeightedGraphNode v = getAdj(u,g,count);
+      while( v != null )
+      {
+        if( dist[u] != Integer.MAX_VALUE && dist[u] + v.weight < dist[v.v] )
+          dist[v.v] = dist[u] + v.weight;
+        v = getAdj(u,g,count++);
+      }
+      System.out.print(dist[i]+" ");
+    }
+  }
+  public static int[] findIndegree( Graph g )
+  {
+    int[] indegree = new int[g.V];
+    for( int i = 0; i < g.V; i++ )
+    {
+      for( int j = 0; j <  g.adjL[i].size(); j++ )
+      {
+        indegree[g.adjL[i].get(j).v]++;
+      }
+    }
+    return indegree; 
+  }
+  
+  public static WeightedGraphNode getAdj( int u, Graph g, int count )
+  {
+    if( count < g.adjL[u].size()  )
+     return g.adjL[u].get(count); 
+    return null;
+  }  
+}

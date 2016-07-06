@@ -1,0 +1,92 @@
+//Bellmann Ford - shrotest path in a weighted directed connected graph with negative weights.
+class Edge 
+{
+  int u , v;
+  int weight;
+}
+
+class Graph
+{
+  int V, E;
+  Edge[] edge = new Edge[E];
+  public Graph( int V, int E)
+  {
+    this.V = V;
+    this.E = E;
+    edge = new Edge[E];
+    for( int i = 0; i< E; i++ )
+    	edge[i] = new Edge();
+  }
+}
+
+
+public class BellmannFord
+{
+  public static void main( String[] args )
+  {
+    Graph g = new Graph(4,6);
+    //Edges
+    g.edge[0].u = 0; 
+    g.edge[0].v = 1;
+    g.edge[0].weight = 2;
+      
+    
+    g.edge[1].u = 0;
+    g.edge[1].v = 2;
+    g.edge[1].weight = 3;
+      
+    
+    g.edge[2].u = 1;
+    g.edge[2].v= 3;
+    g.edge[2].weight = -1;
+      
+    
+    g.edge[3].u = 3; 
+    g.edge[3].v = 2;
+    g.edge[3].weight = -2;
+      
+  
+    g.edge[4].u = 2;
+    g.edge[4].v= 1;
+    g.edge[4].weight= 1;
+    
+    /*
+    g.e[5].u = 
+    g.e[5].v =
+    g.e[5].weight=*/
+    getShortedPath(g);
+  }
+  
+  public static void getShortedPath( Graph g )
+  {
+   	int[] dist = new int[g.V];
+    for( int i = 0; i < g.V; i++ )
+      dist[i] = Integer.MAX_VALUE;
+    
+    dist[0] = 0;
+    
+    for( int V = 1; V < g.V; V++ )
+      for( int e = 0; e < g.E; e++ )
+      {
+      	int u = g.edge[e].u;
+        int v = g.edge[e].v;
+      	int w = g.edge[e].weight;
+      	if( dist[u] != Integer.MAX_VALUE && dist[u]+w < dist[v] )
+          dist[v] = dist[u]+w ;
+      }
+    
+      for( int e = 0; e < g.E; e++ )
+      {
+      	int u = g.edge[e].u;
+        int v = g.edge[e].v;
+      	int w = g.edge[e].weight;
+      	if( dist[u] != Integer.MAX_VALUE && dist[u]+w < dist[v] )
+        {
+          System.out.println("Graph has cycles");
+          return;
+        }
+      }
+      for(int i = 0; i < g.V ; i++ )
+          System.out.print(dist[i]+" ");
+  }
+}

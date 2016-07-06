@@ -1,0 +1,109 @@
+//Sorted LL to a BST
+
+//Linked List Node
+class ListNode
+{
+  int data;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+// Binary Tree Node
+class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+public class LLToBST
+{
+  static ListNode head = null;
+  public static void main( String[] args )
+  {
+    head = new ListNode(5);
+    head.setNext(new ListNode(6));
+    head.getNext().setNext( new ListNode(8));
+    head.getNext().getNext().setNext( new ListNode(12));
+    head.getNext().getNext().getNext().setNext( new ListNode(15));
+    head.getNext().getNext().getNext().getNext().setNext( new ListNode(18));
+    ListNode cur = head;
+    BTN root = constructBST(6);
+    inorder(root);
+  }
+  
+  public static BTN constructBST( int n )
+  {
+    if( n <= 0 )
+      return null;
+    BTN left =  constructBST(  n/2 );
+    BTN root = new BTN(head.getData());
+    root.setLeft(left);
+    head = head.getNext();
+    root.setRight(constructBST(  n-n/2-1 ));
+    return root;
+  }
+  
+  public static void inorder(BTN root)
+  {
+    if(root == null)return;
+    inorder(root.getLeft());
+    System.out.println(root.getData());
+    inorder(root.getRight());
+  }
+}

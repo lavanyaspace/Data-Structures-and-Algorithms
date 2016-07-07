@@ -1,0 +1,133 @@
+//Merge two BSTs with limitted extra space
+//Binary Tree Node
+import java.util.*;
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+public class MergeBSTs
+{
+  public static void main( String[] args )
+  {
+    BTN root1 = new BTN(20);
+    root1.setLeft(new BTN(10));
+    root1.getLeft().setLeft( new BTN(5));
+    root1.getLeft().setRight( new BTN(15));
+    root1.getLeft().getRight().setLeft( new BTN(12));
+    root1.getLeft().getRight().setRight( new BTN(18));
+    root1.setRight(new BTN(30));
+    root1.getRight().setRight( new BTN(40));
+    root1.getRight().getRight().setLeft(new BTN(35));
+    
+    BTN root2 = new BTN(10);
+    root2.setLeft(new BTN(5));
+    root2.getLeft().setLeft( new BTN(2));
+    root2.getLeft().setRight( new BTN(6));
+    root2.setRight(new BTN(16));
+    root2.getRight().setRight( new BTN(20));
+    root2.getRight().getRight().setLeft(new BTN(18));
+    
+    mergeBST( root1, root2 );
+    
+  }
+  
+  public static void mergeBST( BTN root1, BTN root2 )
+  {
+    Stack<BTN> s1 = new Stack<BTN>();
+    Stack<BTN> s2 = new Stack<BTN>();
+    boolean done1 = false;
+    boolean done2 = false;
+    BTN cur1 = root1;
+    BTN cur2 = root2;
+    while( !done1 && !done2 )
+    {
+      if( cur1 != null )
+      {
+        s1.push(cur1);
+        cur1= cur1.getLeft();
+      }
+      
+      if( cur2 != null )
+      {
+        s2.push(cur2);
+        cur2= cur2.getLeft();
+      }
+      
+      if( cur1 == null && cur2 == null )
+      {
+        if( s1.isEmpty() && s2.isEmpty() ) 
+        {
+          done1 = true;
+          done2 = true;
+        }
+        else
+        {
+          if( !s1.isEmpty() ) cur1 = s1.pop(); 
+        
+          if( !s2.isEmpty() ) cur2 = s2.pop();
+        
+          if( cur1 != null && cur2 != null )
+          {
+            if( cur1.getData() < cur2.getData() )
+            {
+           	  System.out.print(cur1.getData()+" ");
+              cur1 = cur1.getRight();
+              s2.push(cur2);
+              cur2 = null;
+            }
+            else
+            {
+              System.out.print(cur2.getData()+" ");
+              cur2 = cur2.getRight();
+              s1.push(cur1);
+              cur1 = null;
+            }
+          } 
+          else if( cur1 == null )
+          {
+            System.out.print(cur2.getData()+" ");
+            cur2 = cur2.getRight();
+          } 
+        
+          else if( cur2 == null )
+          {
+            System.out.print(cur1.getData()+" ");
+            cur1 = cur1.getRight();
+          }
+        }
+      }
+    }
+  }
+}

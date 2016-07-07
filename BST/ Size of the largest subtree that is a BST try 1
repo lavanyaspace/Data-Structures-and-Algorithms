@@ -1,0 +1,108 @@
+//Size of the largest subtree that is a BST
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+class Result
+{
+  boolean isBST;
+  int size;
+  BTN node = null;
+  public Result()
+  {
+    isBST = true;
+    node = null;
+    size = Integer.MIN_VALUE;
+  }
+}
+
+public class BSTSize
+{
+  public static void main( String[] args )
+  {
+    BTN root = new BTN(10);
+    root.setLeft(new BTN(1));
+    root.getLeft().setLeft( new BTN(2));
+    root.getLeft().setRight( new BTN(3));
+    root.getLeft().getRight().setLeft( new BTN(2));
+    root.getLeft().getRight().getLeft().setRight( new BTN(6));
+    root.getLeft().getRight().setRight( new BTN(5));
+    root.getLeft().getRight().getRight().setRight( new BTN(6));
+    root.setRight(new BTN(16));
+    root.getRight().setRight( new BTN(20));
+    root.getRight().getRight().setLeft(new BTN(18));
+    System.out.println(checkBT(root).size);
+  }
+  
+  public static Result checkBT( BTN root )
+  {
+    Result r = new Result();
+    if(root == null) return r;
+    
+    Result left = checkBT(root.getLeft());
+    Result right = checkBT(root.getRight());
+    
+    if(left.node != null)
+    	System.out.println(root.getData()+" " +left.isBST );
+     
+    if( !left.isBST || !right.isBST  ) 
+    {
+      r.isBST = false;
+      r.size = Math.max(left.size,right.size);
+      return r;
+    }
+    
+    if( ( left.node != null && left.node.getData() > root.getData()) || (right.node != null && right.node.getData() < root.getData()) )
+    {
+      r.size = Math.max(left.size,right.size);
+      r.isBST = false;
+      System.out.println(r.isBST+" "+root.getData() );
+      return r;
+    }
+    
+    r.isBST = true;
+    r.size = size(root);
+    
+     System.out.println(r.isBST+" "+root.getData()+"   "+r.size);
+    r.node = root;
+    return r;
+  }
+  
+   public static int size( BTN root )
+   {
+     if(root == null ) return 0;
+     return size(root.getLeft())+size(root.getRight())+1;
+   }
+}

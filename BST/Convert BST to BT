@@ -1,0 +1,72 @@
+//Convert BST to BT
+//Binary Tree Node
+import java.util.*;
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+public class BSTToBT
+{
+  public static void main( String[] args )
+  {
+   	BTN root = new BTN(10);
+   	root.setLeft(new BTN(2));
+   	root.getLeft().setLeft( new BTN(1));
+   	root.getLeft().setRight( new BTN(3));
+   	root.getLeft().getRight().setRight( new BTN(5));
+   	root.getLeft().getRight().getRight().setRight( new BTN(6));
+   	root.setRight(new BTN(16));
+   	root.getRight().setRight( new BTN(20));
+   	root.getRight().getRight().setLeft(new BTN(18));
+    convertBT(root,0);
+    inorder(root);
+  }
+  
+  public static int convertBT( BTN root, int add )
+  {
+    if( root == null ) return add;
+    int r = convertBT(root.getRight(),add);
+    root.setData(root.getData()+r);
+    convertBT(root.getLeft(),root.getData());
+    return root.getData();
+  }
+  public static void inorder(BTN root)
+  {
+    if(root == null)return;
+    inorder(root.getLeft());
+    System.out.print(root.getData()+" ");
+    inorder(root.getRight()); 
+  }
+}

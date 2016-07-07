@@ -1,0 +1,107 @@
+//Convert BT to BST
+//Binary Tree Node
+import java.util.*;
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+public class BTToBST
+{
+  public static void main( String[] args )
+  {
+    BTN root = new BTN(3);
+    root.setLeft(new BTN(10));
+    root.getLeft().setLeft( new BTN(5));
+    root.getLeft().setRight( new BTN(1));
+    root.getLeft().getRight().setLeft( new BTN(12));
+    root.getLeft().getRight().setRight( new BTN(8));
+    root.setRight(new BTN(0));
+    root.getRight().setRight( new BTN(40));
+    root.getRight().getRight().setLeft(new BTN(5));
+   
+    convertToBT( root, 0 );
+    inorder(root);
+    
+  }
+  
+  public static BTN convertToBT( BTN root, int type )
+  {
+    if( root == null ) return root;
+    boolean done = false;
+    BTN left = null;
+    BTN right = null;
+    while(!done)
+    {
+    done = true;
+    left = convertToBT(root.getLeft(),1);
+    if( left!= null )
+    System.out.println(left.getData());
+    while( left != null && root.getData() < left.getData() )
+    {
+      done = false;
+      swap(root,left);
+      left = convertToBT( left, 1 );
+    }
+    //inorder(root);
+    right = convertToBT(root.getRight(),2);
+    while( right != null && root.getData() > right.getData() )
+    {
+      done = false;
+      swap(root,right);
+      right = convertToBT( right, 2 );
+    }
+    //if( right != null )
+    //System.out.println(right.getData());
+    }
+    if( right != null && type == 1 ) return right;
+    else if( left != null && type == 2 ) return left;
+    return root;
+  }
+  
+  public static void swap( BTN one , BTN two )
+  {
+    int t = one.getData();
+    one.setData(two.getData());
+    two.setData(t);
+  }
+  
+  public static void inorder(BTN root)
+  {
+    if(root == null)return;
+    inorder(root.getLeft());
+    System.out.print(root.getData()+" ");
+    inorder(root.getRight());
+  }
+}

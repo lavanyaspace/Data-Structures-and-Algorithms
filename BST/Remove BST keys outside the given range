@@ -1,0 +1,88 @@
+//Remove BST keys outside the given range
+//Binary Tree Node
+import java.util.*;
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+public class OutOfRange
+{
+  public static void main( String[] args )
+  {
+    BTN root = new BTN(10);
+   	root.setLeft(new BTN(2));
+   	root.getLeft().setLeft( new BTN(1));
+   	root.getLeft().setRight( new BTN(3));
+   	root.getLeft().getRight().setRight( new BTN(5));
+   	root.getLeft().getRight().getRight().setRight( new BTN(6));
+   	root.setRight(new BTN(16));
+   	root.getRight().setRight( new BTN(20));
+   	root.getRight().getRight().setLeft(new BTN(18));
+    removeNodes(root, 3, 16);
+    inorder(root);
+  }
+  
+  public static BTN removeNodes( BTN root, int k1, int k2 )
+  {
+    if( root == null )
+      return null;
+    
+    if( root.getData() <= Math.min(k1,k2))
+    {
+      root.setLeft(null);
+      root = removeNodes(root.getRight(), k1, k2);
+    }
+    else if( root.getData() >= Math.max(k1,k2))
+    {
+      root.setRight(null);
+      root = removeNodes(root.getLeft(), k1, k2);
+    }
+    else
+    { 
+      root.setLeft(removeNodes(root.getLeft(), k1, k2));
+      root.setRight(removeNodes(root.getRight(), k1, k2));
+    }
+    return root;
+  }
+  
+  public static void inorder(BTN root)
+  {
+    if(root == null)return;
+    inorder(root.getLeft());
+    System.out.print(root.getData()+" ");
+    inorder(root.getRight());
+  }
+}
+  

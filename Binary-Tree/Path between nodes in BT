@@ -1,0 +1,78 @@
+// Binary Tree Node
+import java.util.*;
+public class BTN
+{
+  int data;
+  BTN left;
+  BTN right;
+  
+  public BTN( int data ){
+      this.data = data;
+      right = left = null;
+  }
+    
+  public void setData( int data ){
+      this.data = data;
+  }
+  
+  public int getData(){
+      return data;
+  }
+  
+  public void setLeft( BTN left ){
+      this.left = left;
+  }
+  
+  public BTN getLeft(){
+      return left;
+  }
+    
+  public void setRight( BTN right ){
+      this.right = right;
+  }
+    
+  public BTN getRight(){
+      return right;
+  }
+}
+
+//Path between nodes in BT
+
+public class DiagonalSum
+{
+  public static void main( String[] args )
+  { 
+    BTN root = new BTN(1);
+    root.setLeft(new BTN(2));
+    root.setRight(new BTN(3));
+    root.getLeft().setLeft( new BTN(9));
+    root.getLeft().setRight( new BTN(6));
+    root.getRight().setLeft( new BTN(4));
+    root.getRight().setRight( new BTN(5));
+    root.getRight().getLeft().setLeft( new BTN(12));
+    root.getRight().getLeft().setRight(new BTN(7));
+    root.getLeft().getRight().setLeft( new BTN(11));
+    root.getLeft().getLeft().setRight( new BTN(10));
+    ArrayList<Integer> ans = new ArrayList<Integer>();
+    getPath(root,root.getLeft().getLeft().getLeft(),root.getLeft().getRight().getRight(),ans);
+    System.out.println(ans.toString());
+  }
+  
+  public static BTN getPath( BTN root, BTN a, BTN b, ArrayList<Integer> ans )
+  {
+    if( root == null ) return root;
+    if( root == a || root == b )
+      return root;
+    BTN left = getPath( root.getLeft(), a ,b, ans );
+    BTN right = getPath( root.getRight(), a ,b, ans );
+    if( left != null || right != null )
+      ans.add(root.getData());
+    if( left != null && right != null )
+    {
+      System.out.println(root.getData());
+      ans.add(root.getData());
+      return root;
+    }
+    return ( left!= null)? left:right;
+  }
+}

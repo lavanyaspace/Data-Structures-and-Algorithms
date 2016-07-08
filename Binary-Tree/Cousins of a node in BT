@@ -1,0 +1,97 @@
+// Binary Tree Node
+import java.util.*;
+public class BTN
+{
+  int data;
+  BTN left;
+  BTN right;
+  
+  public BTN( int data ){
+      this.data = data;
+      right = left = null;
+  }
+    
+  public void setData( int data ){
+      this.data = data;
+  }
+  
+  public int getData(){
+      return data;
+  }
+  
+  public void setLeft( BTN left ){
+      this.left = left;
+  }
+  
+  public BTN getLeft(){
+      return left;
+  }
+    
+  public void setRight( BTN right ){
+      this.right = right;
+  }
+    
+  public BTN getRight(){
+      return right;
+  }
+}
+
+//Cousins of a node in BT
+public class Cousins
+{
+  static BTN sibling = null;
+  public static void main( String[] args )
+  {
+    BTN root = new BTN(1);
+    root.setLeft(new BTN(2));
+    root.setRight(new BTN(3));
+    root.getLeft().setLeft( new BTN(4));
+    root.getLeft().setRight( new BTN(5));
+    root.getRight().setLeft( new BTN(6));
+    root.getRight().setRight( new BTN(7));
+    root.getRight().getLeft().setRight(new BTN(8));
+    root.getLeft().getRight().setRight( new BTN(15));
+    getCousins(root,root.getLeft().getRight());
+  }
+  
+  public static void getCousins( BTN root, BTN node )
+  {
+    if( root == null || node == null ) return;
+    int height = getHeight(root, node, 0, Integer.MIN_VALUE);
+    System.out.println(height+" "+sibling.getData());
+    ArrayList<Integer> a = new ArrayList<Integer>();
+    getCousins(root,height,node,0,a);
+    System.out.println(a.toString());
+  }
+  
+  public static int getHeight( BTN root, BTN node, int height, int h )
+  {
+    if( root == null ) return h;
+    height = height + 1 ;
+    if( root == node )
+      h = height;
+    if( h == Integer.MIN_VALUE )
+    {
+      h = getHeight( root.getLeft(), node, height, h );
+      if( h != Integer.MIN_VALUE && sibling == null ) sibling = root.getRight();
+    }
+    if( h == Integer.MIN_VALUE )
+    {
+      h = getHeight( root.getRight(), node, height, h );
+      if( h != Integer.MIN_VALUE && sibling == null ) sibling = root.getLeft();
+    }
+    return h;  
+  }
+   
+  public static void getCousins( BTN root, int height, BTN node, int h, ArrayList<Integer> a )
+  {
+    if( root == null || ++h > height )return;
+    if( h == height && root != sibling && root != node )
+    {
+      a.add(root.getData());
+      return;
+    }
+    getCousins(root.getLeft(),height,node,h,a);
+    getCousins(root.getRight(),height,node,h,a);   
+  }
+}

@@ -1,0 +1,79 @@
+//Does path of length more than k exist
+import java.util.*;
+class WeightedGraphNode
+{
+  int v;
+  int weight;
+  public WeightedGraphNode( int v, int w )
+  {
+    this.v = v;
+    weight = w;
+  }
+}
+class Graph
+{
+  int V;
+  LinkedList<WeightedGraphNode>[] adjL;
+  @SuppressWarnings("unchecked")
+  public Graph( int v )
+  {
+    V = v;
+    adjL = new LinkedList[v];
+    for( int i = 0; i < v; i++ )
+      adjL[i] = new LinkedList();
+  }
+  
+  public void addEdge( int u, WeightedGraphNode v )
+  {
+    adjL[u].add(v);
+  }
+}
+
+public class ShortestPathDAG
+{
+  public static void main( String[] args )
+  {
+    Graph g = new Graph(6);
+    WeightedGraphNode n1 = new WeightedGraphNode(1,5);
+    g.addEdge(0,n1);
+    WeightedGraphNode n2 = new WeightedGraphNode(2,3);
+    g.addEdge(0,n2);
+    WeightedGraphNode n3 = new WeightedGraphNode(3,6);
+    g.addEdge(1,n3);
+    WeightedGraphNode n4 = new WeightedGraphNode(2,2);
+    g.addEdge(1,n4);
+    WeightedGraphNode n5 = new WeightedGraphNode(4,4);
+    g.addEdge(2,n5);
+    WeightedGraphNode n6 = new WeightedGraphNode(5,2);
+    g.addEdge(2,n6);
+    WeightedGraphNode n7 = new WeightedGraphNode(3,7);
+    g.addEdge(2,n7);
+    WeightedGraphNode n8 = new WeightedGraphNode(4,-1);
+    g.addEdge(3,n8);
+    WeightedGraphNode n9 = new WeightedGraphNode(5,-2);
+    g.addEdge(4,n9); 
+    findPath(g,0,10);
+  }
+  
+  public static void findPath( Graph g, int s, int k )
+  {
+    if( s >= g.V ) return;
+    boolean[] visited = new boolean[g.V];
+    System.out.println(DFSUtil(s,k,g,visited));
+  }
+  
+  public static boolean DFSUtil( int s, int k, Graph g, boolean[] visited )
+  {
+    visited[s] = true;
+    Iterator<WeightedGraphNode> i = g.adjL[s].iterator();
+    while( i.hasNext() )
+    {
+      WeightedGraphNode v = i.next();
+      if( k - v.weight < 0 && !visited[v.v] )
+        return true;
+      else if( !visited[v.v] )
+        return DFSUtil(s,k-v.weight,g,visited);
+    }
+    return false;
+  }
+}

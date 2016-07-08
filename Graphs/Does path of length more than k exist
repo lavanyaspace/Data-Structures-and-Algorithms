@@ -23,9 +23,10 @@ class Graph
       adjL[i] = new LinkedList();
   }
   
-  public void addEdge( int u, WeightedGraphNode v )
+  public void addEdge( WeightedGraphNode u, WeightedGraphNode v )
   {
-    adjL[u].add(v);
+    adjL[u.v].add(v);
+    adjL[v.v].add(u);
   }
 }
 
@@ -35,23 +36,32 @@ public class ShortestPathDAG
   {
     Graph g = new Graph(6);
     WeightedGraphNode n1 = new WeightedGraphNode(1,5);
-    g.addEdge(0,n1);
+    WeightedGraphNode n11 = new WeightedGraphNode(0,5);
+    g.addEdge(n11,n1);
     WeightedGraphNode n2 = new WeightedGraphNode(2,3);
-    g.addEdge(0,n2);
+    WeightedGraphNode n22 = new WeightedGraphNode(0,3);
+    g.addEdge(n22,n2);
     WeightedGraphNode n3 = new WeightedGraphNode(3,6);
-    g.addEdge(1,n3);
+    WeightedGraphNode n33 = new WeightedGraphNode(1,6);
+    g.addEdge(n33,n3);
     WeightedGraphNode n4 = new WeightedGraphNode(2,2);
-    g.addEdge(1,n4);
+    WeightedGraphNode n44 = new WeightedGraphNode(1,2);
+    g.addEdge(n44,n4);
     WeightedGraphNode n5 = new WeightedGraphNode(4,4);
-    g.addEdge(2,n5);
+    WeightedGraphNode n55 = new WeightedGraphNode(2,4);
+    g.addEdge(n55,n5);
     WeightedGraphNode n6 = new WeightedGraphNode(5,2);
-    g.addEdge(2,n6);
+    WeightedGraphNode n66 = new WeightedGraphNode(2,2);
+    g.addEdge(n66,n6);
     WeightedGraphNode n7 = new WeightedGraphNode(3,7);
-    g.addEdge(2,n7);
-    WeightedGraphNode n8 = new WeightedGraphNode(4,-1);
-    g.addEdge(3,n8);
-    WeightedGraphNode n9 = new WeightedGraphNode(5,-2);
-    g.addEdge(4,n9); 
+    WeightedGraphNode n77 = new WeightedGraphNode(2,7);
+    g.addEdge(n77,n7);
+    WeightedGraphNode n8 = new WeightedGraphNode(4,10);
+    WeightedGraphNode n88 = new WeightedGraphNode(3,10);
+    g.addEdge(n88,n8);
+    WeightedGraphNode n9 = new WeightedGraphNode(5,2);
+    WeightedGraphNode n99 = new WeightedGraphNode(4,2);
+    g.addEdge(n99,n9); 
     findPath(g,0,10);
   }
   
@@ -64,15 +74,23 @@ public class ShortestPathDAG
   
   public static boolean DFSUtil( int s, int k, Graph g, boolean[] visited )
   {
+         // System.out.println("here"+(s));
     visited[s] = true;
     Iterator<WeightedGraphNode> i = g.adjL[s].iterator();
     while( i.hasNext() )
     {
       WeightedGraphNode v = i.next();
-      if( k - v.weight < 0 && !visited[v.v] )
+      if( (k - v.weight) < 0 && !visited[v.v] )
+      {
+        System.out.println("here"+(k));
         return true;
+      }
       else if( !visited[v.v] )
-        return DFSUtil(s,k-v.weight,g,visited);
+      {
+        
+        System.out.println("here"+(v.v)+"  "+(k-v.weight));
+        return DFSUtil(v.v,k-v.weight,g,visited);
+      }
     }
     return false;
   }

@@ -1,0 +1,94 @@
+// Binary Tree Node
+import java.util.*;
+public class BTN
+{
+  int data;
+  BTN left;
+  BTN right;
+  
+  public BTN( int data ){
+      this.data = data;
+      right = left = null;
+  }
+    
+  public void setData( int data ){
+      this.data = data;
+  }
+  
+  public int getData(){
+      return data;
+  }
+  
+  public void setLeft( BTN left ){
+      this.left = left;
+  }
+  
+  public BTN getLeft(){
+      return left;
+  }
+    
+  public void setRight( BTN right ){
+      this.right = right;
+  }
+    
+  public BTN getRight(){
+      return right;
+  }
+}
+
+//Diagonal Sum of a BT
+
+public class DiagonalSum
+{
+  public static void main( String[] args )
+  {
+    /*BTN root = new BTN(0);
+    root.setLeft(new BTN(1));
+    root.getLeft().setLeft( new BTN(2));
+    root.getLeft().setRight( new BTN(3));
+    root.getLeft().getRight().setLeft( new BTN(4));
+    root.getLeft().getRight().setRight( new BTN(5));
+    root.setRight(new BTN(6));
+    root.getRight().setRight( new BTN(7));
+    root.getRight().getRight().setLeft(new BTN(8));
+    diagonalSum(root);*/
+    
+    BTN root = new BTN(1);
+    root.setLeft(new BTN(2));
+    root.setRight(new BTN(3));
+    root.getLeft().setLeft( new BTN(9));
+    root.getLeft().setRight( new BTN(6));
+    root.getRight().setLeft( new BTN(4));
+    root.getRight().setRight( new BTN(5));
+    root.getRight().getLeft().setLeft( new BTN(12));
+    root.getRight().getLeft().setRight(new BTN(7));
+    root.getLeft().getRight().setLeft( new BTN(11));
+    root.getLeft().getLeft().setRight( new BTN(10));
+    diagonalSum(root);
+  }
+  
+  public static void diagonalSum( BTN root )
+  {
+    if( root == null ) return;
+    HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
+    map = getDiagonalSum(root,map,0);
+    Iterator i = map.entrySet().iterator();
+    while( i.hasNext() )
+    {
+      HashMap.Entry e = (HashMap.Entry)i.next();
+      System.out.println(e.getValue());
+    }
+  }
+  
+  public static HashMap<Integer,Integer> getDiagonalSum( BTN root, HashMap<Integer,Integer> map, int k )
+  {
+    if( root == null ) return map;
+    map = getDiagonalSum(root.getRight(),map,k);
+    map = getDiagonalSum(root.getLeft(),map,k+1);
+    if( map.get(k) == null )
+      map.put(k,root.getData());
+    else
+      map.put(k,root.getData()+map.get(k));
+    return map;
+  }
+}

@@ -1,0 +1,91 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+class TrieNode
+{
+  char data;
+  int count;
+  boolean isEOS;
+  TrieNode[] links;
+  public TrieNode( int alpha )
+  {
+    data = ' ';
+    count = 0;
+    isEOS = false;
+    links = new TrieNode[alpha];
+  }
+  public TrieNode( char c, int alpha )
+  {
+    data = c;
+    count = 0;
+    boolean isEOS = false;
+    links = new TrieNode[alpha];
+  }
+}
+
+class Trie
+{
+  TrieNode root;
+  int alpha_size;
+  
+  public Trie( int alpha )
+  {
+    alpha_size = alpha;
+    root = new TrieNode(alpha); 
+  }
+  
+  public void insert( String s )
+  {
+    TrieNode cur = root;
+    for( int i = 0; i < s.length(); i++ )
+    {
+      if( cur.links[s.charAt(i)-'a'] == null )
+        cur.links[s.charAt(i)-'a'] = new TrieNode(s.charAt(i),alpha_size);
+      cur = cur.links[s.charAt(i)-'a'];
+      cur.count++;
+      if( i == s.length()-1 )
+        cur.isEOS = true;
+    
+    }
+  }
+}
+
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        getWords();
+    }
+    
+    public static void getWords()
+    {
+        Trie t = new Trie(26);
+        Scanner s = new Scanner(System.in);
+        int ops = s.nextInt();
+        for( int i = 0; i <= ops; i++ )
+        {
+           String str = s.nextLine();
+           String[] w = str.split(" ");
+           if(w[0].equals("add"))
+               t.insert(w[1]);
+           else if( w[0].equals("find"))
+               System.out.println(findPartial(t,w[1]));
+        }
+    }
+    
+    public static int findPartial( Trie t, String s )
+    {
+        int count = 0;
+        TrieNode cur = t.root;
+        for( int i = 0; i < s.length(); i++ )
+        {
+          if( cur.links[s.charAt(i)-'a'] != null )
+              cur = cur.links[s.charAt(i)-'a'];
+          else 
+              return 0;
+        }
+        return cur.count;
+    }
+}

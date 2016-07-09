@@ -1,0 +1,66 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+class Data
+{
+    int data;
+    int index;
+}
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner s = new Scanner(System.in);
+        int num = s.nextInt();
+        int[] arrival = new int[num];
+        int[] time = new int[num];
+        for( int i = 0; i < num; i++ )
+        {
+            arrival[i] = s.nextInt();
+            time[i] = s.nextInt();
+        }
+        getWaitingtime(num,arrival,time);
+    }
+    public static void getWaitingtime( int num, int[] arrival, int[] time )
+    {
+        PriorityQueue<Data> PQ = new PriorityQueue<Data>(5, new Comparator<Data>(){
+            public int compare( Data one, Data two )
+            {
+                return (one.data == two.data)?0:(one.data>two.data)?1:-1;
+            }
+        });
+        int cur_time = arrival[0]+time[0]; 
+        int wait_time = time[0];
+        int start = 1;
+        int i = start;
+    
+        while( start < num )
+        {
+            for( i = start; i < num && arrival[i] < cur_time ; i++ )
+            {
+               Data d = new Data();
+               d.data = time[i];
+               d.index = i;
+               PQ.add(d);
+            }
+            Data d = PQ.poll();
+            wait_time += (cur_time-arrival[d.index])+time[d.index];
+            cur_time += d.data;
+            start = i;
+           // if( !PQ.isEmpty() && start < num && arrival[i] > cur_time )
+                
+        }
+        while( !PQ.isEmpty() )
+        { 
+            Data d = PQ.poll();
+            wait_time += (cur_time-arrival[d.index])+time[d.index];
+            cur_time += d.data;
+        }
+        
+        int a = wait_time/num;
+        System.out.println(a);
+    }
+}

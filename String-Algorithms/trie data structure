@@ -1,0 +1,88 @@
+//trie data structure
+class TrieNode
+{
+  char data;
+  boolean isEOS;
+  TrieNode[] links;
+  public TrieNode( int alpha )
+  {
+    data = ' ';
+    isEOS = false;
+    links = new TrieNode[alpha];
+  }
+  public TrieNode( char c, int alpha )
+  {
+    data = c;
+    boolean isEOS = false;
+    links = new TrieNode[alpha];
+  }
+}
+
+class Trie
+{
+  TrieNode root;
+  int alpha_size;
+  
+  public Trie( int alpha )
+  {
+    alpha_size = alpha;
+    root = new TrieNode(alpha); 
+  }
+  
+  public void insert( String s )
+  {
+    TrieNode cur = root;
+    for( int i = 0; i < s.length(); i++ )
+    {
+      if( cur.links[s.charAt(i)-'a'] == null )
+        cur.links[s.charAt(i)-'a'] = new TrieNode(s.charAt(i),alpha_size);
+      cur = cur.links[s.charAt(i)-'a'];
+      if( i == s.length()-1 )
+        cur.isEOS = true;
+    }
+  }
+  
+  public boolean find( String s )
+  {
+    TrieNode cur = root;
+    for( int i = 0; i < s.length(); i++ )
+    {
+      if( cur.links[s.charAt(i)-'a'] == null )
+        return false;
+      cur = cur.links[s.charAt(i)-'a'];
+      if( i == s.length()-1 && cur.isEOS )
+         return true;      
+    }
+    return false;
+  }
+}
+
+public class TrieTest
+{
+  public static void main( String[] args )
+  {
+    Trie t = new Trie(26);
+    t.insert("hello");
+    t.insert("trie");
+    t.insert("how");
+    t.insert("are");
+    t.insert("you");
+    StringBuilder s = new StringBuilder();
+    traverseTrie(t.root,s);
+  }
+  
+  public static void traverseTrie( TrieNode t, StringBuilder s )
+  {
+    if( t.data != ' ' )
+      s.append(t.data);
+    if( t.isEOS)
+      System.out.println(new String(s));
+    for( int i = 0; i < t.links.length; i++ )
+    {
+      if( t.links[i] != null )
+        traverseTrie( t.links[i], s );
+    }
+    if(!(s.length() == 0))
+    s.deleteCharAt(s.length()-1);
+  }
+}

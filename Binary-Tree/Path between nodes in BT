@@ -54,7 +54,7 @@ public class DiagonalSum
     root.getLeft().getRight().setLeft( new BTN(11));
     root.getLeft().getLeft().setRight( new BTN(10));
     ArrayList<Integer> ans = new ArrayList<Integer>();
-    getPath(root,root.getLeft().getLeft().getLeft(),root.getLeft().getRight().getRight(),ans);
+    getPath(root,root.getLeft().getLeft().getRight(),root.getLeft().getRight().getLeft(),ans);
     System.out.println(ans.toString());
   }
   
@@ -63,16 +63,18 @@ public class DiagonalSum
     if( root == null ) return root;
     if( root == a || root == b )
       return root;
+    
     BTN left = getPath( root.getLeft(), a ,b, ans );
     BTN right = getPath( root.getRight(), a ,b, ans );
-    if( left != null || right != null )
-      ans.add(root.getData());
     if( left != null && right != null )
     {
-      System.out.println(root.getData());
       ans.add(root.getData());
-      return root;
+      return null;
     }
+    
+    if( left != null || right != null )
+      ans.add(root.getData());
+    
     return ( left!= null)? left:right;
   }
 }

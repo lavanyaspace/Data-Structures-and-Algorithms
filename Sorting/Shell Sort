@@ -1,0 +1,27 @@
+//Sorting
+//Shell Sort
+public class ShellSort
+{
+  public static void main( String[] args )
+  {
+    int[] a = {8,3,7,1,2,10,5,17,18,23};
+    shellSort(a);
+    for( int i = 0; i< a.length; i++ )
+      System.out.print(a[i]+"  ");
+  }
+  
+  public static void shellSort( int[] a )
+  {
+    for( int gap = a.length/2; gap > 0; gap /= 2 )
+    {
+      for( int i = gap; i < a.length; i++ )
+      {
+        int temp = a[i];
+        int j;
+        for( j = i; j >= gap && a[j-gap] > temp; j -= gap )
+          a[j] = a[j-gap];
+        a[j] = temp;
+      }
+    }
+  }
+}

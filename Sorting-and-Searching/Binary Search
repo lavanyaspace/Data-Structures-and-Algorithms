@@ -1,0 +1,31 @@
+//Binary Search
+public class BinarySearch
+{
+  public static void main( String[] args )
+  {
+    int[] a = {2,5,9,12,34,78,90,101,134};
+    binarySearch(a,100);
+  }
+  
+  public static void binarySearch( int[] a, int s )
+  {
+    System.out.println(bSearch(a,0,a.length-1,s));
+  }
+  
+  public static int bSearch( int[] a, int start, int end, int s )
+  {
+    if( start <= end )
+    {
+      int center = (start+end)/2;
+      if( a[center] == s )
+        return center;
+      else if( a[center] > s )
+        return bSearch(a,start,center-1,s);
+      else if( a[center] < s )
+        return bSearch(a,center+1,end,s);
+      else
+        return -1;
+    }
+    return -1;
+  }
+}

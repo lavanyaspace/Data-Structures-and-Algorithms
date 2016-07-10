@@ -15,16 +15,27 @@ public class Solution {
         /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
         Scanner s = new Scanner(System.in);
         int num = s.nextInt();
-        int[] arrival = new int[num];
+        PriorityQueue<Data> PQ1 = new PriorityQueue<Data>(num, new Comparator<Data>(){
+            public int compare( Data one, Data two )
+            {
+                return ( one.data == two.data )?0:((one.data>two.data)?1:-1);                
+            }
+        });
+        
         int[] time = new int[num];
+        int[] arrival = new int[num];
         for( int i = 0; i < num; i++ )
         {
             arrival[i] = s.nextInt();
+            Data d = new Data();
+            d.data = arrival[i];
+            d.index = i;
+            PQ1.add(d);
             time[i] = s.nextInt();
         }
-        getWaitingtime(num,arrival,time);
+        getWaitingtime(num,arrival,PQ1,time);
     }
-    public static void getWaitingtime( int num, int[] arrival, int[] time )
+    public static void getWaitingtime( int num, int[] arrival,  PriorityQueue<Data> PQ1, int[] time )
     {
         PriorityQueue<Data> PQ = new PriorityQueue<Data>(5, new Comparator<Data>(){
             public int compare( Data one, Data two )
@@ -32,35 +43,41 @@ public class Solution {
                 return (one.data == two.data)?0:(one.data>two.data)?1:-1;
             }
         });
-        int cur_time = arrival[0]+time[0]; 
-        int wait_time = time[0];
-        int start = 1;
-        int i = start;
+        Data first = PQ1.poll();
+        long cur_time = first.data+time[first.index]; 
+        long wait_time = time[first.index];
     
-        while( start < num )
+        while( !PQ1.isEmpty() )
         {
-            for( i = start; i < num && arrival[i] < cur_time ; i++ )
-            {
-               Data d = new Data();
-               d.data = time[i];
-               d.index = i;
-               PQ.add(d);
-            }
-            Data d = PQ.poll();
-            wait_time += (cur_time-arrival[d.index])+time[d.index];
-            cur_time += d.data;
-            start = i;
-           // if( !PQ.isEmpty() && start < num && arrival[i] > cur_time )
-                
+        Data d = null ;
+        while( !PQ1.isEmpty() && cur_time > PQ1.peek().data )
+        {
+            d = PQ1.poll();
+            Data t = new Data();
+            t.data = time[d.index];
+            t.index = d.index;
+            PQ.add(t);
+        }
+          if( !PQ.isEmpty())
+          {
+            Data c = PQ.poll();
+            wait_time += (cur_time-arrival[c.index])+time[c.index];
+            cur_time += c.data;
+          }
+            else if( PQ.isEmpty() && !PQ1.isEmpty() )
+           {
+             Data f = PQ1.poll();
+             cur_time = first.data+time[f.index]; 
+             wait_time += time[f.index]; 
+           }
         }
         while( !PQ.isEmpty() )
         { 
-            Data d = PQ.poll();
-            wait_time += (cur_time-arrival[d.index])+time[d.index];
-            cur_time += d.data;
+            Data l = PQ.poll();
+            wait_time += (cur_time-arrival[l.index])+time[l.index];
+            cur_time += l.data;
         }
-        
-        int a = wait_time/num;
+        long a = wait_time/num;
         System.out.println(a);
     }
 }

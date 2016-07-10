@@ -1,0 +1,81 @@
+//Sorting
+//Heap Sort
+public class Heapsort
+{
+  public static void main( String[] args )
+  {
+    int[] a = {4,2,7,8,12,10,23,56,45};
+    heapSort(a);
+    for( int i = 0;i < a.length; i++ )
+      System.out.print(a[i]+" ");
+    sort(a);
+    System.out.println();
+    for( int i = 0;i < a.length; i++ )
+      System.out.print(a[i]+" ");
+  }
+  
+  public static void heapSort( int[] a )
+  {
+    int nonLeaf = (a.length-2)/2;
+    for( int i = nonLeaf; i >=0 ; i-- )
+    {
+      PercolateDown(a,i,a.length);
+    }
+  }
+  
+  public static int lChild( int i, int length )
+  {
+    int p = 2 * i + 1;
+    if( p < length )
+      return p;
+    return -1;
+  }
+  
+  public static int rChild( int i, int length )
+  {
+    int p = 2 * i + 2;
+    if( p < length )
+      return p;
+    return -1;
+  }
+  
+  public static void PercolateDown( int[] a, int n, int length )
+  {
+    int max;
+    int l = lChild( n, length );
+    int r = rChild( n, length );
+    if( l!= -1 && a[l] > a[n] )
+      max = l;
+    else
+      max = n;
+    if( r != -1 && a[r] > a[max])
+      max = r;
+      
+    if( max != n )
+    {
+      int temp = a[n];
+      a[n] = a[max];
+      a[max] = temp;
+      PercolateDown(a,max,length);
+    }
+  }
+  
+  public static void sort( int[] a )
+  {
+    int orig = a.length-1;
+    for(int i = 0; i < a.length-1 ; i++ )
+    {
+      a[orig] = deleteMax(a,orig);
+      orig--;
+    }
+  }
+  
+  public static int deleteMax( int[] a, int i )
+  {
+    int e = a[0];
+    a[0] = a[i];
+    PercolateDown(a,0,i);
+    return e;
+  }
+  
+}

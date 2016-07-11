@@ -1,0 +1,53 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class Point 
+{
+    int x;
+    int y;
+    public Point( int x, int y )
+    {
+        this.x= x;
+        this.y = y;
+    }
+}
+
+public class GFG {
+	public static void main (String[] args) {
+		Scanner s = new Scanner(System.in);
+		int t = s.nextInt();
+		for( int i = 0; i < t; i++ )
+		{
+		    Point p1 = new Point(s.nextInt(),s.nextInt());
+		    Point p2 = new Point(s.nextInt(),s.nextInt());
+		    Point p3 = new Point(s.nextInt(),s.nextInt());
+		    Point p4 = new Point(s.nextInt(),s.nextInt());
+		    System.out.println(checkSquare(p1,p2,p3,p4));
+		}
+	}
+	
+	public static int checkSquare( Point p1, Point p2, Point p3, Point p4)
+	{
+      if(p1.x == p2.x)
+        return checkMore(p1,p2,p3,p4);
+      if(p1.x == p3.x)
+        return checkMore(p1,p3,p2,p4);
+      if(p1.x == p4.x)
+         return checkMore(p1,p4,p2,p3);
+	    return -1;
+	}
+	
+	public static int checkMore( Point p1, Point p2, Point p3, Point p4)
+	{
+	    if( p3.x != p4.x )
+	        return 0;
+	    if( p1.y == p3.y && p2.y == p4.y )
+	        return 1;
+	    if( p1.y == p4.y && p2.y == p3.y )
+	        return 1;
+	    return 0; 
+	}
+	
+	
+}

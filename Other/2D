@@ -1,0 +1,103 @@
+//*******************************************************************
+// Java compiler created in PHP to quickly and safely test code.
+// NOTE: please read the 'More Info' tab to the right for shortcuts.
+//*******************************************************************
+
+import java.lang.Math; // header stuff MUST go above the first class
+
+// our main class becomes a file but the main method is still found
+public class HelloWorld
+{
+  public static void main(String[] args)
+  {
+    char[][] char2D = {{'A','C','P','R','C'},{'X','S','O','P','C'},{'V','O','V','N','I'},{'W','G','F','M','N'},{'Q','A','T','I','T'}};
+    String s = "TNIC";
+    int startRow =0;
+    int startCol = 0;
+    System.out.println(wrap(char2D,s,startRow,startCol)); 
+   }
+  
+  public static boolean wrap(char[][] char2D,String s,int startRow,int startCol)
+  {
+    int i = startRow;
+    int j = startCol;
+    outerloop:
+    for(i = startRow; i< char2D.length; i++)
+    {
+      for(j = startCol; j<char2D[0].length; j++)
+      {
+        if(char2D[i][j] == s.charAt(0))
+        {
+          startRow = i;
+          startCol = j;
+          System.out.println(i+"  "+j);
+          break outerloop;
+        }
+      }
+  }
+    if( i >= char2D.length && j >= char2D[0].length)
+      return false;
+    
+    boolean[][] setMark = new boolean[char2D.length][char2D[0].length];
+    
+    setMark[startRow][startCol] = true;
+    
+    int count = 1;
+    
+    boolean f = search2D(char2D,s,startRow,startCol,setMark,count);
+
+    if(f == false)
+    { if(startCol >= char2D[0].length - 1 && startRow < char2D[0].length - 1)
+      {
+            startCol = 0;
+            startRow = startRow + 1;       
+       }
+     else 
+       startCol = startCol + 1;
+     
+      boolean res = wrap(char2D,s,startRow,startCol);
+      if(res == false)
+        return res;
+      else 
+       return true;
+    }     
+    else
+      return f;
+  }
+  
+  public static boolean search2D(char[][] char2D,String s,int startRow,int startCol,boolean[][] setMark,int count)
+  {
+    if(count >= s.length()) return true;
+    int startR,startC,endR,endC;
+    
+    boolean r = false;
+    
+    startR = startRow-1 < 0 ? startRow : startRow -1 ;
+    endR = startRow+1 >= char2D.length ? startRow : startRow + 1 ;
+    startC = startCol-1 < 0 ? startCol : startCol -1 ;
+    endC = startCol+1  >= char2D[0].length ? startCol : startCol + 1 ;
+    
+    for(int i = startR; i<= endR; i++)
+    {
+      for(int j = startC ; j <= endC; j++)
+      {
+        if( char2D[i][j] == s.charAt(count) && setMark[i][j] == false )
+        {
+          setMark[i][j] = true;
+          count = count +1;
+          startRow = i;
+          startCol = j;
+          System.out.println(i+"   "+j);
+          r = search2D(char2D,s,startRow,startCol,setMark,count);
+          if( r == true) return true;
+    	  else return false;
+        }
+        else if(char2D[i][j] != s.charAt(count) && i == endR && j == endC )
+        {
+          return false;
+        }
+      }
+    }
+    return false;   
+  }
+}

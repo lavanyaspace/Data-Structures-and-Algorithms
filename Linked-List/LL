@@ -1,0 +1,218 @@
+class LinkedList
+{
+		ListNode headNode;
+		int length;
+		
+		public LinkedList()
+		{
+			headNode= null;
+			length = 0;
+		}
+		
+		//returning head node
+		public ListNode getHead()
+		{
+			return headNode;
+		}
+		
+		//insert node in the beginning
+		public void insertStart( int data )
+		{
+			ListNode newNode = new ListNode(data,null);
+			if( headNode == null)
+			{
+				headNode = newNode;
+			}
+			else
+			{
+				newNode.setNext(headNode);
+				headNode = newNode;
+			}
+			length = length+1;
+		}
+		
+		//insert node at end
+		public void insertEnd(int data)
+		{
+			ListNode newNode = new ListNode(data,null);
+			if(headNode == null)
+			{
+				headNode = newNode;
+			}
+			else
+			{
+				ListNode currentNode = new ListNode(headNode.getData(),headNode.getNext());
+				while(currentNode.getNext() != null)
+				{
+					currentNode = currentNode.getNext();
+				}
+				currentNode.setNext(newNode);
+			}
+			length = length + 1;
+		}
+		
+		//insert at a particular position
+		public void insertAtPosition(int data, int position)
+		{
+			if( position < 0 )
+				System.out.println("Invalid position.Enter a position within 0 and "+(length+1));
+			else if( position > length + 1 )
+				System.out.println("Invalid position.Enter a position within 0 and "+(length+1));
+			else
+			{
+				int count = 0;
+				ListNode newNode = new ListNode(data,null); 
+				if( headNode == null )
+				{
+					headNode = newNode;
+				}
+			    else
+				{
+					count = count+1;
+					ListNode currentNode = new ListNode(headNode.getData,headNode.getNext);
+					while(count < position - 1 )
+					{
+						currentNode = currentNode.getNext();
+					}
+					newNode.setNext(currentNode.getNext());
+					currentNode.setNext(newNode);
+					
+				}
+			}
+			length = length+1;
+		}
+		
+		//remove and return the node at the head of the list
+		public ListNode removeStart()
+		{
+			if(head == null)
+			{
+				System.out.println("The list is empty");
+				return null;
+			}
+				
+			else
+			{
+				ListNode tempNode = new ListNode(headNode.getData(),headNode.getNext());
+				headNode = headNode.getNext
+				length = length - 1;
+				return tempNode;
+			}
+	
+		}
+		
+		//remove and return last node
+		public ListNode removeEnd()
+		{
+			if(headNode == null)
+			{
+				System.out.println("The list is empty");
+				return null;
+			}
+			else
+			{
+				ListNode currentNode = new ListNode(headNode.getData(),headNode.getNext())
+				ListNOde tempNode = new ListNode();
+				while( currentNode.getNext().getNext() != null )
+				{
+					currentNode = currentNode.getNext();
+				}
+				tempNode = currentNode.getNext();
+				currentNode.setNext(null);
+				length = length - 1;
+				return tempNode;
+			}	
+				
+		}
+		
+		//remove the specified node
+		public ListNode removeNode(ListNode node)
+		{
+			if( head == null )
+			{
+				System.out.println("List is empty");
+				return null;
+			}
+			else
+			{
+				ListNode currentNode = new ListNode(headNode.getData(),headNode.getNext());
+				ListNode tempNode = new ListNode();
+				while(currentNode.getNext().equals(node))
+				{
+					currentNode = currentNode.getNext();
+				}
+				tempNode = currentNode.getNext();
+				currentNode.setNext(tempNode.getNext());
+				length = length - 1;
+				return tempNode;
+			}
+		}
+		//remove the specified data
+		public void removeData(int data)
+		{
+			if( head == null )
+			{
+				System.out.println("List is empty");
+				return null;
+			}
+			else
+			{
+				ListNode currentNode = new ListNode(headNode.getData(),headNode.getNext());
+				ListNode tempNode = new ListNode();
+				while(currentNode.getNext().getData() != data )
+				{
+					currentNode = currentNode.getNext();
+				}	
+				tempNode = currentNode.getNext();
+				currentNode.setNext(tempNode.getNext());
+				length = length - 1;
+				return tempNode;
+			}
+		}
+		//remove at a particular position
+		public ListNode removePosition(int position)
+		{
+			if( head == null )
+			{
+				System.out.println("List is empty");
+				return null;
+			}
+			else
+			{
+				if( position <= 0 )
+				{
+					position = 1;
+				}
+				else if( position>length )
+				{
+					position = length;
+				}
+				else
+				{
+					int currentPosition = 1;
+					ListNode currentNode = new ListNode(headNode.getData(),headNode.getNext());
+					ListNode tempNode = new ListNode();
+					while( currentPosition < position-1 )
+					{
+						currentNode = currentNode.getNext();
+					}
+					tempNode = currentNode.getNext();
+					currentNode.setNext(tempNode.getNext());
+					length = length - 1;
+					return tempNode;
+				}
+			}
+		}
+}5mn
+
+
+
+
+
+
+
+
+
+
+
+

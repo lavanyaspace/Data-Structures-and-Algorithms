@@ -1,0 +1,21 @@
+//*******************************************************************
+// Java compiler created in PHP to quickly and safely test code.
+// NOTE: please read the 'More Info' tab to the right for shortcuts.
+//*******************************************************************
+
+import java.lang.Math; // header stuff MUST go above the first class
+import java.util.*;
+// our main class becomes a file but the main method is still found
+public class HelloWorld
+{
+  public static void main(String[] args)
+  {
+    int a = 5;
+    Stack<Integer> s = new Stack<Integer>();
+    s.push(a);
+    a = 20;
+    System.out.println(a+"  "+s.pop());
+    int b = 20;
+    System.out.println(Math.max(a,b));
+  }
+}

@@ -1,0 +1,74 @@
+//Pairwise Swap
+//Linked List Node
+class ListNode
+{
+  int data;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+public class PairWiseSwap
+{
+  public static void main(String[] args)
+  {
+    ListNode head = new ListNode(3);
+    head.setNext(new ListNode(6));
+    head.getNext().setNext(new ListNode(8));
+    head.getNext().getNext().setNext(new ListNode(12));
+    head.getNext().getNext().getNext().setNext(new ListNode(13));
+    head.getNext().getNext().getNext().getNext().setNext(new ListNode(14));
+    head.getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(18));
+    head.getNext().getNext().getNext().getNext().getNext().getNext().setNext(new ListNode(23));
+    head = swap( head );
+    while( head != null )
+    {
+      System.out.println(head.getData());
+      head = head.getNext();
+    }
+  }
+  
+  public static ListNode swap( ListNode head )
+  {
+    if( head == null || head.getNext() == null )
+      return head;
+    ListNode cur = head;
+    ListNode temp = head.getNext().getNext();
+    head.getNext().setNext(head);
+    head = head.getNext();
+    while( temp != null && temp.getNext() != null )
+    {
+      cur.setNext(temp.getNext());
+      cur = temp;
+      temp = temp.getNext().getNext();
+      cur.getNext().setNext(cur);
+    }
+    cur.setNext(temp);
+    return head;
+  }
+}

@@ -1,0 +1,179 @@
+//Two Linked List represent number add them.
+//Linked List Node
+class ListNode
+{
+  int data;
+  ListNode next;
+  
+  //constructor
+  public ListNode( int data )
+  {
+    this.data = data;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setNext( ListNode next )
+  {
+    this.next = next;
+  }
+  
+  public ListNode getNext()
+  {
+    return next;
+  }
+}
+
+//Add two LLs without modifying the LL - recursive solution
+public class LLAddition
+{
+  public static void main( String[] args )
+  {
+    //LL1
+    ListNode head1 = new ListNode(5);
+    head1.setNext(new ListNode(7));
+    head1.getNext().setNext(new ListNode(7));
+    head1.getNext().getNext().setNext(new ListNode(2));
+    head1.getNext().getNext().getNext().setNext(new ListNode(9));
+    head1.getNext().getNext().getNext().getNext().setNext(new ListNode(8));
+    
+    //LL2
+    ListNode head2 = new ListNode(5);
+    head2.setNext(new ListNode(8));
+    head2.getNext().setNext(new ListNode(1));
+    head2.getNext().getNext().setNext(new ListNode(8));
+    head2.getNext().getNext().getNext().setNext(new ListNode(6));
+    
+    ListNode r = addLL(head1,head2);
+    while( r != null )
+    {
+      System.out.print(r.getData()+" ");
+      r = r.getNext();
+    } 
+  }
+  
+  public static ListNode addLL( ListNode head1, ListNode head2 )
+  {
+    if( head1 == null ) return head1;
+    if( head2 == null ) return head2;
+    
+    int l1= getLength(head1);
+    int l2 = getLength(head2);
+    
+    ListNode tempHead = null;
+    
+    if( l1 > l2 )
+    {
+      tempHead = head1;
+      head1 = moveHead(head1, l1 - l2 );
+    }
+    
+    else if( l2 > l1 )
+    {
+      tempHead = head2;
+      head2 = moveHead(head2, l2 - l1);
+    }
+    
+    ListNode head = add( head1, head2 );
+    
+    if( tempHead != null )
+    {
+      ListNode cur = tempHead;
+      while( cur.getNext() != head1 && cur.getNext() != head2 )
+        cur = cur.getNext();
+      if( head.getData() > 9 )
+      {
+        head.setData( head.getData() - 10 );
+        addOne(tempHead, cur);
+        if( tempHead.getData() > 9 )
+         tempHead =  addNode(tempHead);
+      }
+      cur.setNext(head);
+      return tempHead;
+    }
+    else 
+    {
+      if( head.getData() > 9 )
+        return addNode(head);
+    }
+    return null;
+  }
+  
+  public static ListNode moveHead( ListNode head, int move )
+  {
+    if( head == null || move < 1 ) return null ;
+    while( move != 0 )
+    {
+      head = head.getNext();
+      move--;
+    }
+    return head;
+  }
+  
+  public static int getLength( ListNode head )
+  {
+    if( head == null ) return 0;
+    int count = 0;
+    ListNode cur = head;
+    while( cur != null )
+    {
+      count++;
+      cur = cur.getNext();
+    }
+    return count;
+  }
+  
+  public static ListNode add( ListNode head1, ListNode head2 )
+  {
+    if( head1 == null ) return head1;
+    if( head2 == null ) return head2;
+    //if( getLength(head1) != getLength(head2)) return null;
+    
+    ListNode node = null;
+    if( head1.getNext() != null )
+      node = add( head1.getNext(), head2.getNext() );
+    
+    ListNode cur = new ListNode( head1.getData() + head2.getData() );
+    if( node != null && node.getData() > 9 )
+    {
+      node.setData(node.getData()-10);
+      cur.setData(cur.getData()+1);
+    }
+    cur.setNext(node);
+    return cur;
+  }
+  
+  public static void addOne( ListNode head , ListNode cur )
+  {
+    if( head == null || cur == null ) return;
+    if( head == cur )
+    {
+      cur.setData( cur.getData() + 1 );
+      return;
+    }
+    addOne(head.getNext(),cur);
+    if( head.getNext().getData() > 9 )
+    {
+      head.getNext().setData(head.getNext().getData()-10);
+      head.setData(head.getData()+1);
+    }
+  }
+  
+  public static ListNode addNode( ListNode head )
+  {
+    head.setData(head.getData()-10);
+    ListNode h = new ListNode(1);
+    h.setNext(head);
+    return h;
+  }
+ 
+}

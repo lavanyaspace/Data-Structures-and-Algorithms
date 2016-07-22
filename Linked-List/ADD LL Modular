@@ -105,7 +105,7 @@ public class LLAddition
       if( head.getData() > 9 )
         return addNode(head);
     }
-    return null;
+    return head;
   }
   
   public static ListNode moveHead( ListNode head, int move )

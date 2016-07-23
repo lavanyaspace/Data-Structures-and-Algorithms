@@ -1,0 +1,184 @@
+//LRU cache Implementation
+import java.util.*;
+
+//DLL node
+class DLLNode
+{
+  int data;
+  DLLNode prev;
+  DLLNode next;
+   
+  //constructor
+  public DLLNode( int data )
+  {
+    this.data = data;
+    prev = null;
+    next = null;
+  }
+  
+  public void setData( int data )
+  {
+    this.data = data;
+  }
+  
+  public int getData()
+  {
+    return data;
+  }
+  
+  public void setPrev( DLLNode prev )
+  {
+    this.prev = prev;
+  }
+  
+  public DLLNode getPrev()
+  {
+    return prev;
+  }
+  
+  public void setNext( DLLNode next )
+  {
+    this.next = next;
+  }
+  
+  public DLLNode getNext()
+  {
+    return next;
+  }
+}
+
+class Queue
+{
+  DLLNode head;
+  DLLNode cur;
+  Queue()
+  {
+    head = null;
+    cur = null;
+  }
+  
+  DLLNode insertFirst( int data )
+  {
+    DLLNode node = new DLLNode(data);;
+
+    if( head == null )
+    {
+      head = node;
+      cur = head;
+    }
+    else
+    {
+      node.setNext(head);
+      head.setPrev(node);
+      head = node;
+    }
+    return node;
+  }
+  
+  void deleteNode( DLLNode node )
+  {
+    if( node.getNext() != null )
+    {
+      if( node.getNext() == cur )
+        cur = node;
+      node.setData(node.getNext().getData());
+      node.setNext(node.getNext().getNext());
+      if( node.getNext() != null )
+        node.getNext().setPrev(node);
+    }
+    else
+    {
+     if( head == node )
+       head = node.getNext();
+      else
+      {
+     	cur = node.getPrev();
+     	cur.setNext(null);
+      }
+    }
+  }
+  
+  public String toString()
+  {
+    StringBuilder build = new StringBuilder();
+    DLLNode cur = head;
+    while( cur != null )
+    {
+       build.append(cur.getData()+"  ");
+       cur = cur.getNext();
+    }
+    return build.toString();
+  }
+  
+  DLLNode lastNode()
+  {
+    return cur;
+  }
+}
+  public class LRU
+  {
+    int SIZE;
+    Queue q;
+    HashMap<Integer,DLLNode> map; 
+    int currentSize;
+    
+    
+    LRU( int s )
+    {
+      SIZE = s;
+      currentSize = 0;
+      q = new Queue();
+      map = new HashMap<Integer,DLLNode>(SIZE);
+    }
+    
+    public void addPage( int page )
+    {
+      if( map.get(page)  != null )
+      {
+        DLLNode front = map.get(page);
+        currentSize--;
+        q.deleteNode(front);
+        if( front != null )
+          map.put(front.getData(),front);
+      }
+      else if( currentSize >= SIZE )
+      {
+        DLLNode r = q.lastNode();
+        map.remove(r.getData());
+        q.deleteNode(r);
+      }
+      currentSize++;
+      map.put(page,q.insertFirst(page)); 
+    }
+    
+    void printContents()
+    {
+      System.out.println(q.toString());
+    }
+    public static void main( String[] args)
+    {
+      LRU cache = new LRU(4);
+      cache.addPage(2);
+      cache.printContents();
+      cache.addPage(0);
+      cache.printContents();
+      cache.addPage(1);
+      cache.printContents();
+      cache.addPage(3);
+      cache.printContents();
+      cache.addPage(0);
+      cache.printContents();
+      cache.addPage(2);
+      cache.printContents();
+      cache.addPage(6);
+      cache.printContents();
+      cache.addPage(7);
+      cache.printContents();
+      cache.addPage(7);
+      cache.printContents();
+      cache.addPage(1);
+      cache.printContents();
+      cache.addPage(9);
+      cache.printContents();
+    }
+}

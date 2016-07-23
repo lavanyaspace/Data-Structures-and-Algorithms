@@ -79,7 +79,7 @@ public class Heap
   {
     int p = getParent(i);
     int temp;
-    if( i != -1 &&  heap[i] < heap[p] )
+    if( p != -1 &&  heap[i] < heap[p] )
     {
       temp = heap[p];
       heap[p] = heap[i];
@@ -107,6 +107,8 @@ public class Heap
   //O(n)
   void buildHeap( int[] a )
   {
+    while( a.length > capacity )
+      resize();
     for( int i = 0; i< a.length; i++ )
     	heap[i] = a[i];
     size = a.length;

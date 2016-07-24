@@ -1,0 +1,50 @@
+public class MaxMin
+{
+  public static void main( String[] args )
+  {
+    int[] a = {1,2,3,4,5,6,7};
+    MaxMin o = new MaxMin(); 
+    o.arrange(a);
+    for( int n : a )
+      System.out.print(n+" ");
+    reverse(a);
+  }
+  
+  public void arrange( int[] a )
+  {
+    if( a.length <=1 ) return;
+    if( a.length > 2 )
+    {
+      swap(a,a.length-2,0);
+      int cur = a.length-3;
+      int small = 1;
+      boolean f = false;
+      while( small <= cur )
+      {
+        if( !f )
+          swap(a,cur,0);
+        else
+        {
+          swap(a,small,cur);
+          small++;
+        }
+        cur--;
+        f = !f;
+      }
+    }
+    swap(a,0,1);
+  }
+  
+  public void swap( int[] a, int i, int j )
+  {
+    int temp = a[i];
+    a[i] = a[j];
+    a[j] = temp;
+  }
+  
+  public void reverse( int[] a )
+  {
+    int i = 0;
+    int j = 
+  }
+}

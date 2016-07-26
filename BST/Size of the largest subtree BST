@@ -1,0 +1,120 @@
+//Size of the largest subtree that is a BST
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+class Result
+{
+  boolean isBST;
+  int size;
+  int data;
+  public Result()
+  {
+    isBST = false;
+    size = 0;
+    data = Integer.MIN_VALUE;
+  }
+}
+
+public class BSTSize
+{
+  static int maxS = 0;
+  public static void main( String[] args )
+  {
+    BTN root = new BTN(50);
+    root.setLeft(new BTN(10));
+    root.getLeft().setLeft( new BTN(5));
+    root.getLeft().setRight( new BTN(20));
+    //root.getLeft().getRight().setLeft( new BTN(2));
+    //root.getLeft().getRight().getLeft().setRight( new BTN(6));
+    //root.getLeft().getRight().setRight( new BTN(5));
+    //root.getLeft().getRight().getRight().setRight( new BTN(6));
+    root.setRight(new BTN(60));
+    root.getRight().setRight( new BTN(70));
+    root.getRight().getRight().setLeft(new BTN(65));
+    root.getRight().setLeft(new BTN(55));
+    root.getRight().getRight().setRight(new BTN(8));
+    root.getRight().getLeft().setLeft(new BTN(45));
+    System.out.println(checkBT(root,0).size);
+    System.out.println(maxS);
+  }
+  
+  public static Result checkBT( BTN root, int child )
+  {
+    Result c = new Result();
+    if(root != null) 
+    {
+      Result l = checkBT(root.getLeft(),-1);
+      Result r = checkBT(root.getRight(),1);
+      
+        //System.out.println(root.getData()+"  "+l.data+"  "+r.data);
+      if( l.isBST && r.isBST && root.getData() >= l.data && root.getData() < r.data )
+      {
+        
+        if( child == -1 )
+        {
+          if( r.data != Integer.MAX_VALUE ) 
+            c.data = r.data;
+          else 
+            c.data = root.getData();
+        }
+        
+        else if( child == 1 )
+        {
+          if( l.data != Integer.MIN_VALUE ) 
+            c.data = l.data;
+          else 
+            c.data = root.getData();
+        }
+        c.size = l.size + r.size + 1;
+        
+        //System.out.println(root.getData()+"  "+c.size);
+        c.isBST = true;
+         //maxS = Math.max(maxS,Math.max(l.size,r.size));
+      }
+      else
+      {
+        System.out.println(root.getData()+"  "+c.size);
+        maxS = Math.max(maxS,Math.max(l.size,r.size));
+      }
+    }
+    else
+    {
+    	c.isBST = true;
+        if( child == 1 ) c.data = Integer.MAX_VALUE;
+    }
+    return c;
+  } 
+}

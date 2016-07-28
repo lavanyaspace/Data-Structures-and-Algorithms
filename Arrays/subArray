@@ -1,0 +1,30 @@
+ public class SubArray
+ {
+	public static void main( String[] args )
+    {
+      int[] a = {1,2,3,4};
+      generateSubArray(a);
+    }
+   
+    public static void generateSubArray( int[] a )
+    {
+      int w = 1;
+      int l = 0;
+      int h = 0;
+      while( w <= a.length )
+      {
+        l = 0;
+        h = w;
+        for( int i = 0; h <= a.length; i++ )
+        {
+          for( int j = l; j < h; j++ )
+            System.out.print(a[j]+" ");
+          
+          l++;
+          h++;
+          System.out.println();
+        }
+        w++;
+      }
+    }
+ }

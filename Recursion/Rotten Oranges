@@ -1,0 +1,63 @@
+//rotten orange question
+// Iteravtive - did BFS
+// recursive try DFS
+public class RottenOrange
+{
+  public static void main( String[] args )
+  {
+    int[][] mat = { {2, 1, 0, 2, 1},
+                     {1, 0, 1, 2, 1},
+                     {1, 0, 0, 2, 1}};
+    
+    boolean[][] visited = new boolean[mat.length][mat[0].length]; 
+    int time_frame = 0;
+    for( int i = 0; i < mat.length; i++ )
+    {
+      for( int j = 0; j < mat[0].length; j++ )
+      {
+        if( !visited[i][j] && mat[i][j] == 2 )
+        {
+           System.out.println(rotOranges(mat,i,j,visited,0));
+           //time_frame = time_frame + System.out.println(rotOranges(mat,i,j,visited,0));
+       }
+        
+      }
+    }
+   // System.out.println(time_frame);
+  }
+  
+  static int rotOranges( int[][] mat, int i, int j, boolean[][] visited, int time )
+  {
+    if( i < 0 || j < 0 || i >= mat.length ||  j >= mat.length || mat[i][j] == 0 ) return time;
+    visited[i][j] = true;
+    int t1 =0, t2 = 0, t3=0, t4=0;
+    if( mat[i][j] == 1 )
+    {
+      mat[i][j] = 2;
+      time++;
+      //System.out.println("jhhere"+time);
+      rotOranges(mat,i,j,visited,time);
+    }
+    else if( visited[i][j] && mat[i][j] == 2 )
+    {
+      //System.out.println("here");
+      if( i+1 < mat.length && !visited[i+1][j]  && mat[i+1][j] == 1  )
+      {
+     	t1 = rotOranges(mat,i+1,j,visited,time);
+        System.out.println("h"+t1);
+      }
+      if(  j+1 < mat[0].length && !visited[i][j+1] && mat[i][j+1] == 1  )
+        t2 = rotOranges(mat,i,j+1,visited,time);
+      if(  i-1 >=0 && !visited[i-1][j] &&  mat[i-1][j] == 1  )
+        t3= rotOranges(mat,i-1,j,visited,time);
+      if( j-1 >= 0 && !visited[i][j-1] && mat[i][j-1] == 1  )
+        t4 = rotOranges(mat,i,j-1,visited,time);
+    
+    System.out.println(i+"  "+j+"  "+time+" "+t1+" "+t2+" "+t3+" "+t4);
+    int t = Math.max(time,Math.max(t1,Math.max(t2,Math.max(t3,t4))));
+      System.out.println(t);
+      return t;
+    }
+    return time;
+  }
+}

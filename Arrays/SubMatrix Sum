@@ -1,0 +1,60 @@
+import java.util.*;
+import java.lang.*; 
+import java.io.*;
+class GFG 
+{ 
+    public static void main (String[] args) 
+    { 
+    Scanner s = new Scanner(System.in);
+    int tests = s.nextInt();
+    for( int t = 0; t < tests; t++ )
+    { 
+        int r = s.nextInt(); 
+        int c = s.nextInt(); 
+        int[][] mat = new int[r][c]; 
+        for( int i = 0; i < r; i++ ) 
+        { 
+            for( int j = 0; j < c; j++ ) 
+            { 
+                mat[i][j] = s.nextInt();
+                //System.out.print(mat[i][j]);
+                
+            }
+        } 
+        int r1 = s.nextInt(); 
+        int c1 = s.nextInt(); 
+        int r2 = s.nextInt(); 
+        int c2 = s.nextInt(); 
+        
+        for( int i = r1; i < r2; i++ )
+        {
+            for( int j = c1; j < c2; j++ )
+            {
+                //System.out.print(mat[i][j]);
+            } 
+            
+        }
+        
+        //System.out.println(r+" "+c+" "+r1+" "+c1+" "+r2+" "+c2);
+        System.out.println(findSubSum( mat, r1, c1, r2, c2 )); 
+        //findSubSum( mat, r1, c1, r2, c2 );
+        } 
+        
+    } 
+    public static int findSubSum( int[][] mat, int r1, int c1, int r2, int c2 ) 
+    { 
+        //System.out.println(r1+" "+c1+" "+r2+" "+c2);
+        int sum = 0; 
+        for( int i = r1; i < r2; i++ )
+        {
+            for( int j = c1; j < c2; j++ )
+            {
+                //System.out.println(mat[i][j]);
+                sum += mat[i][j];
+                } 
+            
+        }
+        return sum; 
+        
+    }
+    }

@@ -1,0 +1,45 @@
+//Flip a zero to make longest sequence of 1's
+
+public class LongestSequence
+{
+  public static void main( String[] args )
+  {
+    int arr[] = { 1,1,1,1,1 };
+    System.out.println(findOnes(arr));
+  }
+  
+  static int findOnes( int[] arr )
+  {
+    for( int i = 0; i < arr.length; i++ )
+    {
+      if( arr[i] == 0 )
+        break;
+      return -1;
+    }
+    int curLen = 0;
+    int maxLen = 0;
+    int prevLen = 0;
+    int curZero = -1;
+    int zeroIndex = -1;
+    
+    for( int i = arr.length-1; i >=0 ; i-- )
+    {
+      if( arr[i] == 1 )
+        curLen++;
+      else if( arr[i] == 0 )
+      {
+        curZero = i;
+        prevLen = ( i+1 < arr.length && arr[i+1] == 1 )? curLen : 0;
+        if( i+1 < arr.length )
+        	curLen = 0;
+      }
+      
+      if( prevLen + curLen + 1 > maxLen )
+      {
+        zeroIndex = curZero;
+        maxLen = prevLen + curLen + 1;
+      }
+    }
+    return zeroIndex;
+  }
+}

@@ -1,0 +1,32 @@
+//Absolute distinct count in a sorted array
+
+public class DistinctCount
+{
+  public static void main( String[] args )
+  {
+    System.out.println(panagram("The quick brown fox jumps over the lazy dog"));
+  }
+  
+  public static String panagram( String s )
+  {
+    StringBuffer sb = new StringBuffer();
+    boolean[] c = new boolean[26];
+    s = s.toLowerCase();
+    for( int i = 0; i < s.length(); i++ )
+    {
+      if( s.charAt(i) != ' ' )
+        c[s.charAt(i)-'a'] = true;
+    }
+    
+    for( int i = 0; i < c.length; i++ )
+    {
+      if( !c[i])
+        sb.append((char)(i+'a'));
+    }
+    
+    if( sb.length() == 0 )
+      return "NULL";
+    
+    return sb.toString();
+  }
+}

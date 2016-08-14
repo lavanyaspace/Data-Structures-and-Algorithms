@@ -1,0 +1,48 @@
+//Gifts
+public class Gift
+{
+  static int giftCount = 0;
+  public static void main( String[] args )
+  {
+    //No. of cubicles = size of array
+    //No. of employees to onsite = no. of 1's to be set
+    countGifts(10,5);
+    System.out.println(giftCount);
+  }
+  //similar to binary search
+  
+  static void countGifts( int cubicles, int emp )
+  {
+    if( emp == 0 || cubicles == 0 ) return;
+    
+    binSearch(0,cubicles-1,emp);
+    
+  }
+  
+  
+  static void binSearch( int start , int end , int emp )
+  {
+    int middle = (start+end)/2;
+    int leftCount = middle - start;
+    int rightCount = end - middle;
+    emp--;
+    giftCount += leftCount;
+    giftCount += rightCount;
+    if( emp > 0 && leftCount < rightCount  )
+    {
+      binSearch(start,middle-1,emp);
+      if( emp > 0 )
+        binSearch(middle+1,end,emp);
+    }
+    if( emp > 0 && rightCount < leftCount)
+    {
+      binSearch(middle+1,end,emp);  
+      if( emp > 0 )
+        binSearch(start,middle-1,emp);
+    }
+    
+    
+  }
+  
+  
+}

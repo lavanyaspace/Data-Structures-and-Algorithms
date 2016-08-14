@@ -1,0 +1,108 @@
+// Binary Tree Node
+import java.util.*;
+public class BTN
+{
+    int data;
+    BTN left;
+    BTN right;
+    
+    public BTN( int data ){
+        this.data = data;
+        right = left = null;
+    }
+    
+    public void setData( int data ){
+        this.data = data;
+    }
+    
+    public int getData(){
+        return data;
+    }
+    
+    public void setLeft( BTN left ){
+        this.left = left;
+    }
+    
+    public BTN getLeft(){
+        return left;
+    }
+    
+    public void setRight( BTN right ){
+        this.right = right;
+    }
+    
+    public BTN getRight(){
+        return right;
+    }
+}
+
+public class SpiralPrint
+{ 
+  public static void main( String[] args )
+  {  
+    BTN root = new BTN(0);
+    root.setLeft(new BTN(1));
+    root.getLeft().setLeft( new BTN(2));
+    root.getLeft().setRight( new BTN(3));
+    root.getLeft().getRight().setLeft( new BTN(4));
+    root.getLeft().getRight().getLeft().setRight( new BTN(9));
+    root.getLeft().getRight().getLeft().getRight().setLeft( new BTN(10));
+    root.getLeft().getRight().getLeft().getRight().getLeft().setRight( new BTN(11));
+    root.getLeft().getRight().setRight( new BTN(5));
+    root.setRight(new BTN(6));
+    root.getRight().setRight( new BTN(7));
+    root.getRight().getRight().setLeft(new BTN(8));
+    
+    HashMap<Integer,ArrayList<Integer>> map = new HashMap<Integer,ArrayList<Integer>>();
+    map = printSpiral(root,map,0,0);
+    
+    Iterator m = map.entrySet().iterator();
+    
+    while( m.hasNext() )
+    {
+      HashMap.Entry e = (HashMap.Entry) m.next();
+      System.out.println(e.getKey() +"   "+e.getValue());
+    }
+    
+    
+  }
+  
+  
+  static HashMap<Integer,ArrayList<Integer>> printSpiral( BTN root, HashMap<Integer,ArrayList<Integer>> map, int height, int child )
+  {
+    if( root == null ) return map;
+    ArrayList<Integer> a;
+    if( map.get(height) == null )
+      a = new ArrayList<Integer>();
+    else
+      a = map.get(height);
+    a.add(root.getData());
+    map.put(height,a);
+    
+    
+    height = height + 1;
+    
+    if( child == 0 )
+    {
+      printSpiral(root.getLeft(),map,height,2);
+      printSpiral(root.getRight(),map,height,1);
+    }
+    
+    if( child == 1 )
+    {
+      printSpiral(root.getLeft(),map,height,1);
+      printSpiral(root.getRight(),map,height,1);
+    }
+     
+    
+    
+    if( child == 2 )
+    {
+      printSpiral(root.getRight(),map,height,2);
+      printSpiral(root.getLeft(),map,height,2);
+    }
+    
+    return map;
+    
+  }
+}

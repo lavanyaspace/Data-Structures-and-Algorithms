@@ -1,0 +1,83 @@
+import java.util.*;
+class Graph
+{
+  int V;
+  LinkedList<WGN>[] adjL;
+  @SuppressWarnings("unchecked")
+  Graph( int v )
+  {
+    V = v;
+    adjL = new LinkedList[v];
+    for( int i = 0; i < v;  i++ )
+      adjL[i] = new LinkedList();
+  }
+  
+  void addEdge( int u, WGN v )
+  {
+    adjL[u].add(v);
+  }
+}
+
+public class ShortestPath
+{
+  static int minPath = Integer.MAX_VALUE;
+  public static void main( String[] args )
+  {
+    Graph g = new Graph(4);
+    WGN one = new WGN(1,10);
+    g.addEdge(0,one);
+    WGN two = new WGN(2,3);
+    g.addEdge(0,two);
+    WGN three = new WGN(3,2);
+    g.addEdge(0,three);
+    WGN four = new WGN(3,7);
+    g.addEdge(1,four);
+    WGN five = new WGN(3,6);
+    g.addEdge(2,five);
+    
+    DFS(0,3,2,g,0,0);
+    System.out.println(minPath);
+    
+  }
+  
+  
+  static void DFS( int u, int v, int k, Graph g, int size, int curSum )
+  {
+    if( size == k )
+    {   
+      if(u == v )
+      {
+        if( curSum < minPath )
+        {
+          minPath = curSum;
+        }
+      }
+      return;
+    }
+    
+    Iterator<WGN> i = g.adjL[u].iterator();
+    while( i.hasNext() )
+    {
+      WGN n = i.next();
+      if( curSum + n.weight > minPath )
+        continue;
+      DFS(n.vertex,v,k,g,size+1,curSum + n.weight);
+    }
+    
+  }
+  
+  
+}
+
+
+class WGN
+{
+  int vertex;
+  int weight;
+  
+  WGN( int v, int w )
+  {
+    vertex = v;
+    weight = w;
+  }
+}

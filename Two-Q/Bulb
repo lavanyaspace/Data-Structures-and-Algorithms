@@ -1,0 +1,30 @@
+//Bulb
+public class Switch
+{
+  public static void main( String[] args )
+  {
+    System.out.println(isBulbOn(5,8));
+  }
+  
+  
+  static int isBulbOn( int noSwitch, int press )
+  {
+    if( press < noSwitch ) return -1;
+    
+    if( press % noSwitch == 0 )
+    {
+      if( (press/noSwitch)%2 == 0 )
+        return -1;
+      else
+        return 1;
+    }
+    else
+    {
+      int e = press - noSwitch;
+      if( e % 2 == 0 )
+        return 1;
+      else
+        return -1;
+    }
+  }
+}

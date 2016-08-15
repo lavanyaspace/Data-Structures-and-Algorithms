@@ -1,0 +1,47 @@
+public class GP
+{
+  public static void main( String[] args )
+  {
+    int[] arr = {1, 2, 6, 10, 18, 54};
+    getTriplets(arr);
+  }
+  
+  
+  static void getTriplets( int[] arr )
+  {
+    if( arr == null || arr.length == 0 )
+      return;
+    
+    for( int i = 0; i < arr.length - 2; i++ )
+    {
+      int l = i+1;
+      int r = l+1;;
+      
+      while( l < arr.length && r < arr.length )
+      {
+        if( arr[l] % arr[i] == 0 && arr[r] % arr[l] ==  0 && (arr[l]/arr[i]) == (arr[r]/arr[l]) )
+        {
+          System.out.println(arr[i]+" "+arr[l]+" "+arr[r]);
+          l++;
+          r++;
+        }
+         else if( arr[l] % arr[i] != 0  )
+         {
+          l++;
+          if( l == r )
+              r++;
+         }
+        else if ( arr[r] % arr[l] !=  0  || (arr[l]/arr[i]) > (arr[r]/arr[l]) )
+        {
+          r++;
+        }
+        else
+        {
+          l++;
+          r++;
+        }
+      }
+    }
+  }
+}
+  

@@ -1,0 +1,68 @@
+public class InversionCount
+{
+  public static void main( String[] args )
+  {
+    int[] arr = { 2, 7, 5, 3, 0, 8, 1 };
+    System.out.println(countInversion(arr));
+  }
+  
+  public static int countInversion( int[] arr )
+  {
+    if( arr == null || arr.length == 0 )
+      return 0;
+    int[] temp = new int[arr.length];
+    return mergeSort(arr,0,arr.length-1,temp);
+    
+  }
+  
+  public static int mergeSort( int[] arr, int start ,int end ,int[] temp )
+  {
+    int inversion = 0;
+    if( start < end )
+    {
+      int center = (start+end)/2;
+      inversion += mergeSort(arr,start,center,temp);
+      inversion += mergeSort(arr,center+1,end,temp);
+      inversion += merge(arr,start,center+1,end,temp);
+    }
+    return inversion;
+  }
+  
+  
+  public static int merge( int[] arr, int lStart, int rStart, int rEnd , int[] temp )
+  {
+    int inversion = 0;
+    int lEnd = rStart - 1;
+    int length = rEnd -lStart+1;
+    int tStart = lStart;
+    
+    while( lStart <= lEnd && rStart <= rEnd )
+    {
+      
+      if( arr[lStart] > arr[rStart] )
+      {
+        temp[tStart++] = arr[lStart++];
+        inversion += rStart - lStart;
+      }
+       
+      if( arr[lStart] <= arr[rStart] )
+      {
+        temp[tStart++] = arr[rStart++];
+      }
+      
+    }
+    
+    while( lStart <= lEnd )
+      temp[tStart++] = arr[lStart++];
+    
+    while( rStart <= rEnd )
+      temp[tStart++] = arr[rStart++];
+    
+    for( int i = 0; i < length; i++ , rEnd-- )
+      arr[rEnd] = temp[rEnd];
+    return inversion;
+    
+  }
+  
+  
+}

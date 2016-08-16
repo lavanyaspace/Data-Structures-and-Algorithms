@@ -1,0 +1,52 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+public class GFG {
+  
+  
+	public static void main (String[] args) {
+    
+      int[] arr = {10 ,1, 2, 7, 6,1, 5};
+      int sum = 8;
+      ArrayList<ArrayList<Integer>> combo = new ArrayList<ArrayList<Integer>>();
+      ArrayList<Integer> cur = new ArrayList<Integer>();
+      HashSet<ArrayList<Integer>> set = new HashSet<ArrayList<Integer>>();
+      set = getCombo(arr,0,sum,0,combo,cur,set);
+      Iterator<ArrayList<Integer>> it = set.iterator();
+      //while(it.hasNext())
+		//System.out.println(it.next());
+      if(combo.size() < 0)
+	    System.out.println("Empty");
+    }
+	
+	public static HashSet<ArrayList<Integer>> getCombo( int[] arr, int index, int sum, int curSum , ArrayList<ArrayList<Integer>> combo, ArrayList<Integer> cur,   HashSet<ArrayList<Integer>> set )
+	{
+	    if( index >= arr.length ) return set ;
+	        if( curSum+arr[index] == sum )
+	        {
+	            cur.add(arr[index]);
+	            combo.add(cur);
+                Collections.sort(cur);
+                //set.add(cur);
+              
+                //System.out.println(set);
+	            cur.remove(cur.size()-1);
+	            set  = getCombo(arr,index+1,sum,curSum,combo,cur,set);
+	        }
+	        
+	        else if( curSum+arr[index] < sum )
+	        {
+	            cur.add(arr[index]);
+	            set = getCombo(arr,index+1,sum,curSum+arr[index],combo,cur,set);
+	            cur.remove(cur.size()-1);
+                set = getCombo(arr,index+1,sum,curSum,combo,cur,set);
+	        }
+	        else
+	        {
+	            set = getCombo(arr,index+1,sum,curSum,combo,cur,set);
+	        }
+      return set;
+	     
+	}
+}

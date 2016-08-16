@@ -1,0 +1,62 @@
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+	public static void main (String[] args) {
+		Scanner s = new Scanner(System.in);
+		int test = s.nextInt();
+		for( int i = 0; i < test; i++ )
+		{
+		  int length = s.nextInt();
+		  int[] arr = new int[length];
+		  for( int j = 0; j < length; j++ )
+		  {
+		    arr[j] = s.nextInt();
+		  }
+		  int sum = s.nextInt();
+		  ArrayList<ArrayList<Integer>> combo = new ArrayList<ArrayList<Integer>>();
+		  ArrayList<Integer> cur = new ArrayList<Integer>();
+		  getCombo(arr,0,sum,0,combo,cur);
+		  
+		  Iterator<ArrayList<Integer>> it = combo.iterator();
+		  if(combo.size() > 0)
+		  {
+		   while(it.hasNext())
+		    {
+		       System.out.println(it.next());
+		       System.out.println("here");
+		    }
+		  }
+		  else
+		    System.out.println("Empty");
+		}
+	}
+	
+	public static void getCombo( int[] arr, int index, int sum, int curSum , ArrayList<ArrayList<Integer>> combo, ArrayList<Integer> cur)
+	{
+	    if( index >= arr.length ) return;
+	    
+	    //for( int i = index; i < arr.length; i++ )
+	    //{
+	        if( curSum+arr[index] == sum )
+	        {
+	            cur.add(arr[index]);
+	            combo.add(cur);
+	            cur.remove(cur.size()-1);
+	            getCombo(arr,index+1,sum,curSum,combo,cur);
+	        }
+	        
+	        else if( curSum+arr[index] < sum )
+	        {
+	            cur.add(arr[index]);
+	            getCombo(arr,index+1,sum,curSum+arr[index],combo,cur);
+	            cur.remove(cur.size()-1);
+	        }
+	        else
+	        {
+	            getCombo(arr,index+1,sum,curSum,combo,cur);
+	        }
+	     //}
+	}
+}

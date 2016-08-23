@@ -1,0 +1,15 @@
+public class MaxSum
+{
+  public static void main( String[] args )
+  {
+    int[] arr = {3,2,5,10,7};
+    System.out.println(findMax(0,arr,0));
+  }
+  
+  public static int findMax( int curMax, int[] arr, int index )
+  {
+    if( index >= arr.length ) return curMax;
+    return Math.max(findMax(curMax,arr,index+1),findMax(curMax+arr[index],arr,index+2));
+    
+  }
+}
